@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-play-services.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/InMobi-4.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/libadapterinmobi.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalyticsServices.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/MillennialMediaMediationGoogle5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/MMSDK.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GameCircleSDK"/>
+	<classpathentry exported="true" kind="lib" path="libs/in-app-purchasing-1.0.3.jar"/>
+	<classpathentry kind="lib" path="libs/unity-classes.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

@@ -1,0 +1,5 @@
+*.meta
+*.DS_Store
+CrotchDogs/Library/metadata/*
+CrotchDogs/Temp/*
+CrotchDogs/AndroidPlugin/.metadata/*

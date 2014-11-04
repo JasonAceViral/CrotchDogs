@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{733DBFF0-B1B7-E61D-1ACE-8F0FA353CB80}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_5_5;UNITY_4_5;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX;UNITY_PRO_LICENSE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\AVSharedScripts\AVHouseAds\AVHouseAd.cs" />
+     <Compile Include="Assets\AVSharedScripts\AVHouseAds\AVHouseAdInterface.cs" />
+     <Compile Include="Assets\AVSharedScripts\AVHouseAds\AVHouseAdManager.cs" />
+     <Compile Include="Assets\AVSharedScripts\AVHouseAds\AVHouseAdSlot.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManager.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerAmazon.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerAndroid.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerEditor.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerIOS.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerMac.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerWP.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerWeb.cs" />
+     <Compile Include="Assets\AVSharedScripts\AdMob\AVAdMobManagerWin.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebook.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookFriend.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnity.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityAndroid.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityEditor.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityIOS.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityMac.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityWP8.cs" />
+     <Compile Include="Assets\AVSharedScripts\Facebook\AVFacebookUnityWin.cs" />
+     <Compile Include="Assets\AVSharedScripts\GFX\AVScaleType.cs" />
+     <Compile Include="Assets\AVSharedScripts\GFX\BillboardPlane.cs" />
+     <Compile Include="Assets\AVSharedScripts\GFX\Camera Scripts\CameraOrthoTransparencySort.cs" />
+     <Compile Include="Assets\AVSharedScripts\GFX\DrawingSettings.cs" />
+     <Compile Include="Assets\AVSharedScripts\GFX\Menu Scripts\AVMsgBox.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalytics.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalyticsAndroid.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalyticsEditor.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalyticsWP8.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalyticsWindows.cs" />
+     <Compile Include="Assets\AVSharedScripts\GoogleAnalytics\GoogleAnalyticsiOS.cs" />
+     <Compile Include="Assets\AVSharedScripts\GooglePlay\AVGooglePlayInterface.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\AVDialogBox.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\AVGameCenterUnity.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\AVInAppID.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\AVInAppUnity.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\AVRatingsManager.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Android\AVAndroidInterface.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Android\AVInAppUnityAndoid.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Android\AVRatingsManagerAndroid.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Editor\AVInAppUnityEditor.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Editor\AVRatingsManagerEditor.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Mac\AVInAppUnityMac.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Mac\AVRatingsManagerMac.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Mac\AVUnityMacBinding.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-WP8\AVInAppUnityWindowsPhone.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Web\AVInAppUnityWeb.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Web\AVRatingsManagerWeb.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-Win\AVInAppUnityWin.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-iOS\AVIPhoneInterface.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-iOS\AVInAppUnityIOS.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-iOS\AVRatingsManagerBinding.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\Plugin-iOS\AVRatingsManagerIOS.cs" />
+     <Compile Include="Assets\AVSharedScripts\Plugin Interface\SendToFlashScript.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVAppConstants.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVButtonHandler.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVDebug.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVPrefs.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVRateMe.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVScrollPage.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVStopWatch.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\AVUtility.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\DeviceProfiles.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\FPSCounter.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\Maths.cs" />
+     <Compile Include="Assets\AVSharedScripts\Utility\MeshFilterTest.cs" />
+     <Compile Include="Assets\Scripts\Constants\CrotchDogConstants.cs" />
+     <Compile Include="Assets\Scripts\GUIScripts\Bezier.cs" />
+     <Compile Include="Assets\Scripts\GUIScripts\BezierLine.cs" />
+     <Compile Include="Assets\Scripts\GUIScripts\CameraPostRender.cs" />
+     <Compile Include="Assets\Scripts\GUIScripts\MyBezier.cs" />
+     <Compile Include="Assets\Scripts\GUIScripts\StretchBackground.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Character.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Dog.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Face.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\HouseController.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Lane.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\MovingText.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\ScrollingUVs.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Fonts\tk2dFont.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Fonts\tk2dFontData.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Fonts\tk2dTextGeomGen.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Fonts\tk2dTextMesh.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Gui\tk2dButton.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Runtime\tk2dResource.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Runtime\tk2dSystem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Runtime\tk2dUpdateManager.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dAnimatedSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dBaseSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dClippedSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dPixelPerfectHelper.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dRuntimeSpriteCollection.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSlicedSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAnimation.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAnimator.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteAttachPoint.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteCollection.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteCollectionData.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteCollectionInterfaces.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteCollectionSize.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteFromTexture.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dSpriteGeomGen.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dStaticSpriteBatcher.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\Sprites\tk2dTiledSprite.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d\Code\tk2dUtil.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMap.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapBuilderUtil.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapChunks.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapColliderBuilder.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapColliderBuilder2D.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapData.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap\Code\tk2dTileMapMeshBuilder.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap_demo\Demo1\Scripts\tk2dTileMapDemoCoin.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap_demo\Demo1\Scripts\tk2dTileMapDemoFollowCam.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dTileMap_demo\Demo1\Scripts\tk2dTileMapDemoPlayer.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIBaseItemControl.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIDragItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIDropDownItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIDropDownMenu.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIHoverItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIMultiStateToggleButton.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIProgressBar.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIScrollableArea.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIScrollbar.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUISoundItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUITextInput.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIToggleButton.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIToggleButtonGroup.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIToggleControl.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUITweenItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIUpDownButton.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Controls\tk2dUIUpDownHoverButton.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUIAudioManager.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUICamera.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUIItem.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUILayout.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUILayoutContainer.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUILayoutContainerSizer.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUIManager.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUIMask.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUISpriteAnimator.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUITime.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI\Code\Core\tk2dUITouch.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI_demo\tk2dUIBaseDemoController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI_demo\tk2dUIDemo2Controller.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI_demo\tk2dUIDemo3Controller.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI_demo\tk2dUIDemo5Controller.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2dUI_demo\tk2dUIDemoController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoAnimController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoButtonController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoCameraController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoReloadController.cs" />
+     <Compile Include="Assets\TK2DROOT\tk2d_demo\tk2dDemoRuntimeSpriteController.cs" />
+     <None Include="Assets\Plugins\WP8\Facebook.Client.xml" />
+     <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.Extensions.Phone.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
+     <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\goodies\PackedTextMesh.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
+     <None Include="Assets\Editor\projsettings.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
+     <None Include="Assets\Plugins\WP8\Facebook.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Font\OldSansBlack\OldSansBlack.fnt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
+     <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.Extensions.xml" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
+     <None Include="Assets\Plugins\Android\res\values\version.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

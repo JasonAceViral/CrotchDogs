@@ -1,0 +1,28 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameScripts/Character.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GameScripts/Character.cs" Line="2" Column="2" />
+      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="35" Column="35" />
+      <File FileName="Assets/Scripts/GameScripts/MovingText.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUIScripts/BezierLine.cs" Line="3" Column="3" />
+      <File FileName="Assets/TK2DROOT/tk2d/Editor/Camera/tk2dCameraEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUIScripts/Bezier.cs" Line="3" Column="3" />
+      <File FileName="Assets/Scripts/GUIScripts/MyBezier.cs" Line="7" Column="7" />
+      <File FileName="Assets/AVSharedScripts/Facebook/AVFacebookUnityWP8.cs" Line="1" Column="1" />
+      <File FileName="Assets/AVSharedScripts/Facebook/AVFacebookUnityWin.cs" Line="11" Column="11" />
+      <File FileName="Assets/Editor/AVEditorHelper.cs" Line="54" Column="54" />
+      <File FileName="Assets/AVSharedScripts/AVHouseAds/AVHouseAdManager.cs" Line="24" Column="24" />
+      <File FileName="Assets/AVSharedScripts/Utility/AVAppConstants.cs" Line="1" Column="1" />
+      <File FileName="Assets/AVSharedScripts/AdMob/AVAdMobManagerIOS.cs" Line="1" Column="1" />
+      <File FileName="Assets/AVSharedScripts/GooglePlay/AVGooglePlayInterface.cs" Line="52" Column="52" />
+      <File FileName="Assets/Scripts/GameScripts/Lane.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/GameScripts/Face.cs" Line="1" Column="1" NotebookId="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
