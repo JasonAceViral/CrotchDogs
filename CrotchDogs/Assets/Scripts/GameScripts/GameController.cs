@@ -178,10 +178,16 @@ public class GameController : MonoBehaviour {
 
 								if (character != null) 
 								{
-										float diff = character.gameObject.transform.position.z - dog.gameObject.transform.position.z;
+										float diff = character.gameObject.transform.position.z - dog.getCollider().transform.position.z;
 
-										if (distanceToNearestCrotch > diff && diff >= 0.0f) {
-												distanceToNearestCrotch = diff;
+										diff = -dog.DifferenceToMidpointOfLine (dog.getCollider ().transform.position, dog.EndPoint.transform.position, character.getCollider ().transform.position);
+									//	Debug.Log ("points" +dog.getCollider().transform.position +"   " + dog.EndPoint.transform.position +"   " + character.getCollider().transform.position );
+
+
+
+										if (distanceToNearestCrotch > Mathf.Abs(diff) ) {
+												distanceToNearestCrotch = Mathf.Abs(diff);
+												//Debug.Log ("distance  " + distanceToNearestCrotch);
 										}
 								}
 						}
@@ -205,7 +211,11 @@ public class GameController : MonoBehaviour {
 								newScale = 1.0f;
 						}
 						dog.Jaws.transform.localScale = new Vector3 (newScale,newScale,1.0f);
+
+
 				}
+
+
 
 		}
 
@@ -316,17 +326,19 @@ public class GameController : MonoBehaviour {
 	//bite the crotch that has been successfully bitten
 	void biteCrotch(float distanceOnCrotch)
 	{
-		Debug.Log ("bite crotch " + distanceOnCrotch);
+
 		combo++;
 
 		if(Mathf.Abs(distanceOnCrotch) < CrotchDogConstants.MAUL_DISTANCE)
 		{
+						Debug.Log ("maul crotch " + distanceOnCrotch);
 			crotchesBitten++;
 			face.setFacetoState ( Face.stateOfFaces.maul);
 			InfoLabel.showFlavourText (MovingText.InfoType.MAUL);
 		}
 		else
 		{
+						Debug.Log ("bite crotch " + distanceOnCrotch);
 			crotchesBitten++;
 			face.setFacetoState ( Face.stateOfFaces.bite);
 			InfoLabel.showFlavourText (MovingText.InfoType.BITE);
@@ -342,7 +354,7 @@ public class GameController : MonoBehaviour {
 
 	public void characterEscaped ()
 	{
-		Debug.Log ("character escaped");
+		//Debug.Log ("character escaped");
 
 		combo = 0;
 		charactersEscaped++;
@@ -359,7 +371,7 @@ public class GameController : MonoBehaviour {
 
 			if (spawnTime >= spawnCharacterInterval) 
 			{
-				Debug.Log ("spawn character");
+				//Debug.Log ("spawn character");
 				spawnInLane (0);
 				spawnTime = 0.0f;
 			}

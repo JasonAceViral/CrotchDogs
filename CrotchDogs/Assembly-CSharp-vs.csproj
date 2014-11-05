@@ -122,6 +122,7 @@
      <Compile Include="Assets\Scripts\GUIScripts\StretchBackground.cs" />
      <Compile Include="Assets\Scripts\GameScripts\Character.cs" />
      <Compile Include="Assets\Scripts\GameScripts\Dog.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\DogOnTrigger.cs" />
      <Compile Include="Assets\Scripts\GameScripts\Face.cs" />
      <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GameScripts\HouseController.cs" />

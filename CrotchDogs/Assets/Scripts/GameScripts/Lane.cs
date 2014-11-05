@@ -6,7 +6,7 @@ public class Lane : MonoBehaviour {
 	
 		public GameObject spawnPoint,resetPoint;
 		public GameObject Ground;
-		public int currentDrawOrder = 100;
+
 		public List<Character> Characters;
 		public const int MAX_CHARACTERS =10;
 
