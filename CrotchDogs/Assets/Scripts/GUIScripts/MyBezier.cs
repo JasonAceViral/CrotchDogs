@@ -6,15 +6,12 @@ public class MyBezier : MonoBehaviour
 		private const int MAX_POINTS = 25, MAX_DRAW_POINTS = 16;
 
 		public  List<Bezier> myBezier;
-		private float t = 0f,timeInterval =0.05f;
+		private float timeInterval =0.05f;
 
 		static Material lineMaterial;
 
-		//private Vector3 startPoint, EndPoint;
 		public GameObject pointEnd, pointStart;
-		public GameObject Marker;
-
-		private int pointIndex =0;
+		public GameObject DogMarker,DogCatcherMarker;
 
 		public List<GameObject> points;
 
@@ -24,13 +21,21 @@ public class MyBezier : MonoBehaviour
 
 		public bool createdAllPoints = false;
 
+		public float dogMarkerLocation,catcherMarkerLocation;
+		public Vector3 dogMarkerStart, catcherMarkerStart;
+
 		void Start()
 		{
 				myBezier = new List<Bezier> ();
 				points = new List<GameObject> ();
 
 				float diff = (pointStart.transform.position.x - pointEnd.transform.position.x) / (MAX_DRAW_POINTS);
-			
+
+				dogMarkerLocation = DogMarker.transform.position.x;
+				catcherMarkerLocation = DogCatcherMarker.transform.position.x;
+
+				dogMarkerStart = DogMarker.transform.position;
+				catcherMarkerStart = DogCatcherMarker.transform.position;
 
 				for (int i = 0; i < MAX_POINTS; i++) 
 				{
@@ -65,7 +70,7 @@ public class MyBezier : MonoBehaviour
 				{
 						if((i + 3) < points.Count)
 						{
-								Debug.Log ("points " + (i) + "," + (i + 1) + "," + (i + 2) + "," + (i + 3) + ",");
+								//Debug.Log ("points " + (i) + "," + (i + 1) + "," + (i + 2) + "," + (i + 3) + ",");
 								myBezier.Add (new Bezier (points [i].transform.localPosition, points [i + 1].transform.localPosition, points [i + 2].transform.localPosition, points [i + 3].transform.localPosition));
 						}
 						//myBezier.Add( new Bezier (points[i].transform.position, Random.insideUnitSphere * 3.1f, Random.insideUnitSphere * 3.1f, points[i+1].transform.position));
@@ -89,11 +94,11 @@ public class MyBezier : MonoBehaviour
 //
 
 			//check if the 2nd last point is less than the startpoint then add a new point and remove hte old one
-			if(points[3].transform.position.x < pointStart.transform.position.x)
+			if(points[4].transform.position.x < pointStart.transform.position.x)
 			{
-					Debug.Log ("add new point");
+					//Debug.Log ("add new point");
 
-					Debug.Log ("remove point 0");
+					//Debug.Log ("remove point 0");
 
 
 					GameObject remove1 = points [0];
@@ -161,43 +166,61 @@ public class MyBezier : MonoBehaviour
 		void Update()
 		{
 		
-				if (createdAllPoints) {
-	
-
+				if (createdAllPoints) 
+				{
 						//gameObject.transform.position =new Vector3(-Marker.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z);
 						updatePointLocations ();
-
-
-
+						updateMarkerLocation ();
 						//need to get the time location based on the bezier game object position
 						//the differences between each point and that 1.0f is the total time span for this
-						float xLocation = Marker.transform.position.x;
 
-						//get the point that the marker falls between
-						int pointLocation =0;
-						bool foundpoint=false;
-						for (int i = 0; i < points.Count &&!foundpoint; i++) 
-						{
-								if ( points [i].transform.position.x >= xLocation) 
-								{
-										if (i > 0) 
-										{
-												pointLocation = i - 1;
-												foundpoint = true;
-										} 
-										else 
-										{
-												pointLocation = 0;
-												foundpoint = true;
-										}
-								}
-						}
 
-						Debug.Log (@"found point" + pointLocation + " point x " + points [pointLocation].transform.position.x+ " marker x "+ Marker.transform.position.x);
+						//Debug.Log (@"found point" + pointLocation + " point x " + points [pointLocation].transform.position.x+ " marker x "+ Marker.transform.position.x);
 
 
 
-						//moves the marker along the line
+
+
+//						float xLocation = Marker.transform.position.x;
+//
+//						//get the point that the marker falls between
+//						int pointLocation =0;
+//						bool foundpoint=false;
+//						for (int i = 0; i < points.Count &&!foundpoint; i++) 
+//						{
+//								if ( points [i].transform.position.x >= xLocation) 
+//								{
+//										if (i > 0) 
+//										{
+//												pointLocation = i - 1;
+//												foundpoint = true;
+//										} 
+//										else 
+//										{
+//												pointLocation = 0;
+//												foundpoint = true;
+//										}
+//								}
+//						}
+						// get the percentage along the line for marker so we know the y value
+//						if (pointLocation + 1 < points.Count) 
+//						{
+//								float difference = points [pointLocation].transform.position.x - points [pointLocation + 1].transform.position.x;
+//								float markerDistanceFromPoint = points [pointLocation].transform.position.x - Marker.transform.position.x;
+//
+//								//percentage between points but should be percentage between bezier points
+//								float percentage = (markerDistanceFromPoint / difference);
+//
+//							
+//
+//								vec = myBezier [((int)Mathf.Floor(pointLocation/3.125f))].Get2DPointAtTime (percentage);
+//
+//								Debug.Log ("percentage " + percentage + " loc " + pointLocation +" bez "+ myBezier.Count + " points " + points.Count + " vec " + vec.y );
+//
+//								Marker.transform.position = new Vector3 (Marker.transform.position.x, vec.y + gameObject.transform.position.y, Marker.transform.position.z);
+//						}
+						// OLD
+//						moves the marker along the line
 //						Vector3 vec = myBezier [pointIndex].Get2DPointAtTime (0.5f);
 //						Marker.transform.position = vec + transform.position;
 
@@ -212,6 +235,32 @@ public class MyBezier : MonoBehaviour
 //										pointIndex = 0;
 //								}
 //						}
+				}
+		}
+
+		void updateMarkerLocation()
+		{
+				//finds the time interval for the x value of the marker
+				float findTime = 0;
+				bool foundTime = false;
+				Vector3 vec;
+
+
+				for (int i = 0; i < myBezier.Count && !foundTime; i++) 
+				{
+						findTime = 0.0f;
+						foundTime = false;
+						while (findTime < 1.0f && !foundTime) 
+						{
+								findTime += 0.01f;
+								vec = myBezier [i].Get2DPointAtTime (findTime);
+
+								if ((vec.x + gameObject.transform.position.x) > DogMarker.transform.position.x) 
+								{
+										DogMarker.transform.position = new Vector3 (DogMarker.transform.position.x, vec.y + gameObject.transform.position.y, DogMarker.transform.position.z);
+										foundTime = true;
+								}
+						}
 				}
 		}
 
@@ -302,7 +351,7 @@ public class MyBezier : MonoBehaviour
 						//GL.LoadProjectionMatrix(Camera.main.projectionMatrix);
 						//GL.MultMatrix(Camera.main.worldToCameraMatrix);
 
-						Color firstColor = new  Color(1.0f,0.0f,0.0f,0.5f) ;
+						Color firstColor = new  Color(1.0f,0.0f,0.0f,0.5f);
 
 						CreateLineMaterial();
 						lineMaterial.SetPass( 0 );
@@ -333,9 +382,6 @@ public class MyBezier : MonoBehaviour
 						GL.End();
 
 						GL.PopMatrix ();
-
-
-
 				}
 		}
 
@@ -344,7 +390,10 @@ public class MyBezier : MonoBehaviour
 				if (myBezier != null && points != null) 
 				{
 						//PointsChanged = false;
-						Vector3 start = points[0].transform.position;
+						Vector3 start = myBezier [0].Get2DPointAtTime (0.0f);
+
+						//Debug.Log ("new Points");
+
 						float time = 0.0f;
 						int bezierCount = 0;
 						GL.PushMatrix ();
@@ -357,13 +406,15 @@ public class MyBezier : MonoBehaviour
 						CreateLineMaterial();
 						lineMaterial.SetPass( 0 );
 						GL.Begin( GL.QUADS);
-						GL.Color( firstColor  );
+						GL.Color( firstColor );
 
 						//	Debug.Log (" draw gizmo");
 						while (bezierCount < myBezier.Count) 
 						{
 								Vector3 pointAtTime = myBezier [bezierCount].Get2DPointAtTime (time);
 
+
+						
 								//call GL function to draw lines
 
 								//top left
@@ -376,6 +427,7 @@ public class MyBezier : MonoBehaviour
 								//top right
 								GL.Vertex3( pointAtTime.x,pointAtTime.y,pointAtTime.z );
 							
+								//Debug.Log ("start Points" + start);
 
 								start = pointAtTime;
 

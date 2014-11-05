@@ -24,10 +24,14 @@ public class Lane : MonoBehaviour {
 			foreach (Character character in Characters) 
 			{
 						if (character.isShowing) {
-								if (character.gameObject.transform.position.z > resetPoint.transform.position.z) {
+								if (character.gameObject.transform.position.z > resetPoint.transform.position.z) 
+								{
 										character.gameObject.transform.position = new Vector3 (character.gameObject.transform.position.x, character.gameObject.transform.position.y, character.gameObject.transform.position.z + character.speed * Time.deltaTime);
-								} else {
-										if (!character.crotchBitten) {
+								}
+								else 
+								{
+										if (!character.crotchBitten) 
+										{
 											
 												GameController.Instance.characterEscaped ();
 										}
