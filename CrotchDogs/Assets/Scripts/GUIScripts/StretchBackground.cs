@@ -10,13 +10,16 @@ public class StretchBackground : MonoBehaviour
     public bool enableXAxis = true;
     public bool enableYAxis = true;
     public bool maintainAspect;
+
+	public float Width_Modifier = 1.01f, Height_Modifier = 1.01f;
+
     // Use this for initialization
     void Awake()
     {
 		//if Camera has not been set
 		if (cam == null) 
 		{
-				cam = (tk2dCamera.Instance);
+			cam = (tk2dCamera.Instance);
 		}
 
         screenWidth = cam.ScreenExtents.width;
@@ -30,8 +33,8 @@ public class StretchBackground : MonoBehaviour
         spriteHeight = meshRend.bounds.size.y / gameObject.transform.localScale.y;
 
         // Multiply by a bit more to overlap the screen edges a bit
-        float requiredXScale = 1.01f * screenWidth / spriteWidth;
-        float requiredYScale = 1.01f * screenHeight / spriteHeight;
+		float requiredXScale = Width_Modifier * screenWidth / spriteWidth;
+		float requiredYScale = Height_Modifier * screenHeight / spriteHeight;
 
         Vector3 scale = transform.localScale;
 

@@ -4,36 +4,44 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
-	enum GameState
+	public enum GameState
 	{
-		START_MENU,PLAYING_GAME,GAME_OVER,PAUSED,LOADING
+		START_MENU,PLAYING_GAME,GAME_OVER,PAUSED,LOADING,RESTART
 	}
-				
-	public int combo=0, crotchesBitten=0, bitestaken=0,charactersEscaped=0,bitesMissed=0,m_FirstTouchIndex;
+
+	public ChaserController chaseController;
+	public SpawnController spawnController;
+	public GameOverUI gameOverUI;
+
+	public GameObject PauseMenu;
+	//score information
+	public int combo=0, crotchesBitten=0, bitestaken=0,charactersEscaped=0,bitesMissed=0,m_FirstTouchIndex,crotchesMauled =0,bestCombo=0;
+	public float survivalTime = 0;
+
+
 	public List<Lane> lanes;
 	public int NumOfLanes = 1;
 	public Dog dog;
 	public Face face;
-	public MovingText InfoLabel;
+	public MovingText InfoLabel01,InfoLabel02;
 	public int totalScore=0;
-	private float spawnCharacterInterval= 3.0f,spawnTime=0.0f,changeSceneTime=0.0f;
+
+	public float spawnCharacterInterval = 3.0f;
+	private float changeSceneTime=0.0f;
 	
 	public GameObject LoadingScene,MainMenuScene,GameScene,GameOverScene;
-
+	public List<int> crotchesBittenFaceList,crotchesEscapedLegList; 
 	Collider CrotchBitten;
-	GameState state;
+	public GameState state;
 
 	public float speed;
-	// =-=-=-=-=-=-=-=
-	// Game Over Labels
-	// =-=-=-=-=-=-=-=
-	public tk2dTextMesh CrotchesBittenLabel, ComboScoreLabel, MissesLabel, TotalScoreLabel;
-
 
 	// =-=-=-=-=-=-=-=
 	// Singleton
 	// =-=-=-=-=-=-=-=
 	public static GameController Instance;
+
+	public MyBezier chaseRadar;
 
 	public void Initialize()
 	{
@@ -46,8 +54,15 @@ public class GameController : MonoBehaviour {
 	void Awake()
 	{
 		if (Instance == null) 
-		{
-				Instance = this;
+		{	
+			Instance = this;
+			crotchesBittenFaceList = new List<int> ();
+			crotchesEscapedLegList = new List<int> ();
+
+			if (chaseController == null) 
+			{
+					chaseController = new ChaserController ();
+			}
 		}
 		changeState (GameState.LOADING);
 	}
@@ -58,6 +73,10 @@ public class GameController : MonoBehaviour {
 		if (Instance == null) 
 		{
 				Instance = this;
+				if (chaseController == null) 
+				{
+						chaseController = new ChaserController ();
+				}
 		}
 	}
 	void Update () 
@@ -71,7 +90,8 @@ public class GameController : MonoBehaviour {
 				break;
 			case GameState.PAUSED: 
 				break;
-			case GameState.GAME_OVER: 
+				case GameState.GAME_OVER: 
+				GameOverUpdate ();
 				break;
 			case GameState.LOADING: 
 				LoadingUpdate ();
@@ -88,7 +108,17 @@ public class GameController : MonoBehaviour {
 						changeState (GameState.START_MENU);
 				}
 		}
+		void GameOverUpdate()
+		{
+				//checks if a button was pressed and should skip
+				if(Input.GetMouseButtonDown(0))
+				{
 
+						gameOverUI.skipAnimations ();
+
+				}
+
+		}
 		// main game Update is called once per frame when in gameMode
 		void GameUpdate () 
 		{
@@ -99,7 +129,7 @@ public class GameController : MonoBehaviour {
 
 				if(Input.GetMouseButtonDown(0))
 				{
-						bitestaken++;
+					
 						bite  =  dog.Bite();
 						CrotchBitten = dog.getOtherCollider();
 
@@ -107,9 +137,8 @@ public class GameController : MonoBehaviour {
 						if(CrotchBitten == null)
 						{
 								missedCrotch();
-								bitesMissed++;
 						}
-
+					
 				}
 
 				#else
@@ -150,17 +179,20 @@ public class GameController : MonoBehaviour {
 				//press bite checks and finds which crotch was bitten
 				if (bite != CrotchDogConstants.NO_BITE && CrotchBitten != null) 
 				{
-						Debug.Log(@"Bite Crotch");
+						//Debug.Log(@"Bite Crotch");
 						for (int laneIndex = 0; laneIndex < lanes.Count; laneIndex++) 
 						{
 								for (int charIndex = 0; charIndex < lanes [laneIndex].Characters.Count; charIndex++) 
 								{
-										Debug.Log ("index " + laneIndex);
-										Debug.Log ("character try bite " + lanes [laneIndex].Characters [charIndex].getCollider());
+										//Debug.Log ("index " + laneIndex);
+										//Debug.Log ("character try bite " + lanes [laneIndex].Characters [charIndex].getCollider());
 										if (lanes [laneIndex].Characters [charIndex].isShowing) {
 												if (lanes [laneIndex].Characters [charIndex].getCollider() == CrotchBitten) {
+
+														crotchesBittenFaceList.Add (lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().headRandom);
 														lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
 														biteCrotch (bite);
+
 														CrotchBitten = null;
 												}
 										}
@@ -175,17 +207,14 @@ public class GameController : MonoBehaviour {
 				{
 						foreach (Character character in lane.Characters) 
 						{
-
 								if (character != null) 
 								{
 										float diff = character.gameObject.transform.position.z - dog.getCollider().transform.position.z;
 
 										diff = -dog.DifferenceToMidpointOfLine (dog.getCollider ().transform.position, dog.EndPoint.transform.position, character.getCollider ().transform.position);
-									//	Debug.Log ("points" +dog.getCollider().transform.position +"   " + dog.EndPoint.transform.position +"   " + character.getCollider().transform.position );
-
-
-
-										if (distanceToNearestCrotch > Mathf.Abs(diff) ) {
+									
+										if (distanceToNearestCrotch > Mathf.Abs(diff) ) 
+										{
 												distanceToNearestCrotch = Mathf.Abs(diff);
 												//Debug.Log ("distance  " + distanceToNearestCrotch);
 										}
@@ -194,35 +223,30 @@ public class GameController : MonoBehaviour {
 
 				}
 
-				if (distanceToNearestCrotch <= CrotchDogConstants.CROTCH_MAX_DISTANCE) 
-				{
-						float newJawsScale = distanceToNearestCrotch / CrotchDogConstants.CROTCH_MAX_DISTANCE;
-						//Debug.Log ("nearest crotch: " + distanceToNearestCrotch + " new scale " + newJawsScale);
-
-						dog.Jaws.transform.localScale = new Vector3 (newJawsScale,newJawsScale,1.0f);
-
-				}
-				else if(dog.Jaws.transform.localScale.x != 1.0f)
-				{
-						float newScale = dog.Jaws.transform.localScale.x + Time.deltaTime;
-
-						if (newScale > 1.0f) 
-						{
-								newScale = 1.0f;
-						}
-						dog.Jaws.transform.localScale = new Vector3 (newScale,newScale,1.0f);
-
-
-				}
-
-
-
+//				if (distanceToNearestCrotch <= CrotchDogConstants.CROTCH_MAX_DISTANCE) 
+//				{
+//						float newJawsScale = distanceToNearestCrotch / CrotchDogConstants.CROTCH_MAX_DISTANCE;
+//						//Debug.Log ("nearest crotch: " + distanceToNearestCrotch + " new scale " + newJawsScale);
+//
+//						dog.Jaws.transform.localScale = new Vector3 (newJawsScale,newJawsScale,1.0f);
+//
+//				}
+//				else if(dog.Jaws.transform.localScale.x != 1.0f)
+//				{
+//						float newScale = dog.Jaws.transform.localScale.x + Time.deltaTime;
+//
+//						if (newScale > 1.0f) 
+//						{
+//								newScale = 1.0f;
+//						}
+//						dog.Jaws.transform.localScale = new Vector3 (newScale,newScale,1.0f);
+//				}
 		}
 
 
 	void changeState(GameState newState)
 	{
-		
+		//Debug.Log ("new state  " + newState + " old state " + state );
 		// leave the old state
 		switch (state) 
 		{
@@ -230,8 +254,16 @@ public class GameController : MonoBehaviour {
 					LeaveMainMenu (newState);
 			break;
 			case GameState.PLAYING_GAME:
+				
+				if (newState != GameState.PAUSED) 
+				{
+	
 					LeaveGame (newState); 
+				}
 			break;
+				case GameState.RESTART:
+		
+				break;
 			case GameState.PAUSED: 
 					Unpause (newState);
 			break;
@@ -243,15 +275,29 @@ public class GameController : MonoBehaviour {
 			break;
 		}
 
+
+	
+		state = newState;
 		// get ready for the new state
 		switch (newState) 
 		{
 				case GameState.START_MENU: 
+				
 					goToMainMenu ();
 				break;
 				case GameState.PLAYING_GAME:
-					goToGame (); 
+					AdController.Instance.HideBanner ();
+					Debug.Log ("play game " + state);
+					if (state != GameState.PAUSED) 
+					{
+						Debug.Log ("play game ");
+						goToGame (); 
+					}
 				break;
+				case GameState.RESTART:
+					Debug.Log ("restart ");
+					changeState (GameState.PLAYING_GAME);
+					break;
 				case GameState.PAUSED: 
 					pause ();
 				break;
@@ -263,7 +309,7 @@ public class GameController : MonoBehaviour {
 				break;
 		}
 
-		state = newState;
+
 
 	}
 
@@ -275,6 +321,8 @@ public class GameController : MonoBehaviour {
 
 	void LeaveGame(GameState newState)
 	{
+
+		dog.gameObject.SetActive (false);
 		GameScene.SetActive (false);
 	}
 
@@ -290,114 +338,77 @@ public class GameController : MonoBehaviour {
 
 	void Unpause(GameState newState)
 	{
-
+		PauseMenu.SetActive (false);
 	}
 
 	void goToLoading()
 	{
 		LoadingScene.SetActive (true);
+		GameOverScene.SetActive (false);
+		GameScene.SetActive (false);
+		dog.gameObject.SetActive (false);
+		PauseMenu.SetActive (false);
+		MainMenuScene.SetActive (false);
 	}
 
 	void goToMainMenu()
 	{
+		AdController.Instance.ShowBanner ();
+		dog.gameObject.SetActive (false);
+		GameScene.SetActive (false);
 		MainMenuScene.SetActive (true);
 	}
 
 	void goToGame()
 	{
 		GameScene.SetActive (true);
+		dog.gameObject.SetActive (true);
 		resetGame ();
 	}
 
 	void pause()
 	{
-
+		PauseMenu.SetActive (true);
 	}
 
 	void goToGameOver()
 	{
+
+		AdController.Instance.ShowBanner ();
 		GameOverScene.SetActive (true);
 		setGameOverInfo ();
+		
 	}
 
-	
-
-
-	//bite the crotch that has been successfully bitten
-	void biteCrotch(float distanceOnCrotch)
-	{
-
-		combo++;
-
-		if(Mathf.Abs(distanceOnCrotch) < CrotchDogConstants.MAUL_DISTANCE)
+		public void spawnCharacter()
 		{
-						Debug.Log ("maul crotch " + distanceOnCrotch);
-			crotchesBitten++;
-			face.setFacetoState ( Face.stateOfFaces.maul);
-			InfoLabel.showFlavourText (MovingText.InfoType.MAUL);
+
+			
+				if (spawnController.UpdateToSpawn(Time.deltaTime)) 
+				{
+					//Debug.Log ("spawn character");
+					spawnInLane (0);		
+				}
 		}
-		else
-		{
-						Debug.Log ("bite crotch " + distanceOnCrotch);
-			crotchesBitten++;
-			face.setFacetoState ( Face.stateOfFaces.bite);
-			InfoLabel.showFlavourText (MovingText.InfoType.BITE);
-		}
-
-	}
-
-	void missedCrotch()
-	{
-		face.setFacetoState ( Face.stateOfFaces.miss);
-		InfoLabel.showFlavourText (MovingText.InfoType.MISS);
-	}
-
-	public void characterEscaped ()
-	{
-		//Debug.Log ("character escaped");
-
-		combo = 0;
-		charactersEscaped++;
-
-		if (charactersEscaped > CrotchDogConstants.NUM_OF_ESCAPES) 
-		{
-			changeState (GameState.GAME_OVER);
-		}
-	}
-
-	public void spawnCharacter()
-	{
-			spawnTime += Time.deltaTime;
-
-			if (spawnTime >= spawnCharacterInterval) 
-			{
-				//Debug.Log ("spawn character");
-				spawnInLane (0);
-				spawnTime = 0.0f;
-			}
-	}
 
 		public void spawnInLane(int laneNum)
 		{
-				lanes [0].SpawnCharacter ();
+			lanes [0].SpawnCharacter ();
 		}
 
 		public void StartGame()
 		{
-				changeState(GameState.PLAYING_GAME);
+			changeState(GameState.PLAYING_GAME);
 		}
 
 		public void setGameOverInfo()
 		{
-			CrotchesBittenLabel.text = "Crotches Bitten: " + crotchesBitten;
-			ComboScoreLabel.text = "Combo Score: " + combo;
-			MissesLabel.text = "Misses: " + bitesMissed;
-			TotalScoreLabel.text = "Total Score: " + totalScore;
+			gameOverUI.GameOver ();
 		}
 
 		public void Replay()
 		{
-				changeState(GameState.START_MENU);
+			changeState(GameState.START_MENU);
 		}
 
 		public void Share()
@@ -407,11 +418,153 @@ public class GameController : MonoBehaviour {
 
 		public void resetGame()
 		{
+				bestCombo = 0;
 				crotchesBitten = 0;
 				combo = 0;
 				bitesMissed = 0;
 				totalScore = 0;
 				charactersEscaped = 0;
+
+				chaseController.reset ();
+				chaseRadar.reset ();
+				spawnController.reset ();
+
+				//reset the crotches bitten List
+				crotchesBittenFaceList = new List<int> ();
+				crotchesEscapedLegList = new List<int> ();
+
+				foreach (Lane lane in lanes) 
+				{
+					lane.reset ();
+				}
 		}
+
+
+
+		public void characterEscaped ()
+		{
+				//Debug.Log ("character escaped");
+
+				combo = 0;
+				charactersEscaped++;
+				chaseController.Escaped ();
+
+		}
+
+		//bite the crotch that has been successfully bitten
+		void biteCrotch(float distanceOnCrotch)
+		{
+				bitestaken++;
+				combo++;
+
+				if (combo > bestCombo) 
+				{
+						bestCombo = combo;
+				}
+
+				if(Mathf.Abs(distanceOnCrotch) < CrotchDogConstants.MAUL_DISTANCE)
+				{
+						SoundManager.PlayBite ();
+
+						Debug.Log ("maul crotch " + distanceOnCrotch);
+			
+						crotchesMauled++;
+						face.setFacetoState ( Face.stateOfFaces.maul);
+			
+						if (!InfoLabel01.onScreen()) 
+						{	
+							InfoLabel01.showFlavourText (MovingText.InfoType.MAUL);
+							InfoLabel02.hide ();
+						}
+						else if (!InfoLabel02.onScreen()) 
+						{
+							InfoLabel01.hide ();
+							InfoLabel02.showFlavourText (MovingText.InfoType.MAUL);
+						}
+						chaseController.Maul ();
+				}
+				else
+				{
+						SoundManager.PlayBite ();
+
+						Debug.Log ("bite crotch " + distanceOnCrotch);
+						crotchesBitten++;
+						face.setFacetoState ( Face.stateOfFaces.bite);
+
+						if (!InfoLabel01.onScreen()) {
+								InfoLabel02.hide ();
+								InfoLabel01.showFlavourText (MovingText.InfoType.BITE);
+						}
+						else if (!InfoLabel02.onScreen()) {
+								InfoLabel01.hide ();
+								InfoLabel02.showFlavourText (MovingText.InfoType.BITE);
+						}
+
+
+						chaseController.Bite ();
+				}
+
+		}
+
+		void missedCrotch()
+		{
+				chaseController.Miss ();
+				bitestaken++;
+				bitesMissed++;
+				face.setFacetoState ( Face.stateOfFaces.miss);
+				if (!InfoLabel01.onScreen()) {
+						InfoLabel02.hide ();
+						InfoLabel01.showFlavourText (MovingText.InfoType.MISS);
+				}
+				else if (!InfoLabel02.onScreen()) {
+						InfoLabel01.hide ();
+						InfoLabel02.showFlavourText (MovingText.InfoType.MISS);
+				}
+		}
+
+
+		public void callGameOver()
+		{
+				changeState (GameState.GAME_OVER);
+		}
+
+		public GameState getState()
+		{
+				return state;
+		}
+
+		//called From pause menu
+		public void PauseGame()
+		{
+
+				if (state == GameState.PAUSED) 
+				{
+						changeState (GameState.PLAYING_GAME);
+				} else {
+						changeState (GameState.PAUSED);
+				}
+		}
+
+		public void Exit()
+		{
+				changeState (GameState.START_MENU);
+		}
+
+		public void Restart()
+		{
+
+				changeState (GameState.RESTART);
+		}
+
+		public void MuteSFX()
+		{
+				SoundManager.Instance.SFX_Mute = !SoundManager.Instance.SFX_Mute;
+		}
+
+		public void MuteMusic()
+		{
+				SoundManager.Instance.Mute = !SoundManager.Instance.Mute;
+		}
+
 
 }

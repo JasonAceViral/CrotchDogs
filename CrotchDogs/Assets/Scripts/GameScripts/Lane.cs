@@ -6,10 +6,10 @@ public class Lane : MonoBehaviour {
 	
 		public GameObject spawnPoint,resetPoint;
 		public GameObject Ground;
-
+		public float characterSpeed = CrotchDogConstants.CHARACTER_SPEED;
 		public List<Character> Characters;
-		public const int MAX_CHARACTERS =10;
 
+		public const float TIME_STEP = 0.016666667f;
 		public void Awake()
 		{
 			if (Characters == null) 
@@ -21,26 +21,24 @@ public class Lane : MonoBehaviour {
 
 		public void Update()
 		{
-			foreach (Character character in Characters) 
-			{
-						if (character.isShowing) {
-								if (character.gameObject.transform.position.z > resetPoint.transform.position.z) 
-								{
-										character.gameObject.transform.position = new Vector3 (character.gameObject.transform.position.x, character.gameObject.transform.position.y, character.gameObject.transform.position.z + character.speed * Time.deltaTime);
-								}
-								else 
-								{
-										if (!character.crotchBitten) 
-										{
-											
-												GameController.Instance.characterEscaped ();
-										}
-										character.resetCharacter ();
-										character.gameObject.transform.position = spawnPoint.transform.position;
-								}
 
+				if (GameController.Instance.getState() == GameController.GameState.PLAYING_GAME) {
+						foreach (Character character in Characters) {
+								if (character.isShowing) {
+										if (character.gameObject.transform.position.z > resetPoint.transform.position.z) {
+												character.gameObject.transform.position = new Vector3 (character.gameObject.transform.position.x, character.gameObject.transform.position.y, character.gameObject.transform.position.z + character.speed * TIME_STEP);
+										} else {
+												if (!character.crotchBitten) {
+														GameController.Instance.crotchesEscapedLegList.Add (character.legsRandom);
+														GameController.Instance.characterEscaped ();
+												}
+												character.resetCharacter ();
+												character.gameObject.transform.position = spawnPoint.transform.position;
+										}
+
+								}
 						}
-			}
+				}
 		}
 
 		public void startACharacter()
@@ -73,17 +71,40 @@ public class Lane : MonoBehaviour {
 				}
 
 				//spawns a brand new character if there aren't enough in the character list 
-				if (Characters.Count < MAX_CHARACTERS) 
+				if (Characters.Count < CrotchDogConstants.MAX_CHARACTERS) 
 				{	
 						Character character = ((GameObject)Instantiate( Resources.Load ("Character"))).GetComponent<Character>();
 						Debug.Log ("add new character in lane " + character);
 						character.resetCharacter();
 						character.gameObject.transform.position = spawnPoint.transform.position;
 						character.spawn();
+						character.SetSpeed (characterSpeed);
 						//character.gameObject.transform.parent
 						character.gameObject.transform.parent = this.gameObject.transform;
 					
 						Characters.Add (character);
+				}
+		}
+		//reset is called on a new game
+		public void reset()
+		{
+				foreach(Character character in Characters)
+				{
+						if(character.isShowing)
+						{
+								character.resetCharacter();
+								character.gameObject.transform.position = spawnPoint.transform.position;
+						}
+				}
+
+		}
+
+		public void increaseSpeed(float newSpeed)
+		{
+				characterSpeed = newSpeed;
+				foreach(Character character in Characters)
+				{
+						character.SetSpeed (characterSpeed);
 				}
 		}
 }

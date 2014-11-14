@@ -99,4 +99,6 @@ public class Bezier : System.Object
 						this.b3 = this.p3;
 				}
 		}
+
+
 }

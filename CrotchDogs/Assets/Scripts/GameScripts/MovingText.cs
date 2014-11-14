@@ -3,25 +3,26 @@ using System.Collections;
 
 public class MovingText : MonoBehaviour {
 
-		public const float MAX_SHOW_TIME = 1.0f,BEFORE_HIDE_TIME=1.0f;
+	public const float MAX_SHOW_TIME = 0.5f,BEFORE_HIDE_TIME=0.5f;
 
 	public enum InfoType
 	{
-				BITE,MAUL,MISS,DOMESTICATED,BAD_DOG,DANGEROUS_BREED,WILD_ANIMAL,MAN_EATER,CROTCH_DOG,READY
+		BITE,MAUL,MISS,DOMESTICATED,BAD_DOG,DANGEROUS_BREED,WILD_ANIMAL,MAN_EATER,CROTCH_DOG,READY
 	}
 
 	public Vector3 showLocation,hideLocation;
 	public float offsetLocation,showTime=0.0f,timeBeforeHide=0.0f;
 	public bool showSprite = false,isShowing= false,hideSprite = true;
-	
+	public GameObject startLocation;
 	// Use this for initialization
 	void Start () 
 	{
+
 		showLocation = gameObject.transform.position;
 		hideLocation = showLocation;
 		hideLocation.x += offsetLocation;
 			
-		gameObject.transform.position = hideLocation;
+		gameObject.transform.position = startLocation.transform.position;
 	
 	}
 	
@@ -29,58 +30,64 @@ public class MovingText : MonoBehaviour {
 	void Update () 
 	{
 
+				if (GameController.Instance.getState () == GameController.GameState.PLAYING_GAME) {
+						if (showSprite) { // show the sprite on screen
+								if (showTime < MAX_SHOW_TIME) {
 
 
-				if (showSprite) // show the sprite on screen
-				{
-						if (showTime < MAX_SHOW_TIME) 
-						{
-								showTime += Time.deltaTime;
+										showTime += Time.deltaTime;
 
-								float newX = Mathf.Lerp(  gameObject.transform.position.x,showLocation.x,showTime / MAX_SHOW_TIME) ;
-								float newY = Mathf.Lerp(  gameObject.transform.position.y,showLocation.y,showTime / MAX_SHOW_TIME) ;
-
+										float newX = Mathf.Lerp (gameObject.transform.position.x, showLocation.x, showTime / MAX_SHOW_TIME);
+										float newY = Mathf.Lerp (gameObject.transform.position.y, showLocation.y, showTime / MAX_SHOW_TIME);
 				
-								gameObject.transform.position = new Vector3 (newX, newY, gameObject.transform.position.z);
-						}
-						else 
-						{
+										gameObject.transform.position = new Vector3 (newX, newY, gameObject.transform.position.z);
+								} else {
+										if (!isShowing) {
+												isShowing = true;
+												gameObject.transform.position = showLocation;
+										} else {
+												timeBeforeHide += Time.deltaTime;
 
-								if (!isShowing) 
-								{
-										isShowing = true;
-										gameObject.transform.position = showLocation;
-								}
-								else 
-								{
-										timeBeforeHide += Time.deltaTime;
+												if (timeBeforeHide >= BEFORE_HIDE_TIME) {
+														showSprite = false;
 
-										if (timeBeforeHide >= BEFORE_HIDE_TIME) 
-										{
-												showSprite = false;
-
-												showTime = 0.0f;
+														showTime = 0.0f;
+												}
 										}
 								}
-						}
-				}
-				else // hide the sprite from screen
-				{
-						if (showTime < MAX_SHOW_TIME) {
-								showTime += Time.deltaTime;
+						} else if (isShowing) { // hide the sprite from screen
+								if (showTime < MAX_SHOW_TIME) {
+										showTime += Time.deltaTime;
 
-								float newX = Mathf.Lerp (hideLocation.x, gameObject.transform.position.x, showTime / MAX_SHOW_TIME);
-								float newY = Mathf.Lerp (hideLocation.y, gameObject.transform.position.y, showTime / MAX_SHOW_TIME);
+										float newX = Mathf.Lerp (gameObject.transform.position.x, hideLocation.x, showTime / MAX_SHOW_TIME);
+										float newY = Mathf.Lerp (gameObject.transform.position.y, hideLocation.y, showTime / MAX_SHOW_TIME);
 
-
-								gameObject.transform.position = new Vector3 (newX, newY, gameObject.transform.position.z);
-						} 
-						else 
-						{
-								isShowing = false;
+										gameObject.transform.position = new Vector3 (newX, newY, gameObject.transform.position.z);
+								} else {
+										gameObject.transform.position = new Vector3 (startLocation.transform.position.x, startLocation.transform.position.y, gameObject.transform.position.z);
+										isShowing = false;
+										showTime = 0.0f;
+								}
 						}
 				}
 	}
+		public void hide()
+		{
+
+				if (showSprite) 
+				{
+						showTime = 0.0f;
+						showSprite = false;
+						isShowing = true;
+					
+				}
+			
+		}
+
+		public bool onScreen()
+		{
+				return isShowing || showSprite;
+		}
 
 	public void showFlavourText (InfoType showType)
 	{

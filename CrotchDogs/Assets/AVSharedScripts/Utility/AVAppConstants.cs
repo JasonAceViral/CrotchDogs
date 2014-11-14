@@ -7,7 +7,7 @@ public class AVAppConstants {
 
     public const string facebookAppId = "602031736559944";
 
-    public const string appReferralName = "piggybankmania";
+    public const string appReferralName = "crotchdogs";
 
     public const string iOSAppId = "853121342";
 	public const string iOSAdMobKey = "ca-app-pub-8282354922336565/5380883931";
@@ -23,9 +23,9 @@ public class AVAppConstants {
     // Google Play App ID on iOS is set in info.plist with key GPGApplicationID
 
     // Double check the keys in Android Manifest (Activity and Package Name)
-    public const string AndroidPackageName = "com.aceviral.mafiashootout2";
+    public const string AndroidPackageName = "com.aceviral.crotchdogs";
     public static string AndroidGooglePlayId = "78984614272";
-    public const string AndroidPackageId = "com/aceviral/mafiashootout2/";
+    public const string AndroidPackageId = "com/aceviral/crotchdogs/";
     public const string AndroidAdMobKey = "ca-app-pub-8282354922336565/8473951131";
 	public const string AndroidAdMobInterstitialKey = "ca-app-pub-8282354922336565/9950684332";
     public const string AndroidHouseAdLink = "http://aceviral.com/a/ad/18";

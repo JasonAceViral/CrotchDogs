@@ -2,14 +2,14 @@
 
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 
 
 public class Dog : MonoBehaviour 
 {
 
 	public CapsuleCollider DogTargetCollider;
-	Collider CrotchObject;
+	public List<Collider> CrotchObjects;
 	public GameObject Jaws;
 	public GameObject EndPoint;
 	// Use this for initialization
@@ -27,14 +27,29 @@ public class Dog : MonoBehaviour
 //				Debug.Log("Difference " + difference );
 //		}	
 	}
-	
+		public void Reset()
+		{
+				CrotchObjects = new List<Collider> ();
+		}
 	//Trigger Bite It returns the difference in location for Biting of the Crotch
 	public float Bite()
 	{
 		float difference = CrotchDogConstants.NO_BITE;
-		if (CrotchObject != null)
+
+
+		tk2dSpriteAnimator jawsBite =	Jaws.GetComponent<tk2dSpriteAnimator> ();
+		if (!jawsBite.IsPlaying("Bite")) 
 		{
-						difference = DifferenceToMidpointOfLine (getCollider ().transform.position, EndPoint.transform.position, CrotchObject.transform.position);
+			jawsBite.Play ();
+		}
+		
+		if (CrotchObjects != null)
+		{
+
+				foreach(Collider Crotch in CrotchObjects)
+				{
+						difference = DifferenceToMidpointOfLine (getCollider ().transform.position, EndPoint.transform.position, Crotch.transform.position);
+				}
 				//Debug.Log("Difference " + difference )
 		
 		}
@@ -53,17 +68,22 @@ public class Dog : MonoBehaviour
 	//returns what its currently colliding with
 	public Collider getOtherCollider()
 	{
-			return CrotchObject;
+			return CrotchObjects;
 	}
 
 	public void OnTriggerEnter ( Collider other)
 	{
-		CrotchObject = other;
+				CrotchObjects.Add(other);
 	}
 
 	public void OnTriggerExit ( Collider other)
 	{
-		CrotchObject = null;
+		
+				if (CrotchObjects.Count > 0) 
+				{
+						SoundManager.PlaySwoosh ();
+						CrotchObjects.Remove(other);
+				}
 	}
 
 	public float DifferenceToMidpointOfLine(Vector3 p1,Vector3 p2, Vector3 objectP3)

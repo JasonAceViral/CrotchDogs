@@ -15,14 +15,14 @@ public class MyBezier : MonoBehaviour
 
 		public List<GameObject> points;
 
-		public bool PointsChanged = true;
+		private bool PointsChanged = true;
 
-		public float pointAtTime = 0.0f;
+		private float pointAtTime = 0.0f;
 
-		public bool createdAllPoints = false;
+		private bool createdAllPoints = false;
 
 		public float dogMarkerLocation,catcherMarkerLocation;
-		public Vector3 dogMarkerStart, catcherMarkerStart;
+		private Vector3 dogMarkerStart, catcherMarkerStart;
 
 		void Start()
 		{
@@ -41,7 +41,7 @@ public class MyBezier : MonoBehaviour
 				{
 						float rand = Random.Range (-0.8f, 0.8f);
 						GameObject newPoint = new GameObject ("bezier point");
-						Debug.Log ("rand" + rand);
+					//	Debug.Log ("rand" + rand);
 						newPoint.transform.position =  new Vector3 (pointStart.transform.position.x - diff*i,pointStart.transform.position.y + rand,pointStart.transform.position.z);
 						newPoint.transform.parent = gameObject.transform;
 						points.Add (newPoint);
@@ -170,71 +170,10 @@ public class MyBezier : MonoBehaviour
 				{
 						//gameObject.transform.position =new Vector3(-Marker.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z);
 						updatePointLocations ();
-						updateMarkerLocation ();
-						//need to get the time location based on the bezier game object position
-						//the differences between each point and that 1.0f is the total time span for this
 
-
-						//Debug.Log (@"found point" + pointLocation + " point x " + points [pointLocation].transform.position.x+ " marker x "+ Marker.transform.position.x);
-
-
-
-
-
-//						float xLocation = Marker.transform.position.x;
-//
-//						//get the point that the marker falls between
-//						int pointLocation =0;
-//						bool foundpoint=false;
-//						for (int i = 0; i < points.Count &&!foundpoint; i++) 
-//						{
-//								if ( points [i].transform.position.x >= xLocation) 
-//								{
-//										if (i > 0) 
-//										{
-//												pointLocation = i - 1;
-//												foundpoint = true;
-//										} 
-//										else 
-//										{
-//												pointLocation = 0;
-//												foundpoint = true;
-//										}
-//								}
-//						}
-						// get the percentage along the line for marker so we know the y value
-//						if (pointLocation + 1 < points.Count) 
-//						{
-//								float difference = points [pointLocation].transform.position.x - points [pointLocation + 1].transform.position.x;
-//								float markerDistanceFromPoint = points [pointLocation].transform.position.x - Marker.transform.position.x;
-//
-//								//percentage between points but should be percentage between bezier points
-//								float percentage = (markerDistanceFromPoint / difference);
-//
-//							
-//
-//								vec = myBezier [((int)Mathf.Floor(pointLocation/3.125f))].Get2DPointAtTime (percentage);
-//
-//								Debug.Log ("percentage " + percentage + " loc " + pointLocation +" bez "+ myBezier.Count + " points " + points.Count + " vec " + vec.y );
-//
-//								Marker.transform.position = new Vector3 (Marker.transform.position.x, vec.y + gameObject.transform.position.y, Marker.transform.position.z);
-//						}
-						// OLD
-//						moves the marker along the line
-//						Vector3 vec = myBezier [pointIndex].Get2DPointAtTime (0.5f);
-//						Marker.transform.position = vec + transform.position;
-
-
-//						t += 0.01f;//Time.deltaTime;
-//						//Debug.Log ("point Index incremented" + pointIndex + " beizer count " + myBezier.Count + " time "+ t);
-//						if (t > 1.0f) {
-//								t = 0f;
-//								pointIndex++;
-//	
-//								if (pointIndex >= myBezier.Count) {
-//										pointIndex = 0;
-//								}
-//						}
+						if (GameController.Instance != null) {
+								updateMarkerLocation ();
+						}
 				}
 		}
 
@@ -245,7 +184,65 @@ public class MyBezier : MonoBehaviour
 				bool foundTime = false;
 				Vector3 vec;
 
+				// there is a possibility that if a player si good enough that it can go minus
+				int chaseValue = GameController.Instance.chaseController.getDogIndex ();
 
+				if (chaseValue < 0) 
+				{
+						chaseValue = 0;
+				}
+				dogMarkerLocation = dogMarkerStart.x + chaseValue*CrotchDogConstants.DOG_INCREMENT;
+
+
+				chaseValue = GameController.Instance.chaseController.getChaserIndex ();
+				if (chaseValue < 0) 
+				{
+						chaseValue = 0;
+				}
+
+				catcherMarkerLocation = catcherMarkerStart.x + chaseValue*CrotchDogConstants.CHASER_INCREMENT;
+
+				//move the dog marker towards the new location
+				if (DogMarker.transform.position.x != dogMarkerLocation) 
+				{
+
+						DogMarker.transform.position = new Vector3 (DogMarker.transform.position.x + ( dogMarkerLocation - DogMarker.transform.position.x)*Time.deltaTime,DogMarker.transform.position.y,DogMarker.transform.position.z);
+				}
+
+				//move the dog Catcher marker towards the new location
+				if (DogCatcherMarker.transform.position.x != catcherMarkerLocation) 
+				{
+
+						DogCatcherMarker.transform.position = new Vector3 (DogCatcherMarker.transform.position.x + (catcherMarkerLocation - DogCatcherMarker.transform.position.x)*Time.deltaTime,DogCatcherMarker.transform.position.y,DogCatcherMarker.transform.position.z);
+				}
+
+				//Game Over
+				if (DogMarker.transform.position.x <= DogCatcherMarker.transform.position.x) {
+						GameController.Instance.callGameOver ();
+				}
+
+				// find the Dog markers Y location for its X
+				for (int i = 0; i < myBezier.Count && !foundTime; i++) 
+				{
+						findTime = 0.0f;
+						foundTime = false;
+						while (findTime < 1.0f && !foundTime)
+						{
+								findTime += 0.01f;
+								vec = myBezier [i].Get2DPointAtTime (findTime);
+
+								if ((vec.x + gameObject.transform.position.x) > DogMarker.transform.position.x) 
+								{
+										DogMarker.transform.position = new Vector3 (DogMarker.transform.position.x, vec.y + gameObject.transform.position.y, DogMarker.transform.position.z);
+										foundTime = true;
+								}
+						}
+				}
+
+				findTime = 0.0f;
+				foundTime = false;
+
+				//find the Chasers Y location from its X
 				for (int i = 0; i < myBezier.Count && !foundTime; i++) 
 				{
 						findTime = 0.0f;
@@ -255,9 +252,9 @@ public class MyBezier : MonoBehaviour
 								findTime += 0.01f;
 								vec = myBezier [i].Get2DPointAtTime (findTime);
 
-								if ((vec.x + gameObject.transform.position.x) > DogMarker.transform.position.x) 
+								if ((vec.x + gameObject.transform.position.x) > DogCatcherMarker.transform.position.x) 
 								{
-										DogMarker.transform.position = new Vector3 (DogMarker.transform.position.x, vec.y + gameObject.transform.position.y, DogMarker.transform.position.z);
+										DogCatcherMarker.transform.position = new Vector3 (DogCatcherMarker.transform.position.x, vec.y + gameObject.transform.position.y, DogCatcherMarker.transform.position.z);
 										foundTime = true;
 								}
 						}
@@ -310,7 +307,12 @@ public class MyBezier : MonoBehaviour
 
 		public void OnPostRender()
 		{
-				drawBezierQuadLines (0.025f);
+
+				if (GameController.Instance.getState() == GameController.GameState.PLAYING_GAME) 
+				{
+						drawBezierQuadLines (0.025f);
+				}
+		
 				//Successfully draws a cube
 //				GL.PushMatrix ();
 //				GL.MultMatrix (transform.localToWorldMatrix);
@@ -387,7 +389,7 @@ public class MyBezier : MonoBehaviour
 
 		public void drawBezierQuadLines( float width)
 		{
-				if (myBezier != null && points != null) 
+				if (myBezier != null && points != null && myBezier.Count >0) 
 				{
 						//PointsChanged = false;
 						Vector3 start = myBezier [0].Get2DPointAtTime (0.0f);
@@ -413,8 +415,6 @@ public class MyBezier : MonoBehaviour
 						{
 								Vector3 pointAtTime = myBezier [bezierCount].Get2DPointAtTime (time);
 
-
-						
 								//call GL function to draw lines
 
 								//top left
@@ -447,6 +447,19 @@ public class MyBezier : MonoBehaviour
 
 
 				}
+		}
+				
+		public void reset()
+		{
+				Debug.Log ("state point " + dogMarkerStart + " catcher " + catcherMarkerStart);
+
+				if (dogMarkerStart.x != 0) {
+						DogMarker.transform.position = dogMarkerStart;
+						DogCatcherMarker.transform.position = catcherMarkerStart;
+				}
+
+				myBezier = new List<Bezier> ();
+				changeBezier ();
 		}
 
 }
