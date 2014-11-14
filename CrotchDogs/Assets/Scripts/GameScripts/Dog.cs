@@ -66,7 +66,7 @@ public class Dog : MonoBehaviour
 	}
 
 	//returns what its currently colliding with
-	public Collider getOtherCollider()
+	public List<Collider> getOtherCollider()
 	{
 			return CrotchObjects;
 	}

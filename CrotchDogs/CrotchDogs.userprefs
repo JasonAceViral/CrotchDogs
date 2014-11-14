@@ -1,18 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GUIScripts/GameOverUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GUIScripts/StretchBackground.cs">
     <Files>
-      <File FileName="Assets/Scripts/GUIScripts/GameOverUI.cs" Line="66" Column="66" />
-      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="47" Column="47" />
-      <File FileName="Assets/Scripts/GameScripts/SpawnController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/ChaserController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="1" Column="1" />
-      <File FileName="Assets/TK2DROOT/tk2d/Code/Sprites/tk2dSpriteAnimator.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/Character.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/AdController.cs" Line="3" Column="3" />
-      <File FileName="Assets/Scripts/Constants/CrotchDogConstants.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/GameScripts/Lane.cs" Line="225" Column="225" NotebookId="1" />
-      <File FileName="Assets/Scripts/Sounds/SoundManager.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Editor/AVEditorHelper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="23" Column="23" />
+      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="44" Column="44" />
+      <File FileName="Assets/Scripts/GUIScripts/StretchBackground.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameScripts/SceneObjectSpawner.cs" Line="38" Column="38" />
+      <File FileName="Assets/Scripts/GUIScripts/MyBezier.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

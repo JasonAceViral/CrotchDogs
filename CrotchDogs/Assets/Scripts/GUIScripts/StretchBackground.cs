@@ -25,6 +25,12 @@ public class StretchBackground : MonoBehaviour
         screenWidth = cam.ScreenExtents.width;
         screenHeight = cam.ScreenExtents.height;
 		Debug.Log ("w,h" + screenWidth +"," + screenHeight );
+
+		if (screenWidth == 0) 
+		{
+				return;
+		}
+
         transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, transform.position.z);
 
         MeshRenderer meshRend = GetComponent<MeshRenderer>();
@@ -61,6 +67,8 @@ public class StretchBackground : MonoBehaviour
         {
             scale = new Vector3(requiredXScale, requiredYScale, 1);
         }
+
+		
 
 		transform.localScale = scale;
     }

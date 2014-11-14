@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour {
 	
 	public GameObject LoadingScene,MainMenuScene,GameScene,GameOverScene;
 	public List<int> crotchesBittenFaceList,crotchesEscapedLegList; 
-	Collider CrotchBitten;
+	List<Collider> CrotchBitten;
 	public GameState state;
 
 	public float speed;
@@ -134,7 +134,7 @@ public class GameController : MonoBehaviour {
 						CrotchBitten = dog.getOtherCollider();
 
 
-						if(CrotchBitten == null)
+						if(CrotchBitten.Count == 0)
 						{
 								missedCrotch();
 						}
@@ -158,15 +158,13 @@ public class GameController : MonoBehaviour {
 								if(touchData.phase == TouchPhase.Began)
 								{
 									
-									bitestaken++;
 									bite  =  dog.Bite();
 									CrotchBitten = dog.getOtherCollider();
 
 
-									if(CrotchBitten == null)
+									if(CrotchBitten.Count == 0)
 									{
-											missedCrotch();
-											bitesMissed++;
+										missedCrotch();
 									}
 								}
 						}
@@ -186,14 +184,25 @@ public class GameController : MonoBehaviour {
 								{
 										//Debug.Log ("index " + laneIndex);
 										//Debug.Log ("character try bite " + lanes [laneIndex].Characters [charIndex].getCollider());
-										if (lanes [laneIndex].Characters [charIndex].isShowing) {
-												if (lanes [laneIndex].Characters [charIndex].getCollider() == CrotchBitten) {
+										if (lanes [laneIndex].Characters [charIndex].isShowing) 
+										{
 
-														crotchesBittenFaceList.Add (lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().headRandom);
-														lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
-														biteCrotch (bite);
+												List<Collider> removeCrotch = new List<Collider>();
 
-														CrotchBitten = null;
+												foreach (Collider crotch in CrotchBitten) {
+														if (lanes [laneIndex].Characters [charIndex].getCollider () == crotch) {
+
+																crotchesBittenFaceList.Add (lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().headRandom);
+																lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
+																biteCrotch (bite);
+
+																removeCrotch.Add (crotch);
+														}
+												}
+
+												foreach (Collider crotch in removeCrotch) 
+												{
+														CrotchBitten.Remove (crotch);
 												}
 										}
 								}
