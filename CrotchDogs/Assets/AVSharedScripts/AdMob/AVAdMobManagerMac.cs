@@ -1,49 +1,38 @@
 using UnityEngine;
 using System.Collections;
 
-public class AVAdMobManagerMac : AVAdMobManager {
-	
-    public override void ShowBanner ()
-    {
-    }
+namespace AVHiddenInterface {
+    public class AVAdMobManagerMac : AceViral.AVAdMobManager {
+		
+	    public override void ShowBanner ()
+	    {
+	    }
 
-    public override void HideBanner ()
-	{
+        public override void LoadNewBanner()
+        {
+        }
+
+	    public override void HideBanner ()
+		{
+		}
+           
+
+		/// <summary>
+		/// ////////
+		/// </summary>
+		/// <returns>The advert height.</returns>
+
+		#region implemented abstract members of AVAdwhirlManager
+		public override int GetAdvertHeight ()
+		{
+			return 0;
+		}
+		#endregion
+
+		#region implemented abstract members of AVAdwhirlManager
+		public override void OnStart ()
+		{
+		}
+		#endregion
 	}
-
-	// Interstitials
-
-	public override void CreateAdMobInterstitials ()
-	{
-	}
-
-	public override bool IsAdMobInterstitialReady ()
-	{
-		return false;
-	}
-
-	public override void ShowAbMobIntersitial ()
-	{
-	}
-
-	/// <summary>
-	/// ////////
-	/// </summary>
-	/// <returns>The advert height.</returns>
-
-	#region implemented abstract members of AVAdwhirlManager
-	public override int GetAdvertHeight ()
-	{
-		return 0;
-	}
-	#endregion
-
-	#region implemented abstract members of AVAdwhirlManager
-	public override void OnStart ()
-	{
-	}
-	public override void OnStartWithKey(string key)
-	{
-	}
-	#endregion
 }

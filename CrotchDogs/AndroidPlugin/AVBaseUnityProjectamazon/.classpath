@@ -14,5 +14,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/GameCircleSDK"/>
 	<classpathentry exported="true" kind="lib" path="libs/in-app-purchasing-1.0.3.jar"/>
 	<classpathentry kind="lib" path="libs/unity-classes.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/amazon-ads-5.1.153.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

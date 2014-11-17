@@ -46,10 +46,36 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\AVAndroidStrings.cs" />
+     <Compile Include="Assets\Editor\AVEclipseSettings.cs" />
      <Compile Include="Assets\Editor\AVEditorHelper.cs" />
-     <Compile Include="Assets\Editor\IconGenerator.cs" />
-     <Compile Include="Assets\Editor\PerformBuild.cs" />
-     <Compile Include="Assets\Editor\TextureScale.cs" />
+     <Compile Include="Assets\Editor\AVIOSPerformBuild.cs" />
+     <Compile Include="Assets\Editor\AVIconGenerator.cs" />
+     <Compile Include="Assets\Editor\AVInspector.cs" />
+     <Compile Include="Assets\Editor\AVTextureScale.cs" />
+     <Compile Include="Assets\Editor\AlignAndDistribute.cs" />
+     <Compile Include="Assets\Facebook\Editor\FacebookPostprocess.cs" />
+     <Compile Include="Assets\Facebook\Editor\FacebookSettingsEditor.cs" />
+     <Compile Include="Assets\Facebook\Editor\android\FacebookAndroidUtil.cs" />
+     <Compile Include="Assets\Facebook\Editor\android\ManifestMod.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\FixupFiles.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\PlistMod.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXBuildFile.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXBuildPhase.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXDictionary.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXFileReference.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXGroup.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXList.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXObject.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXParser.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\PBXProject.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCBuildConfiguration.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCConfigurationList.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCFileOperationQueue.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCMod.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCProject.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCSourceFile.cs" />
+     <Compile Include="Assets\Facebook\Editor\iOS\third_party\XCodeEditor-for-Unity\XCTarget.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraAnchorEditor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraEditor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Editor\Fonts\tk2dFontBuilder.cs" />
@@ -141,6 +167,7 @@
      <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIMaskEditor.cs" />
      <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIMethodBindingHelper.cs" />
      <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUISpriteAnimatorEditor.cs" />
+     <None Include="Assets\Editor\projsettings.txt" />
      <None Include="Assets\Plugins\WP8\Facebook.Client.xml" />
      <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.Extensions.Phone.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
@@ -153,9 +180,9 @@
      <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\goodies\PackedTextMesh.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
-     <None Include="Assets\Editor\projsettings.txt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\Plugins\WP8\Facebook.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
@@ -169,10 +196,12 @@
      <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.Extensions.xml" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
-     <None Include="Assets\Plugins\Android\res\values\version.xml" />
+     <None Include="Assets\AVSharedScripts\Locallization\Resources\Localization\English.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
-     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
+ <Reference Include="IFacebook">
+ <HintPath>/Users/jasoncampbell/CrotchDogs/CrotchDogs/Assets/Facebook/Scripts/IFacebook.dll</HintPath>
+ </Reference>
  <Reference Include="tk2dExternal">
  <HintPath>/Users/jasoncampbell/CrotchDogs/CrotchDogs/Assets/TK2DROOT/tk2d/Editor/tk2dExternal.dll</HintPath>
  </Reference>

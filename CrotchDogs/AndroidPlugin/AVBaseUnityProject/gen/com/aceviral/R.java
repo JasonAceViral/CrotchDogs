@@ -250,9 +250,6 @@ containing a value of this type.
         public static int picker_subtitle=0x7f050012;
         public static int small=0x7f050000;
     }
-    public static final class integer {
-        public static int google_play_services_version=0x7f0a0000;
-    }
     public static final class layout {
         public static int com_facebook_friendpickerfragment=0x7f030000;
         public static int com_facebook_login_activity_layout=0x7f030001;

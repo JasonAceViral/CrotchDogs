@@ -1,22 +1,22 @@
 package com.aceviral.crotchdogs;
 
-import com.unity3d.player.*;
-import android.app.NativeActivity;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class UnityPlayerNativeActivity extends NativeActivity
+import com.aceviral.activities.AVUnityActivity;
+import com.unity3d.player.UnityPlayer;
+
+public class UnityPlayerNativeActivity extends AVUnityActivity
 {
 	protected UnityPlayer mUnityPlayer;		// don't change the name of this variable; referenced from native code
 
 	// Setup activity layout
-	@Override protected void onCreate (Bundle savedInstanceState)
+	@Override public void onCreate (Bundle savedInstanceState)
 	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class UnityPlayerNativeActivity extends NativeActivity
 	}
 
 	// Quit Unity
-	@Override protected void onDestroy ()
+	@Override public void onDestroy ()
 	{
 		mUnityPlayer.quit();
 		super.onDestroy();
@@ -83,4 +83,16 @@ public class UnityPlayerNativeActivity extends NativeActivity
 	@Override public boolean onKeyDown(int keyCode, KeyEvent event)   { return mUnityPlayer.injectEvent(event); }
 	@Override public boolean onTouchEvent(MotionEvent event)          { return mUnityPlayer.injectEvent(event); }
 	/*API12*/ public boolean onGenericMotionEvent(MotionEvent event)  { return mUnityPlayer.injectEvent(event); }
+
+	@Override
+	public String getFacebookID() {
+		return getString(R.string.applicationId);
+	}
+
+	@Override
+	public String getAnalyticsID() {
+		return getString(R.string.ga_trackingId);
+	}
+	
+	
 }

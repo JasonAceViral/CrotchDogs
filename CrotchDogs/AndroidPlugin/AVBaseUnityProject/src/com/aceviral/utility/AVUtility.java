@@ -13,6 +13,27 @@ public class AVUtility {
 	
 	public static Activity MainActivity;
 	
+	public static void UnitySendMessageSafe(String gameObjectName, String method, String data) {
+		if (gameObjectName == null || gameObjectName.equals("")) {
+			Log.e("AVSharedScripts", "UnitySendMessageSafe gameObjectName null/empty", new Exception());
+			return;
+		}
+		if (method == null || method.equals("")) {
+			Log.e("AVSharedScripts", "UnitySendMessageSafe method null/empty (" + gameObjectName + ")", new Exception());
+			return;
+		}
+		if (data == null) {
+			Log.e("AVSharedScripts", "UnitySendMessageSafe data null (" + gameObjectName + "," + method + ")", new Exception());
+			data = "";
+		}
+		try {
+			UnityPlayer.UnitySendMessage(gameObjectName, method, data);
+		} catch (Exception e) {
+			Log.e("AVSharedScripts", "UnityPlayer.UnitySendMessage failed: " + e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public static void DebugOut(String tag, String msg){
 		if(LogDebugOut)
 			Log.v(tag,msg);

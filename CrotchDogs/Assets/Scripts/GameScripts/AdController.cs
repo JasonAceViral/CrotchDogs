@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using AceViral;
 
 public class AdController : MonoBehaviour {
 
@@ -34,7 +35,7 @@ public class AdController : MonoBehaviour {
 	public void ShowInterstitial()
 	{
 				if (enableAds) {
-						AVAdMobManager.Instance.ShowAbMobIntersitial ();
+						//AVAdMobManager.Instance.s ();
 				}
 	}
 			

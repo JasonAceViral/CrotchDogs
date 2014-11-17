@@ -18,7 +18,6 @@ public class ScrollingUVs: MonoBehaviour {
 		uvOffset += ( uvAnimationRate * Time.deltaTime );
 		if( gameObject.renderer.enabled )
 		{
-						//Debug.Log ("tiled sprite " + uvOffset.x +"," + uvOffset.y +" main texture " + gameObject.renderer.material.mainTexture.name);
 
 						gameObject.renderer.material.SetTextureOffset( "_MainTex", uvOffset );
 		}

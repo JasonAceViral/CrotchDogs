@@ -92,7 +92,7 @@ appcontroller.touch_implementation(path + '/Classes/UnityAppController.mm')
 print('Step 4: change build setting')
 project.add_other_buildsetting('GCC_ENABLE_OBJC_EXCEPTIONS', 'YES')
 project.add_other_ldflags('-lsqlite3.0')
-project.add_other_ldflags('-Objc')
+project.add_other_ldflags('-ObjC')
 project.add_other_ldflags('-all_load')
 project.add_library_search_paths('$(SRCROOT)/' + os.path.relpath(fileToAddPath, path))
 

@@ -1,13 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GUIScripts/StretchBackground.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Facebook/Editor/android/ManifestMod.cs">
     <Files>
-      <File FileName="Assets/Editor/AVEditorHelper.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="23" Column="23" />
-      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="44" Column="44" />
-      <File FileName="Assets/Scripts/GUIScripts/StretchBackground.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/SceneObjectSpawner.cs" Line="38" Column="38" />
-      <File FileName="Assets/Scripts/GUIScripts/MyBezier.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="10" Column="10" />
+      <File FileName="Assets/Scripts/GameScripts/ScrollingUVs.cs" Line="1" Column="1" />
+      <File FileName="Assets/AVSharedScripts/Facebook/AVFacebook.cs" Line="3" Column="3" />
+      <File FileName="Assets/Scripts/GameScripts/AdController.cs" Line="38" Column="38" />
+      <File FileName="Assets/AVSharedScripts/AceVIral/AppConstants.cs" Line="70" Column="70" />
+      <File FileName="Assets/TK2DROOT/tk2dUI/Editor/Controls/tk2dUIScrollableAreaEditor.cs" Line="227" Column="227" />
+      <File FileName="Assets/Facebook/Editor/android/ManifestMod.cs" Line="7" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

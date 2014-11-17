@@ -101,6 +101,11 @@ public class AdMobManager extends AdListener implements BannerInterface
 		com.google.android.gms.ads.AdRequest adRequest = builder.build();
 		return adRequest;
 	}
+	
+	public void loadNewBannerAd()
+	{
+		LoadNewAdvert();
+	}
 
 	private void LoadNewAdvert(){
 		Log.v("AdMobManager", "Requesting new admob advert");

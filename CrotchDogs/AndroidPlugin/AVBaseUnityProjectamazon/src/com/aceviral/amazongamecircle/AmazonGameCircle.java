@@ -16,6 +16,7 @@ import com.amazon.ags.api.achievements.AchievementsClient;
 import com.amazon.ags.api.achievements.UpdateProgressResponse;
 import com.amazon.ags.api.leaderboards.LeaderboardsClient;
 import com.amazon.ags.api.leaderboards.SubmitScoreResponse;
+import com.unity3d.player.UnityPlayer;
 
 public class AmazonGameCircle implements GameServicesInterface
 {
@@ -27,12 +28,7 @@ public class AmazonGameCircle implements GameServicesInterface
 		AmazonGamesClient.initialize(m_Activity, callback, myGameFeatures);
 	}
 	
-	public void signIn()
-	{
-		
-	}
-	
-	public void onActivityResult(int error,int i,Intent e)
+	public void onStart()
 	{
 		
 	}
@@ -42,68 +38,84 @@ public class AmazonGameCircle implements GameServicesInterface
 		
 	}
 	
-	public void onStart()
+	public void onActivityResult(int error,int i,Intent e)
 	{
 		
 	}
-
-	// reference to the agsClient
-	AmazonGamesClient agsClient;
-	LeaderboardsClient lbClient;
-	AchievementsClient acClient;
-
-	AmazonGamesCallback callback = new AmazonGamesCallback()
+	
+	public boolean isAvailable()
 	{
-		@Override
-		public void onServiceNotReady(AmazonGamesStatus status)
-		{
-			// unable to use service
-			System.out.println("was notready " + status.toString());
-		}
-
-		@Override
-		public void onServiceReady(AmazonGamesClient amazonGamesClient)
-		{
-			agsClient = amazonGamesClient;
-			lbClient = agsClient.getLeaderboardsClient();
-			acClient = agsClient.getAchievementsClient();
-			System.out.println("was ready ");
-			// ready to use GameCircle
-		}
-	};
-
-
-	// list of features your game uses (in this example, achievements and
-	// leaderboards)
-	EnumSet<AmazonGamesFeature> myGameFeatures = EnumSet.of(AmazonGamesFeature.Achievements, AmazonGamesFeature.Leaderboards);
-
-
-	public void onPause()
-	{
-		if (agsClient != null)
-		{
-			agsClient.release();
-		}
+		return true;
 	}
-
-	public void onResume()
+	
+	public boolean isSignedIn()
 	{
-		AmazonGamesClient.initialize(m_Activity, callback, myGameFeatures);
-
+		return agsClient != null;
 	}
-
-	@Override
+	
+	public void signIn()
+	{
+		
+	}
+	
 	public void signOut()
 	{
-		// TODO Auto-generated method stub
-
+		
 	}
-
-
+	
 	@Override
-	public void unlockAchievement(String achievementId)
+	public void showAchievements()
+	{
+		System.out.println("show ing achievements " + acClient);
+		if (agsClient == null)
+		{
+			if(AmazonGamesClient.getInstance() != null)
+			{
+				acClient = AmazonGamesClient.getInstance().getAchievementsClient();
+			}
+		}
+		if (acClient != null)
+		{
+			acClient.showAchievementsOverlay();
+		}
+	}
+	
+	private void getLeaderboardClient()
 	{
 		if(AmazonGamesClient.getInstance() != null)
+		{
+			lbClient = AmazonGamesClient.getInstance().getLeaderboardsClient();
+		}
+	}
+	
+	@Override
+	public void showLeaderboards()
+	{
+		if (lbClient == null) {
+			getLeaderboardClient();
+		}
+		
+		if (lbClient != null) {
+			lbClient.showLeaderboardsOverlay();
+		}
+	}
+	
+	@Override
+	public void showLeaderboard(String leaderboardId)
+	{
+		if (lbClient == null) {
+			getLeaderboardClient();
+		}
+		
+		if (lbClient != null) {
+			lbClient.showLeaderboardOverlay(leaderboardId, (Object[])null);
+		}
+	}
+	
+	@Override
+	public void updateAchievement(String achievementId, float progress, int steps)
+	{
+		if(acClient!= null)
 		{
 			if (AmazonGamesClient.getInstance() != null)
 			{
@@ -112,8 +124,7 @@ public class AmazonGameCircle implements GameServicesInterface
 		}
 		if(acClient != null)
 		{
-
-			AGResponseHandle<UpdateProgressResponse> handle = acClient.updateProgress(achievementId, 100.0f);
+			AGResponseHandle<UpdateProgressResponse> handle = acClient.updateProgress(achievementId, progress);
 
 			// Optional callback to receive notification of success/failure.
 			handle.setCallback(new AGResponseCallback<UpdateProgressResponse>()
@@ -134,30 +145,6 @@ public class AmazonGameCircle implements GameServicesInterface
 					}
 				}
 			});
-		}
-	}
-
-	@Override
-	public void incrementAchievement(String achievementId, int numSteps)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void showAchievements()
-	{
-		System.out.println("show ing achievements " + acClient);
-		if (agsClient == null)
-		{
-			if(AmazonGamesClient.getInstance() != null)
-			{
-				acClient = AmazonGamesClient.getInstance().getAchievementsClient();
-			}
-		}
-		if (acClient != null)
-		{
-			acClient.showAchievementsOverlay();
 		}
 	}
 
@@ -198,36 +185,74 @@ public class AmazonGameCircle implements GameServicesInterface
 		}
 	}
 
-	@Override
-	public void showLeaderboard(String leaderboardId)
+	// reference to the agsClient
+	AmazonGamesClient agsClient;
+	LeaderboardsClient lbClient;
+	AchievementsClient acClient;
+
+	AmazonGamesCallback callback = new AmazonGamesCallback()
 	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void showLeaderboards()
-	{
-
-		if (lbClient == null)
+		@Override
+		public void onServiceNotReady(AmazonGamesStatus status)
 		{
-			if(AmazonGamesClient.getInstance() != null)
-			{
-				lbClient = AmazonGamesClient.getInstance().getLeaderboardsClient();
-			}
-			
+			// unable to use service
+			System.out.println("was not ready " + status.toString());
+			UnityPlayer.UnitySendMessage("AVGameServicesInterface", "SignInComplete", "failure");
 		}
-		if (lbClient != null)
+
+		@Override
+		public void onServiceReady(AmazonGamesClient amazonGamesClient)
 		{
-			lbClient.showLeaderboardsOverlay();
+			agsClient = amazonGamesClient;
+			lbClient = agsClient.getLeaderboardsClient();
+			acClient = agsClient.getAchievementsClient();
+			System.out.println("was ready ");
+			UnityPlayer.UnitySendMessage("AVGameServicesInterface", "SignInComplete", "success");
+		}
+	};
+
+
+	// list of features your game uses (in this example, achievements and
+	// leaderboards)
+	EnumSet<AmazonGamesFeature> myGameFeatures = EnumSet.of(AmazonGamesFeature.Achievements, AmazonGamesFeature.Leaderboards);
+
+
+	public void onPause()
+	{
+		if (agsClient != null)
+		{
+			agsClient.release();
 		}
 	}
 
-	@Override
-	public boolean isSignedIn()
+	public void onResume()
 	{
-		return agsClient != null;
+		AmazonGamesClient.initialize(m_Activity, callback, myGameFeatures);
+
 	}
-
-
+	
+	// Cloud
+	
+		public boolean cloudIsAvailable()
+		{
+			return false;
+		}
+		
+		public void cloudFetchData() {}
+		
+		public String cloudLoadAllData()
+		{
+			return "";
+		}
+		
+		public String cloudLoadKey(String key)
+		{
+			return "";
+		}
+		
+		public void cloudSaveDictionaryData(String dictData) {}
+		
+		public void cloudSaveKey(String key, String data) {}
+		
+		public void cloudSynchronize() {}
 }

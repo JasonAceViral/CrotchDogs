@@ -2,12 +2,15 @@ package com.aceviral;
 
 public interface InterstitialInterface 
 {
-
+	public void setInterstitialTypeIsVideo(boolean isVideo);
+	
 	public void createInterstitialWithKey(final String key);
-
-	public void loadNewAdvert();
-
+	
 	public boolean isInterstitialReady();
 
-	public void showIntersitial();
+	public void showInterstitial();
+
+	public void loadInterstitialIfNotAlready();
+
+	public void cancelAutoShowInterstitial();
 }

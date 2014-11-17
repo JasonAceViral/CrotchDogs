@@ -1,7 +1,0 @@
-<resources>
-  <string name="ga_trackingId">UA-50477942-2</string>
-  <bool name="ga_autoActivityTracking">true</bool>
-  <bool name="ga_reportUncaughtExceptions">true</bool>
-  <string name="adcolonyappid">UA-50477942-2</string>
-  <string name="adcolonyzoneid">UA-50477942-2</string>
-</resources>

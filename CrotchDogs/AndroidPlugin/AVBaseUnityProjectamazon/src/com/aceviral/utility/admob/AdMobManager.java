@@ -1,6 +1,7 @@
 package com.aceviral.utility.admob;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
@@ -8,6 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.aceviral.BannerInterface;
+import com.amazon.device.ads.AdError;
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdProperties;
+import com.amazon.device.ads.AdRegistration;
+import com.amazon.device.ads.AdTargetingOptions;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -26,13 +32,14 @@ import com.google.android.gms.ads.AdView;
  */
 public class AdMobManager extends AdListener implements BannerInterface
 {
-
 	private final Activity m_Activity;
 	private RelativeLayout m_MainLayout;
 	private LinearLayout m_AdMobLinearLayout;
 	private AdView m_AdmobView;
-	private static AdMobManager _Instance;
+	private AdLayout m_AmazonView;
+	//private static AdMobManager _Instance;
 	private String m_AdmobMediationKey;
+	private String m_AmazonKey;
 	private boolean adShowing;
 
 	private final String[] m_DeviceIDArray = new String[] { "73DD814A2C8FBFF9A8831D6ED45E3DF3", // who knows
@@ -46,16 +53,17 @@ public class AdMobManager extends AdListener implements BannerInterface
 
 
 	public AdMobManager(Activity activity) {
-		_Instance = this;
+		//_Instance = this;
 		m_Activity = activity;
 	}
 
-	public void setupAdvertsWithKey(final String key) {
-		m_AdmobMediationKey = key;
+	public void setupAdvertsWithKey(final String adMobkey,final String amazonKey) {
+		m_AdmobMediationKey = adMobkey;
+		m_AmazonKey = amazonKey;
 		m_Activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Log.v("AdMobManager", "Setting up AdMob adverts with key: " + key);
+				Log.v("AdMobManager", "Setting up AdMob adverts with key: " + adMobkey);
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
 				m_MainLayout = new RelativeLayout(m_Activity.getApplicationContext());
@@ -73,15 +81,75 @@ public class AdMobManager extends AdListener implements BannerInterface
 
 				// This function can potentially be called more than once so check for an
 				// existing admob view first.
-				if(m_AdmobView == null){
-					m_AdmobView = new AdView(m_Activity.getApplicationContext());
-					m_AdmobView.setAdUnitId(key);
-					m_AdmobView.setAdSize(AdSize.BANNER);
-					//m_AdmobView.loadAd();
+				
+				if(m_AmazonView == null)
+				{
+					AdRegistration.enableTesting(false);
+					AdRegistration.enableLogging(false);
+					com.amazon.device.ads.AdSize size = com.amazon.device.ads.AdSize.SIZE_320x50;
+					if(isKindleFire())
+					{
+						size = com.amazon.device.ads.AdSize.SIZE_600x90;
+					}
+					m_AmazonView = new AdLayout(m_Activity,size);
+					AdRegistration.setAppKey(m_AmazonKey);
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+							LinearLayout.LayoutParams.WRAP_CONTENT,
+							LinearLayout.LayoutParams.WRAP_CONTENT);
+					m_AmazonView.setLayoutParams(lp);
+	
+					m_AmazonView.loadAd(new AdTargetingOptions());
+	
+					m_AmazonView.setListener(new com.amazon.device.ads.AdListener() {
+						
+						@Override
+						public void onAdLoaded(AdLayout arg0, AdProperties arg1) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onAdFailedToLoad(AdLayout arg0, AdError arg1) {
+							// TODO Auto-generated method stub
+							showAdmob();
+						}
+						
+						@Override
+						public void onAdExpanded(AdLayout arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onAdCollapsed(AdLayout arg0) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
 				}
-				LoadNewAdvert();
+				
+				
 			}
 		});
+	}
+	
+	
+	public boolean isKindleFire()
+	{
+		return android.os.Build.MANUFACTURER.equals("Amazon") && (android.os.Build.MODEL.equals("Kindle Fire") || android.os.Build.MODEL.startsWith("KF"));
+	}
+	
+	private void showAdmob()
+	{
+		if(m_AdmobView == null){
+			m_AdmobView = new AdView(m_Activity.getApplicationContext());
+			m_AdmobView.setAdUnitId(m_AdmobMediationKey);
+			m_AdmobView.setAdSize(AdSize.BANNER);
+			m_AdmobView.setBackgroundColor(Color.BLACK);
+			//m_AdmobView.loadAd();
+		}
+		LoadNewAdvert();
+		
 	}
 
 	public void onDestroy()
@@ -99,15 +167,26 @@ public class AdMobManager extends AdListener implements BannerInterface
 		com.google.android.gms.ads.AdRequest adRequest = builder.build();
 		return adRequest;
 	}
+	
+	public void loadNewBannerAd()
+	{
+		LoadNewAdvert();
+	}
 
 	private void LoadNewAdvert(){
-		Log.v("AdMobManager", "Requesting new admob advert");
-		if(m_AdmobView != null){
-			m_AdmobView.loadAd(GenerateAdRequest());
-		} else {
-			Log.e("AdMobManager", "Admob View was null when trying to load a new advert");
-			recreateAdmobSystem();
-		}
+		
+		m_Activity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Log.v("AdMobManager", "Requesting new admob advert");
+				if(m_AdmobView != null){
+					m_AdmobView.loadAd(GenerateAdRequest());
+				} else {
+					Log.e("AdMobManager", "Admob View was null when trying to load a new advert");
+					recreateAdmobSystem();
+				}
+			};
+		});
 	}
 
 	public void setBannerAdConfiguration(int config) {
@@ -175,7 +254,10 @@ public class AdMobManager extends AdListener implements BannerInterface
 				try {
 					Log.v("AdMobManager", "Adding advert to view");
 					if(m_AdMobLinearLayout != null){
-						m_AdMobLinearLayout.addView(m_AdmobView);
+						if (m_AdmobView == null)
+							m_AdMobLinearLayout.addView(m_AmazonView);
+						else
+							m_AdMobLinearLayout.addView(m_AdmobView);
 					} else {
 						Log.e("AdMobManager", "AdMob Linear Layout was null when trying to show advert");
 						recreateAdmobSystem();
@@ -212,7 +294,7 @@ public class AdMobManager extends AdListener implements BannerInterface
 
 	private void recreateAdmobSystem(){
 		releaseAdmobViews();
-		setupAdvertsWithKey(m_AdmobMediationKey);
+		setupAdvertsWithKey(m_AdmobMediationKey,m_AmazonKey);
 	}
 
 	private void releaseAdmobViews(){
