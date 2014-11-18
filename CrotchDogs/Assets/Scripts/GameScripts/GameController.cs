@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 	public GameOverUI gameOverUI;
 
 	public GameObject PauseMenu;
+
 	//score information
 	public int combo=0, crotchesBitten=0, bitestaken=0,charactersEscaped=0,bitesMissed=0,m_FirstTouchIndex,crotchesMauled =0,bestCombo=0;
 	public float survivalTime = 0;
@@ -154,7 +155,7 @@ public class GameController : MonoBehaviour {
 						// Don't care about multi-touch. Just handle first finger
 						if (touchData.fingerId == m_FirstTouchIndex) 
 						{
-										Debug.Log(" crotch Bite with began touch!!! -=-=-=-=-=-= " + Input.touchCount  + " Phase " + touchData.phase);
+								//Debug.Log(" crotch Bite with began touch!!! -=-=-=-=-=-= " + Input.touchCount  + " Phase " + touchData.phase);
 								if(touchData.phase == TouchPhase.Began)
 								{
 									
@@ -193,10 +194,12 @@ public class GameController : MonoBehaviour {
 														if (lanes [laneIndex].Characters [charIndex].getCollider () == crotch) {
 
 																crotchesBittenFaceList.Add (lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().headRandom);
-																lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
-																biteCrotch (bite);
-
+																if (!lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().crotchBitten) {
+																		biteCrotch (bite);
+																		lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
+																}
 																removeCrotch.Add (crotch);
+
 														}
 												}
 

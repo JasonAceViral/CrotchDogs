@@ -9,8 +9,6 @@ public interface BannerInterface {
 	public void displayAdvert();
 
 	public void hideAdvert();
-	
-	public void loadNewBannerAd();
 
 	public int getAdvertHeight();
 	

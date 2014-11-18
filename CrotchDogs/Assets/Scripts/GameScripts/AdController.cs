@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using AceViral;
+
 
 public class AdController : MonoBehaviour {
 
@@ -18,8 +18,9 @@ public class AdController : MonoBehaviour {
 	
 	public void HideBanner()
 	{
-		Debug.Log ("hide banner");
+
 				if (enableAds) {
+						Debug.Log ("hide banner");
 						AVAdMobManager.Instance.HideBanner ();
 				}
 	}

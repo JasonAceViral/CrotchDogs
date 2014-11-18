@@ -337,11 +337,6 @@ public class GameHelper implements GoogleApiClient.ConnectionCallbacks,
     }
 
     /** Returns whether or not the user is signed in. */
-    public boolean isAvailable() {
-        return GooglePlayServicesUtil.isGooglePlayServicesAvailable(mAppContext) == ConnectionResult.SUCCESS;
-    }
-    
-    /** Returns whether or not the user is signed in. */
     public boolean isSignedIn() {
         return mGoogleApiClient != null && mGoogleApiClient.isConnected();
     }

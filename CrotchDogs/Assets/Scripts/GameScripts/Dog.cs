@@ -12,9 +12,21 @@ public class Dog : MonoBehaviour
 	public List<Collider> CrotchObjects;
 	public GameObject Jaws;
 	public GameObject EndPoint;
+	public GameObject dogCam;
+
+		public bool boundingDog;
+	//dogCam movement test
+		public bool MovingUp=false;
+
+		public Vector3 dogCamStartPos;
+	public float moveDistance = 10.0f;
+		public float MOVE_SPEED = 10.0f;
+
+		public float moveDiff;
 	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+	{
+		dogCamStartPos = dogCam.transform.position;
 		
 	}
 	
@@ -26,6 +38,31 @@ public class Dog : MonoBehaviour
 //				Vector3 difference =(DogTargetCollider.transform.position - CrotchObject.transform.position);
 //				Debug.Log("Difference " + difference );
 //		}	
+				if (boundingDog) 
+				{
+						//move hte dogCam Up
+						if (MovingUp) {
+								if (dogCam.transform.position.y <= (dogCamStartPos.y + moveDistance)) {
+								 
+										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y + (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
+										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
+								} else {
+										MovingUp = false;
+								}
+
+
+						} else {
+								if (dogCam.transform.position.y >= (dogCamStartPos.y - moveDistance)) {
+										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y - (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
+
+										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
+
+								} else {
+										MovingUp = true;
+								}
+						}
+				}
+
 	}
 		public void Reset()
 		{

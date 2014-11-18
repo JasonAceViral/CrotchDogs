@@ -11,6 +11,8 @@ public class ChaserController : MonoBehaviour {
 		private float timePast=0.0f,timeSinceChaserIncreased=0.0f;
 		private float moveChaserInterval=6.0f;
 
+		private const int ESCAPED_CHARACTER_INCREMENT = 4;
+
 		public void Maul()
 		{
 
@@ -36,7 +38,7 @@ public class ChaserController : MonoBehaviour {
 
 		public void Escaped()
 		{
-				chaserLocationIndex++;
+				chaserLocationIndex += ESCAPED_CHARACTER_INCREMENT;
 		}
 
 

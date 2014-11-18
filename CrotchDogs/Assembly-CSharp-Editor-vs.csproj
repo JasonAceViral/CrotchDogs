@@ -46,14 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\AVAndroidStrings.cs" />
-     <Compile Include="Assets\Editor\AVEclipseSettings.cs" />
      <Compile Include="Assets\Editor\AVEditorHelper.cs" />
-     <Compile Include="Assets\Editor\AVIOSPerformBuild.cs" />
-     <Compile Include="Assets\Editor\AVIconGenerator.cs" />
-     <Compile Include="Assets\Editor\AVInspector.cs" />
-     <Compile Include="Assets\Editor\AVTextureScale.cs" />
-     <Compile Include="Assets\Editor\AlignAndDistribute.cs" />
+     <Compile Include="Assets\Editor\IconGenerator.cs" />
+     <Compile Include="Assets\Editor\PerformBuild.cs" />
+     <Compile Include="Assets\Editor\TextureScale.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookPostprocess.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookSettingsEditor.cs" />
      <Compile Include="Assets\Facebook\Editor\android\FacebookAndroidUtil.cs" />
@@ -175,6 +171,7 @@
      <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
+     <None Include="Assets\Plugins\Android\res\values\version.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
@@ -196,7 +193,6 @@
      <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.Extensions.xml" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
-     <None Include="Assets\AVSharedScripts\Locallization\Resources\Localization\English.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
      <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
  <Reference Include="IFacebook">

@@ -1,5 +1,6 @@
 package com.aceviral.crotchdogs;
 
+
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.aceviral.VideoRewardInterface;
 import com.aceviral.activities.AVUnityActivity;
 import com.unity3d.player.UnityPlayer;
+
 
 public class UnityPlayerNativeActivity extends AVUnityActivity
 {
@@ -91,7 +94,13 @@ public class UnityPlayerNativeActivity extends AVUnityActivity
 
 	@Override
 	public String getAnalyticsID() {
-		return getString(R.string.ga_trackingId);
+		return  getString(R.string.ga_trackingId);
+	}
+
+	@Override
+	public VideoRewardInterface getVideoRewardManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

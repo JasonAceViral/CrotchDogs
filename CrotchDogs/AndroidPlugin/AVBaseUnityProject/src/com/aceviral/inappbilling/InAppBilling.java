@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.aceviral.BillingInterface;
@@ -77,26 +74,22 @@ public class InAppBilling implements BillingInterface
 	}
 
 	public void restorePurchases(){
-
 		inAppActivity.runOnUiThread(new RestorePurchaseThread());
 	}
 
 	public void requestPurchasePrices()
 	{
-		
 		if(m_IAPPrices.isEmpty())
 		{
-			inAppActivity.runOnUiThread(new ResquestPricesThread());
-			return;
+			inAppActivity.runOnUiThread(new RestorePurchaseThread());
 		}
-		
 		
 		Set<String> keySet = m_IAPPrices.keySet();
 		for(String s : keySet){
 			UnityPlayer.UnitySendMessage("AVInAppUnity", "OnPurchaseDataReceived", s + "#" + m_IAPPrices.get(s));
 		}
 	}
-	
+
 	private boolean skuKeyIsManaged(String sku) {
 
 		return m_ManagedSkuList.contains(sku);
@@ -132,76 +125,6 @@ public class InAppBilling implements BillingInterface
 			mHelper.queryInventoryAsync(true, m_SkuList, mGotInventoryListener);
 		}
 	}
-	
-	private final class ResquestPricesThread implements Runnable {
-		@Override
-		public void run() {
-			try
-			{
-			ArrayList<String> skuList = new ArrayList<String> ();
-			skuList.add("premiumUpgrade");
-			skuList.add("gas");
-			
-			for(int i = 0 ; i< m_SkuList.size() ; i++)
-			{
-				skuList.add(m_SkuList.get(i));
-			}
-			
-			Bundle querySkus = new Bundle();
-			querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-			
-			Bundle skuDetails = mHelper.mService.getSkuDetails(3, inAppActivity.getPackageName(), "inapp", querySkus);
-			
-			int response = skuDetails.getInt("RESPONSE_CODE");
-			if (response == 0) {
-			   ArrayList<String> responseList
-			      = skuDetails.getStringArrayList("DETAILS_LIST");
-			   
-			   for (String thisResponse : responseList) {
-			      JSONObject object = new JSONObject(thisResponse);
-			      String sku = object.getString("productId");
-			      String price = object.getString("price");
-			      UnityPlayer.UnitySendMessage("AVInAppUnity", "OnPurchaseDataReceived", sku + "#" + price);
-			      //if (sku.equals("premiumUpgrade")) mPremiumUpgradePrice = price;
-			      //else if (sku.equals("gas")) mGasPrice = price;
-			   }
-			}
-			else
-			{
-				Log.v("IAP", "IAP didn't work");
-			}
-			
-			
-//			Inventory inventory = new Inventory();
-//			for(int i = 0 ; i< m_SkuList.size() ; i++)
-//			{
-//				mHelper.querySkuDetails(m_SkuList.get(i), inventory, m_SkuList);
-//			}
-//			
-//			for (String s : m_SkuList) {
-//				try {
-//					SkuDetails deets = inventory.getSkuDetails(s);
-//					if (deets != null) {
-//						String price = deets.getPrice();
-//						if (price.equals("")) {
-//							whinge("Price for " + s + " was null");
-//						} else {
-//							m_IAPPrices.put(s, price);
-//							UnityPlayer.UnitySendMessage("AVInAppUnity", "OnPurchaseDataReceived", s + "#" + price);
-//						}
-//					} else {
-//						whinge("Details for SKU ["+s+"] were null");
-//					}
-//
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-			}
-			catch(Exception e){e.printStackTrace();}
-		}
-	}
-
 
 
 	// call in main activitys on create, will check for what items are owned and
@@ -240,6 +163,11 @@ public class InAppBilling implements BillingInterface
 			if (result.isFailure()) {
 				whinge("Failed to query current inventory");
 				return;
+			}
+			
+			Set<String> keySet = m_IAPPrices.keySet();
+			for(String s : keySet){
+				
 			}
 
 			for (String s : m_SkuList) {

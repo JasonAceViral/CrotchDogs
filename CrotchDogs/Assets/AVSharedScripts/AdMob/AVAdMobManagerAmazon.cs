@@ -1,43 +1,54 @@
 using UnityEngine;
 using System.Collections;
-using AceViral;
 
-namespace AVHiddenInterface {
-	public class AVAdMobManagerAmazon : AVAdMobManager
+public class AVAdMobManagerAmazon : AVAdMobManager
+{
+	public override void OnStart ()
 	{
-		public override void OnStart ()
-		{
-            AndroidInterface.Banners.SetKey (AppConstants.Amazon.AdMobBannerKey, AppConstants.Amazon.AmazonAdsKey);	
-		}
+        AVAndroidInterface.Banners.SetKey (AVAppConstants.AmazonAdMobKey);	
+	}
 
-	    public override void ShowBanner ()
-	    {
-	        if (!IsAdvertShowing ()) {
-                AndroidInterface.Banners.ShowAdvert ();
-	            AndroidInterface.Banners.SetBannerAdConfiguration((int)m_BannerConfig);
-	            m_ShowingAdvert = true;
-	        }
+	public override void OnStartWithKey(string key)
+	{
+		AVAndroidInterface.Banners.SetKey (key);	
+	}
 
-            if (RefreshAdOnShow)
-                LoadNewBanner();
-	    }
-
-        public override void LoadNewBanner()
-        {
-            AndroidInterface.Banners.LoadNewAdvert();
+    public override void ShowBanner ()
+    {
+        if (!IsAdvertShowing ()) {
+            AVAndroidInterface.Banners.LoadNewAdvert ();
+            AVAndroidInterface.Banners.SetBannerAdConfiguration((int)m_BannerConfig);
+            m_ShowingAdvert = true;
         }
+    }
 
-	    public override void HideBanner ()
-		{
-			if (IsAdvertShowing ()) {
-				AndroidInterface.Banners.HideAdvert ();
-				m_ShowingAdvert = false;
-			}
+    public override void HideBanner ()
+	{
+		if (IsAdvertShowing ()) {
+			AVAndroidInterface.Banners.HideAdvert ();
+			m_ShowingAdvert = false;
 		}
+	}
 
-		public override int GetAdvertHeight ()
-		{
-			return AndroidInterface.Banners.GetAdHeight ();
-		}
+	public override int GetAdvertHeight ()
+	{
+		return AVAndroidInterface.Banners.GetAdHeight ();
+	}
+
+	// Interstitials
+
+	public override void CreateAdMobInterstitials ()
+	{
+        AVAndroidInterface.Interstitials.CreateAdMobInterstitialsWithKey (AVAppConstants.AmazonAdMobInterstitialKey);
+	}
+
+	public override bool IsAdMobInterstitialReady ()
+	{
+        return AVAndroidInterface.Interstitials.IsAdMobInterstitialReady ();
+	}
+
+	public override void ShowAbMobIntersitial ()
+	{
+        AVAndroidInterface.Interstitials.ShowAbMobIntersitial ();
 	}
 }

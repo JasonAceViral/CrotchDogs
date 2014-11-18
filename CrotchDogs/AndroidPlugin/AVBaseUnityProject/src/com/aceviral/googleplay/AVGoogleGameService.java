@@ -1,8 +1,5 @@
 package com.aceviral.googleplay;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,9 +8,9 @@ import android.content.Intent;
 
 import com.aceviral.GameServicesInterface;
 import com.google.android.gms.appstate.AppStateManager;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.unity3d.player.UnityPlayer;
+import com.aceviral.googleplay.LoadHandler;
 
 public class AVGoogleGameService implements GameHelper.GameHelperListener,GameServicesInterface
 {
@@ -54,6 +51,7 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 
 	}
 	
+
 	protected AVGoogleGameService(Context cont, Activity act,
 			int requestedClients)
 	{
@@ -68,8 +66,6 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 		mAdditionalScopes = additionalScopes;
 	}
 
-	// Public methods
-	
 	public void onStart()
 	{
 		mHelper.onStart(activity);
@@ -84,11 +80,21 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 	{
 		mHelper.onActivityResult(request, response, data);
 	}
-	
-	public boolean isAvailable()
-	{
-		return mHelper.isAvailable();
-	}
+
+//	protected GamesClient getGamesClient()
+//	{
+//		return mHelper.getGamesClient();
+//	}
+//
+//	protected AppStateClient getAppStateClient()
+//	{
+//		return mHelper.getAppStateClient();
+//	}
+//
+//	protected PlusClient getPlusClient()
+//	{
+//		return mHelper.getPlusClient();
+//	}
 
 	public boolean isSignedIn()
 	{
@@ -106,238 +112,16 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 		mHelper.signOut();
 		canUseAchievements = false;
 	}
-	
-	public void showAchievements()
-	{
-		if (canUseAchievements)
-		{
-			activity.startActivityForResult(
-					Games.Achievements.getAchievementsIntent(mHelper.getApiClient()),REQUEST_ACHIEVEMENTS);
-		}
-	}
-	
-	public void showLeaderboards()
-	{
-		if (canUseAchievements)
-		{
-			activity.startActivityForResult(
-					Games.Leaderboards.getAllLeaderboardsIntent(mHelper.getApiClient()),REQUEST_ACHIEVEMENTS);
-		}
-	}
-	
-	public void showLeaderboard(String leaderboardId)
-	{
-		if (canUseAchievements)
-		{
-			activity.startActivityForResult(
-					Games.Leaderboards.getLeaderboardIntent(mHelper.getApiClient(),leaderboardId),REQUEST_ACHIEVEMENTS);
-		}
-	}
-	
-	public void updateAchievement(String achievementId, float progress, int steps)
-	{
-		if (canUseAchievements)
-		{
-			if(progress >= 1f)
-				Games.Achievements.unlock(mHelper.getApiClient(), achievementId);
-			else if(steps > 0)
-				Games.Achievements.increment(mHelper.getApiClient(), achievementId, steps);
-		}
-	}
 
-	public void updateLeaderboard(String leaderboardId, float score)
-	{
-		if (canUseAchievements && score > 0)
-		{
-			Games.Leaderboards.submitScore(mHelper.getApiClient(), leaderboardId, (long)score);
-		}
-	}
-
-	// ////////////////
-	// Cloud Storage
-	// ////////////////
-	
-	private HashMap<String, String> cloudCache;
-	private final int cloudStateKey = 0;
-	private boolean cloudCanSave = false;
-	
-	public boolean cloudIsAvailable() {
-		return mHelper.isAvailable();
-	}
-
-	@Override
-	public void cloudFetchData() {
-		AppStateManager.load(mHelper.getApiClient(), cloudStateKey).setResultCallback(new ResultCallback<AppStateManager.StateResult>() {
-			@Override
-			public void onResult(AppStateManager.StateResult result) {
-				AppStateManager.StateConflictResult conflictResult = result.getConflictResult();
-				AppStateManager.StateLoadedResult loadedResult = result.getLoadedResult();
-				if (loadedResult != null) {
-					processStateLoaded(loadedResult);
-				} else if (conflictResult != null) {
-					processStateConflict(conflictResult);
-				}
-			}
-		});
-	}
-
-	private void processStateConflict(final AppStateManager.StateConflictResult result) {
-		// Need to resolve conflict between the two states.
-		// In this example, we use the resolution strategy of taking the union
-		// of the two sets of cleared levels, which means preserving the
-		// maximum star rating of each cleared level:
-		byte[] serverData = result.getServerData();
-		// byte[] localData = result.getLocalData();
-
-		// String localGame = new String(localData);
-		final String serverGame = new String(serverData);
-
-		activity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-				builder.setTitle("Save Data Conflict");
-				builder.setMessage("A conflict has been detected with the cloud save, please select which version to proceed with.").setCancelable(false).setNegativeButton("Local", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						AppStateManager.resolve(mHelper.getApiClient(), cloudStateKey, result.getResolvedVersion(), getFormattedCloudDataString().getBytes());
-						InformUnityCloudHasUpdated();
-
-						cloudCanSave = true;
-						dialog.cancel();
-					}
-				}).setPositiveButton("Cloud", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						AppStateManager.resolve(mHelper.getApiClient(), cloudStateKey, result.getResolvedVersion(), serverGame.getBytes());
-						processLoadedCloudData(serverGame);
-						InformUnityCloudHasUpdated();
-
-						cloudCanSave = true;
-						dialog.cancel();
-					}
-				}).setCancelable(false);
-				AlertDialog alert = builder.create();
-				try {
-					alert.show();
-				} catch (Exception e) {
-					AppStateManager.resolve(mHelper.getApiClient(), cloudStateKey, result.getResolvedVersion(), serverGame.getBytes());
-					processLoadedCloudData(serverGame);
-					InformUnityCloudHasUpdated();
-					cloudCanSave = true;
-				}
-			}
-		});
-
-		// SaveGame resolvedGame = localGame.unionWith(serverGame);
-		// AppStateManager.resolve(mHelper.getApiClient(), result.getStateKey(),
-		// result.getResolvedVersion(), resolvedGame.toBytes());
-	}
-
-	private void processStateLoaded(AppStateManager.StateLoadedResult result) {
-		System.out.println(result);
-		if (result.getLocalData() != null && result.getLocalData().length > 0) {
-			String data = new String(result.getLocalData());
-			processLoadedCloudData(data);
-		} else {
-			System.out.println("AV error loading there was nothing");
-		}
-		cloudCanSave = true;
-
-		InformUnityCloudHasUpdated();
-	}
-
-	private void processLoadedCloudData(String data) {
-		if (cloudCache != null) {
-			cloudCache.clear();
-			cloudCache = null;
-		}
-
-		if (data == null || data.length() == 0) {
-			return;
-		}
-
-		cloudCache = new HashMap<String, String>();
-		String[] allKeyValues = data.split("\\|_\\|");
-
-		for (int i = 0; i < allKeyValues.length; i++) {
-			String[] keyData = allKeyValues[i].split("\\|-\\|");
-			if (keyData.length == 2) {
-				cloudCache.put(keyData[0], keyData[1]);
-			}
-		}
-	}
-
-	// User interface
-
-	@Override
-	public String cloudLoadAllData() {
-		return getFormattedCloudDataString();
-	}
-
-	@Override
-	public String cloudLoadKey(String key) {
-		if (cloudCache != null && cloudCache.containsKey(key))
-			return cloudCache.get(key);
-		return "";
-	}
-
-	@Override
-	public void cloudSaveDictionaryData(String dictData) {
-		if (cloudCache == null) {
-			cloudCache = new HashMap<String, String>();
-		}
-
-		String[] allKeyValues = dictData.split("\\|_\\|");
-
-		for (int i = 0; i < allKeyValues.length; i++) {
-			String[] keyData = allKeyValues[i].split("\\|-\\|");
-			if (keyData.length == 2) {
-				cloudCache.put(keyData[0], keyData[1]);
-			}
-		}
-	}
-
-	@Override
-	public void cloudSaveKey(String key, String data) {
-		if (cloudCache == null) {
-			cloudCache = new HashMap<String, String>();
-		}
-
-		cloudCache.put(key, data);
-	}
-
-	@Override
-	public void cloudSynchronize() {
-		if (cloudCanSave) {
-			String parseData = getFormattedCloudDataString();
-
-			byte[] data = parseData.getBytes();
-			AppStateManager.update(mHelper.getApiClient(), cloudStateKey, data);
-		}
-	}
-
-	private String getFormattedCloudDataString() {
-		if (cloudCache == null)
-			return "";
-
-		String parseData = "";
-
-		for (Map.Entry<String, String> entry : cloudCache.entrySet()) {
-			if (parseData.length() > 0) {
-				parseData += "|_|";
-			}
-
-			parseData += entry.getKey() + "|-|" + entry.getValue();
-		}
-		return parseData;
-	}
-
-	private void InformUnityCloudHasUpdated() {
-		UnityPlayer.UnitySendMessage("AVCloudManager", "CloudUpdateAvailable", "");
-	}
-	
-	// Non-Public methods
+//	protected void showAlert(String title, String message)
+//	{
+//		mHelper.showAlert(title, message);
+//	}
+//
+//	protected void showAlert(String message)
+//	{
+//		mHelper.showAlert(message);
+//	}
 
 	protected void enableDebugLog(boolean enabled, String tag)
 	{
@@ -353,6 +137,21 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 	{
 		return mHelper.getInvitationId();
 	}
+
+//	protected void reconnectClients(int whichClients)
+//	{
+//		mHelper.reconnectClients(whichClients);
+//	}
+
+//	protected String getScopes()
+//	{
+//		return mHelper.getScopes();
+//	}
+
+//	protected String[] getScopesArray()
+//	{
+//		return mHelper.getScopesArray();
+//	}
 
 	protected boolean hasSignInError()
 	{
@@ -370,7 +169,7 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 		// TODO Auto-generated method stub
 		System.out.println("SIGN IN FAILED");
 		canUseAchievements = false;
-		UnityPlayer.UnitySendMessage("AVGameServicesInterface", "SignInComplete", "failure");
+		UnityPlayer.UnitySendMessage("AVGooglePlayInterface", "SignInComplete", "false");
 	}
 
 	@Override
@@ -381,6 +180,165 @@ public class AVGoogleGameService implements GameHelper.GameHelperListener,GameSe
 		canUseAchievements = true;
 
 		//game.getBase().checkPreviouslyAchievedAchievements();
-		UnityPlayer.UnitySendMessage("AVGameServicesInterface", "SignInComplete", "success");
+		UnityPlayer.UnitySendMessage("AVGooglePlayInterface", "SignInComplete", "true");
 	}
+
+	public void unlockAchievement(String achievementId)
+	{
+		if (canUseAchievements)
+		{
+			Games.Achievements.unlock(mHelper.getApiClient(), achievementId);
+			//mHelper.mGamesClient.unlockAchievement(achievementId);
+		}
+	}
+
+	public void incrementAchievement(String achievementId, int numSteps)
+	{
+		if (canUseAchievements && numSteps > 0)
+		{
+			Games.Achievements.increment(mHelper.getApiClient(), achievementId, numSteps);
+			//mHelper.mGamesClient.incrementAchievement(achievementId, numSteps);
+		}
+
+	}
+
+	public void showAchievements()
+	{
+		if (canUseAchievements)
+		{
+			activity.startActivityForResult(
+					Games.Achievements.getAchievementsIntent(mHelper.getApiClient()),REQUEST_ACHIEVEMENTS);
+					//mHelper.mGamesClient.getAchievementsIntent(),
+					//REQUEST_ACHIEVEMENTS);
+		}
+	}
+
+	public void updateLeaderboard(String leaderboardId, float score)
+	{
+		if (canUseAchievements && score > 0)
+		{
+			Games.Leaderboards.submitScore(mHelper.getApiClient(), leaderboardId, (long)score);
+		}
+	}
+
+	public void showLeaderboard(String leaderboardId)
+	{
+		if (canUseAchievements)
+		{
+			activity.startActivityForResult(
+					Games.Leaderboards.getLeaderboardIntent(mHelper.getApiClient(),leaderboardId),REQUEST_ACHIEVEMENTS);
+		}
+	}
+
+	public void showLeaderboards()
+	{
+		if (canUseAchievements)
+		{
+			activity.startActivityForResult(
+					Games.Leaderboards.getAllLeaderboardsIntent(mHelper.getApiClient()),REQUEST_ACHIEVEMENTS);
+					//mHelper.mGamesClient.getAllLeaderboardsIntent(),
+					//REQUEST_LEADERBOARDS);
+		}
+	}
+	
+	public void load(final String currentData, final LoadHandler loadHandler)
+	{
+//		AppStateManager.load(mHelper.getApiClient(), key).setResultCallback(new ResultCallback<AppStateManager.StateResult>()
+//		{
+//
+//			@Override
+//			public void onResult(AppStateManager.StateResult result)
+//			{
+//				AppStateManager.StateConflictResult conflictResult = result.getConflictResult();
+//				AppStateManager.StateLoadedResult loadedResult = result.getLoadedResult();
+//				if (loadedResult != null)
+//				{
+//					processStateLoaded(loadedResult, loadHandler);
+//				}
+//				else if (conflictResult != null)
+//				{
+//					processStateConflict(conflictResult, currentData, loadHandler);
+//				}
+//			}
+//		});
+	}
+
+	private void processStateConflict(final AppStateManager.StateConflictResult result, final String localGame, final LoadHandler loadHandler)
+	{
+//		// Need to resolve conflict between the two states.
+//		// In this example, we use the resolution strategy of taking the union
+//		// of the two sets of cleared levels, which means preserving the
+//		// maximum star rating of each cleared level:
+//		byte[] serverData = result.getServerData();
+//		// byte[] localData = result.getLocalData();
+//
+//		// String localGame = new String(localData);
+//		final String serverGame = new String(serverData);
+//
+//		activity.runOnUiThread(new Runnable()
+//		{
+//			@Override
+//			public void run()
+//			{
+//				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//				builder.setTitle("Save Data Conflict");
+//				builder.setMessage("A conflict has been detected with the cloud save, please select which version to proceed with.").setCancelable(false).setNegativeButton("Local", new DialogInterface.OnClickListener()
+//				{
+//					@Override
+//					public void onClick(DialogInterface dialog, int id)
+//					{
+//						AppStateManager.resolve(mHelper.getApiClient(), key, result.getResolvedVersion(), localGame.getBytes());
+//						loadHandler.onLoad(localGame);
+//
+//						canSave = true;
+//						dialog.cancel();
+//					}
+//				}).setPositiveButton("Cloud", new DialogInterface.OnClickListener()
+//				{
+//					@Override
+//					public void onClick(DialogInterface dialog, int id)
+//					{
+//						AppStateManager.resolve(mHelper.getApiClient(), key, result.getResolvedVersion(), serverGame.getBytes());
+//						loadHandler.onLoad(serverGame);
+//
+//						canSave = true;
+//						dialog.cancel();
+//					}
+//				});
+//				AlertDialog alert = builder.create();
+//				try
+//				{
+//					alert.show();
+//				}
+//				catch (Exception e)
+//				{
+//					AppStateManager.resolve(mHelper.getApiClient(), key, result.getResolvedVersion(), serverGame.getBytes());
+//					loadHandler.onLoad(serverGame);
+//					canSave = true;
+//				}
+//			}
+//		});
+//
+//		// SaveGame resolvedGame = localGame.unionWith(serverGame);
+//		// AppStateManager.resolve(mHelper.getApiClient(), result.getStateKey(),
+//		// result.getResolvedVersion(), resolvedGame.toBytes());
+	}
+
+	private void processStateLoaded(AppStateManager.StateLoadedResult result, LoadHandler loadHandler)
+	{
+		String data = new String(result.getLocalData());
+		loadHandler.onLoad(data);
+	}
+
+	public void Save(String saveJSON)
+	{
+//		if (canSave)
+//		{
+//		byte[] data = saveJSON.getBytes();
+//		AppStateManager.update(mHelper.getApiClient(), key, data);
+//		}
+	}
+
+
+
 }

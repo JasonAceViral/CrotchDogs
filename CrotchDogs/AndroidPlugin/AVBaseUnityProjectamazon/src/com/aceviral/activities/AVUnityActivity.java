@@ -20,6 +20,7 @@ import com.aceviral.analytics.AndroidGoogleAnalyitics;
 import com.aceviral.houseads.AmazonHouseAds;
 import com.aceviral.houseads.GoogleHouseAds;
 import com.aceviral.inappbilling.AVAmazonBillingManager;
+import com.aceviral.utility.AVFacebook;
 import com.aceviral.utility.admob.AdMobInterstitial;
 import com.aceviral.utility.admob.AdMobManager;
 
@@ -28,14 +29,13 @@ public abstract class AVUnityActivity extends NativeActivity {
 	public static AVUnityActivity CurrentInstance;
 
 
+	private SocialInterface socialManager;
 	private BannerInterface bannerManager;
 	private InterstitialInterface interstitialManager;
-	private InterstitialInterface videoManager;
 	private AnalyticsInterface analyticsManager;
 	private BillingInterface billingManager;
 	private HouseAdInterface houseAdManager;	
 	private GameServicesInterface gameServicesManager;
-
 
 	// ################################################
 	// Activity Overrides
@@ -43,27 +43,12 @@ public abstract class AVUnityActivity extends NativeActivity {
 		
 	public BannerInterface getBannerManager()
 	{
-		if(bannerManager == null) {
-			bannerManager = new AdMobManager(this);
-		}
 		return bannerManager;
 	}
 	
 	public InterstitialInterface getInterstitialManager()
 	{
-		if(interstitialManager == null) {
-			interstitialManager = new AdMobInterstitial(this);
-		}
 		return interstitialManager;
-	}
-	
-	public InterstitialInterface getVideoManager()
-	{
-		if(videoManager == null) {
-			videoManager = new AdMobInterstitial(this);
-			videoManager.setInterstitialTypeIsVideo(true);
-		}
-		return videoManager;
 	}
 	
 	public AnalyticsInterface getAnalyticsManager()
@@ -103,21 +88,32 @@ public abstract class AVUnityActivity extends NativeActivity {
 		return houseAdManager;
 	}
 	
+	public SocialInterface getSocialManager()
+	{
+		return socialManager;
+	}
+	
 	public abstract String getFacebookID();
 	public abstract String getAnalyticsID();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.v("AV","onCreate");
 		CurrentInstance = this;
 		super.onCreate(savedInstanceState);
-
+		socialManager = new AVFacebook(this,getFacebookID());
+				
+		interstitialManager = new AdMobInterstitial(this);
+		bannerManager = new AdMobManager(this);
 		analyticsManager = new AndroidGoogleAnalyitics(this, this, getAnalyticsID());//TODO getString(R.string.ga_trackingId));
+		
 		gameServicesManager = new AmazonGameCircle(this);		
 	}
 
 	
 	@Override
 	public void onDestroy() {
+		Log.v("AV","onDestroy");
 		bannerManager.onDestroy();
 		if(billingManager != null)
 		{
@@ -133,12 +129,14 @@ public abstract class AVUnityActivity extends NativeActivity {
 			billingManager.onActivityResult(requestCode, resultCode, data) ;
 		} 
 		super.onActivityResult(requestCode, resultCode, data);
+		socialManager.onActivityResult(requestCode, resultCode, data);
 		gameServicesManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+		socialManager.onStart();
 		analyticsManager.applicationStart();
 		gameServicesManager.onStart();
 		if(billingManager != null)
@@ -159,6 +157,8 @@ public abstract class AVUnityActivity extends NativeActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		Log.v("AV","onStop");
+		socialManager.onStop();
 		analyticsManager.applicationStop();
 		gameServicesManager.onStop();
 	}

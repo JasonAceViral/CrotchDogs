@@ -136,8 +136,10 @@ public class GameOverUI : MonoBehaviour {
 		}
 
 		if (GameController.Instance.crotchesBittenFaceList.Count == 0) {
+				face01.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
 				movingFace01 = false;
 		} else {
+						face01.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 				movingFace01 = true;
 		}
 	
@@ -232,7 +234,7 @@ public class GameOverUI : MonoBehaviour {
 						}
 						else  // reset legs 
 						{
-								showEscapedIndex++;
+							
 								SoundManager.PlaySwoosh();
 								CharactersEscapedLabel.text = "Crotches Escaped: " + showEscapedIndex;
 								//if ran out of victims to show
@@ -248,6 +250,7 @@ public class GameOverUI : MonoBehaviour {
 										Legs01.gameObject.transform.position = new Vector3 (Legs01.gameObject.transform.position.x,	SpawnLegLocation.transform.position.y,	Legs01.gameObject.transform.position.z);
 										Legs01.SetSprite (Character.LEGS_SPRITE + GameController.Instance.crotchesEscapedLegList[showEscapedIndex] );
 								}
+								showEscapedIndex++;
 						}
 				}
 		}
@@ -256,7 +259,7 @@ public class GameOverUI : MonoBehaviour {
 		void UpdateNemesis()
 		{
 				float opacity = crotchNemesis.color.a;
-				Debug.Log ("nemisis " + opacity);
+
 				if (opacity < 1.0f) 
 				{
 						opacity += Time.deltaTime;
@@ -276,70 +279,25 @@ public class GameOverUI : MonoBehaviour {
 				showingNemesis = false;
 				crotchNemesis.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
 
-				int crotchType1 = 0, crotchType2 = 0, crotchType3 = 0, crotchType4 = 0;
-				 
-			
-				for (int i = 0; i < GameController.Instance.crotchesBittenFaceList.Count; i++) 
-				{
-
-						switch( GameController.Instance.crotchesBittenFaceList[i])
-						{
-							case 1: crotchType1++; break;
-							case 2: crotchType2++; break;
-							case 3: crotchType3++; break;
-							case 4: crotchType4++; break;
-							default:Debug.Log ("STRANGE CROTCH TYPE");break;
-						}
-				}
-
-
 				int greaterCrotch = 0;
-				//crotchtype 1 is greater
-				if (crotchType1 > crotchType2) 
+				int[] crotchTypeCount = new int[CrotchDogConstants.NUM_OF_CHARACTERS];
+			
+				for (int i = 0; i < GameController.Instance.crotchesEscapedLegList.Count; i++) 
 				{
-						//crotch 3 greater
-						if (crotchType3 > crotchType4) 
+
+						crotchTypeCount [GameController.Instance.crotchesEscapedLegList [i]-1]++;
+				}
+
+				int crotchAmount = 0;
+				for (int i = 0; i < crotchTypeCount.Length; i++) 
+				{
+						if (crotchTypeCount [i] > crotchAmount) 
 						{
-								if (crotchType3 > crotchType1) {
-										greaterCrotch = 3;
-								} else {
-										greaterCrotch = 1;
-								}
+								crotchAmount = crotchTypeCount [i];
+								greaterCrotch = i+1;
 						}
-						else 
-						{
-								if (crotchType4 > crotchType1) {
-										greaterCrotch = 4;
-								} else 
-								{
-										greaterCrotch = 1;
-								}
+				}
 						
-						}
-				}
-				else  // crotch 2 is greater
-				{
-						//crotch 3 greater
-						if (crotchType3 > crotchType4) 
-						{
-								if (crotchType3 > crotchType2) {
-										greaterCrotch = 3;
-								} else {
-										greaterCrotch = 2;
-								}
-						}
-						else 
-						{
-								if (crotchType4 > crotchType2) 
-								{
-										greaterCrotch = 4;
-								}else {
-										greaterCrotch = 2;
-								}
-
-						}
-				}
-
 
 				crotchNemesis.SetSprite (Character.LEGS_SPRITE + greaterCrotch);
 		}
