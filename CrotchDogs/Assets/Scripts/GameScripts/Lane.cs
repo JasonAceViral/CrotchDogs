@@ -5,9 +5,10 @@ using System.Collections.Generic;
 public class Lane : MonoBehaviour {
 	
 		public GameObject spawnPoint,resetPoint;
-		public GameObject Ground;
+		public GameObject GroundStart;
 		public float characterSpeed = CrotchDogConstants.CHARACTER_SPEED;
 		public List<Character> Characters;
+		public List<GameObject> groundPlane;
 
 		public const float TIME_STEP = 0.016666667f;
 		public void Awake()
@@ -36,6 +37,26 @@ public class Lane : MonoBehaviour {
 												character.gameObject.transform.position = spawnPoint.transform.position;
 										}
 
+								}
+						}
+						GameObject ground;
+						for (int i=0; i < groundPlane.Count ; i++)  
+						{
+								ground = groundPlane[i];
+
+								if (ground.transform.position.z > resetPoint.transform.position.z) 
+								{
+									ground.transform.position = new Vector3 (ground.transform.position.x, ground.transform.position.y, ground.transform.position.z + characterSpeed * TIME_STEP);
+								}
+								else 
+								{
+										if (i == 0) {
+												ground.transform.position = GroundStart.transform.position;
+										}
+										else 
+										{
+												ground.transform.position = new Vector3 (ground.transform.position.x,ground.transform.position.y,groundPlane[i-1].transform.position.z +10);
+										}
 								}
 						}
 				}
@@ -99,12 +120,18 @@ public class Lane : MonoBehaviour {
 
 		}
 
-		public void increaseSpeed(float newSpeed)
+		public void SetSpeed(float newSpeed)
 		{
 				characterSpeed = newSpeed;
 				foreach(Character character in Characters)
 				{
 						character.SetSpeed (characterSpeed);
 				}
+
+
+//				foreach (ScrollingUVs scroller in groundPlane) 
+//				{
+//						scroller.uvAnimationRate = new Vector2 (0,((newSpeed/10.0f)));
+//				}
 		}
 }

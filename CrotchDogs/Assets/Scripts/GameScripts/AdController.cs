@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using AceViral;
 
 public class AdController : MonoBehaviour {
 
@@ -9,6 +9,8 @@ public class AdController : MonoBehaviour {
 	void Awake()
 	{
 		Instance = this;
+		Debug.Log ("Init FB");
+		AVFacebook.Instance.Initialize ();
 	}
 	// Use this for initialization
 	void Start () 

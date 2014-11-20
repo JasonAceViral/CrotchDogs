@@ -96,13 +96,13 @@ public class MovingText : MonoBehaviour {
 				{
 						switch (showType) {
 						case InfoType.BITE:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("bitewordBITE");
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordbite");
 								break;
 						case InfoType.MAUL:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("bitewordMAUL");
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordmaul");
 								break;
 						case InfoType.MISS:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("bitewordMISS");
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordmiss");
 								break;
 						case InfoType.DOMESTICATED:
 								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank1");

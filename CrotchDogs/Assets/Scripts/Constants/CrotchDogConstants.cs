@@ -11,7 +11,7 @@
 		public const float POINTS_MOVE_SPEED = 0.25f;
 
 		public const float CHASER_INCREMENT = 0.1f,DOG_INCREMENT=0.1f;
-		public const float CHARACTER_SPEED = -10.0f;
+		public const float CHARACTER_SPEED = -10.0f, CHARACTER_POWER_UP_SPEED = -15.0f;
 		//Spawn Intervals
 		public const float MIN_SPAWN_INTERVAL=0.6f,MAX_SPAWN_INTERVAL=3.0f;
 		public const float DECREASE_SPAWN_INTERVAL=0.1f,TIME_TILL_DECREASE=5.0f;
@@ -34,5 +34,8 @@
 
 		//Scores
 		public const int SCORE_MISSES = -5, SCORE_BITE = 15, SCORE_MAUL = 20,SCORE_ESCAPED = -10,SCORE_COMBO = 20;
+
+		//Power Ups
+		public const float POWER_UP_LASTS = 5.0f;
 
 }

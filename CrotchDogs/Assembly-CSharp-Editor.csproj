@@ -46,7 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\AVAndroidStrings.cs" />
+     <Compile Include="Assets\Editor\AVEclipseSettings.cs" />
      <Compile Include="Assets\Editor\AVEditorHelper.cs" />
+     <Compile Include="Assets\Editor\AVIOSPerformBuild.cs" />
+     <Compile Include="Assets\Editor\AVIconGenerator.cs" />
+     <Compile Include="Assets\Editor\AVInspector.cs" />
+     <Compile Include="Assets\Editor\AVTextureScale.cs" />
+     <Compile Include="Assets\Editor\AlignAndDistribute.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookPostprocess.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookSettingsEditor.cs" />
      <Compile Include="Assets\Facebook\Editor\android\FacebookAndroidUtil.cs" />
@@ -167,6 +174,7 @@
      <None Include="Assets\Plugins\WP8\Microsoft.Threading.Tasks.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
+     <None Include="Assets\AVSharedScripts\Locallization\Resources\Localization\English.xml" />
      <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
      <None Include="Assets\Plugins\Android\res\values\version.xml" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />

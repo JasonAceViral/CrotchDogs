@@ -62,7 +62,9 @@ public class Character : MonoBehaviour {
 				else
 				{
 
-
+						headRandom = characterType;
+						bodyRandom = characterType;
+						legsRandom = characterType;
 						head.GetComponent<tk2dSprite> ().SetSprite (HEAD_SPRITE + characterType);
 						body.GetComponent<tk2dSprite> ().SetSprite (BODY_SPRITE + characterType);
 						legs.GetComponent<tk2dSprite> ().SetSprite (LEGS_SPRITE + characterType);

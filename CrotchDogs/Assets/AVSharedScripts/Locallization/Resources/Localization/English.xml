@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+		<AV_Cloud_Out_Of_Sync>Cloud Out of Sync</AV_Cloud_Out_Of_Sync>
+        <AV_Cloud_Would_You_Like_To_Use_Cloud>The local game is out of sync with the Cloud! Would you like to use the Cloud game?</AV_Cloud_Would_You_Like_To_Use_Cloud>
+        <AV_Cloud_Restore_From>Restore From Cloud</AV_Cloud_Restore_From>
+        <AV_Cloud_Save_Available>A saved game is available to restore from the Cloud. Do you wish to do so?</AV_Cloud_Save_Available>
+        <AV_In_App_Purchases>In App Purchases</AV_In_App_Purchases>
+        <AV_Purchase_Failed_For_x>Purchase Failed for @1</AV_Purchase_Failed_For_x>
+        <AV_Purchase_Failed_Already_Owned>Purchase failed. You may already own this item.</AV_Purchase_Failed_Already_Owned>
+        <AV_Purchase_Would_You_Like_Restore_Purchases>Would you like to restore previous purchases?</AV_Purchase_Would_You_Like_Restore_Purchases>
+        <AV_Congratulations_Purchase_Of_x_Successful>Congratulations! Your purchase of @1 was successful!</AV_Congratulations_Purchase_Of_x_Successful>
+        <AV_Rate_This_App>Rate This App</AV_Rate_This_App>
+        <AV_Are_You_Enjoying_This_App>Are you enjoying this app?</AV_Are_You_Enjoying_This_App>
+        <AV_Would_You_Like_To_Rate>Would you like to rate this app?</AV_Would_You_Like_To_Rate>
+        <AV_Video_Advert>Video Advert</AV_Video_Advert>
+        <AV_No_Content_Available_At_This_Time>No content available at this time. Please try again later.</AV_No_Content_Available_At_This_Time>
+        <AV_An_Error_Occurred_Try_Later>An error occurred. Please try again later.</AV_An_Error_Occurred_Try_Later>
+
+</LanguageData>

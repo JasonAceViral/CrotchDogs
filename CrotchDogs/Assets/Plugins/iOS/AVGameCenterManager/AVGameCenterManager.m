@@ -103,8 +103,7 @@ static AVGameCenterManager* sharedInstance = nil;
 -(void)presentViewController:(UIViewController*)vc
 {
     UIViewController* rootVC = [[AVDataManager sharedInstance] getViewController];
-    [rootVC presentViewController:vc animated:YES
-                       completion:nil];
+    [rootVC presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark -
@@ -141,22 +140,14 @@ static AVGameCenterManager* sharedInstance = nil;
 
 -(void) authenticate
 {
-    [self authenticateWithCompletionHandler:nil];
-}
-
--(void) authenticateWithCompletionHandler:(void (^)(NSError *))completionHandler
-{
     if (![self isAvailableForDevice])
     {
-        NSError* error = [NSError errorWithDomain:@"GameCenterLogin" code:0 userInfo:@{NSLocalizedDescriptionKey : @"Game Center is unavailable."}];
-        if(completionHandler)
-            completionHandler(error);
+        UnitySendMessage("AVGameServicesInterface", "SignInComplete", "failure");
         return;
     }
 	if ([GKLocalPlayer localPlayer].isAuthenticated)
     {
-        if(completionHandler)
-            completionHandler(nil);
+        UnitySendMessage("AVGameServicesInterface", "SignInComplete", "success");
         return;
 	}
     
@@ -179,33 +170,28 @@ static AVGameCenterManager* sharedInstance = nil;
             
             if (error)
             {
-                //if (error.code == kErrorCodeUserCancelled || error.code == kErrorCodeAlreadyAuthenticating) return;
-                if(completionHandler)
-                    completionHandler(error);
+                UnitySendMessage("AVGameServicesInterface", "SignInComplete", "failure");
             }
             else
             {
                 [self authenticationCompleted];
-                if(completionHandler)
-                    completionHandler(nil);
+                UnitySendMessage("AVGameServicesInterface", "SignInComplete", "success");
             }
         };
     }
+    else
     // Less than iOS6
     {
         [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError* error)
          {
              if (error)
              {
-                 //if (error.code == kErrorCodeUserCancelled || error.code == kErrorCodeAlreadyAuthenticating) return;
-                 if(completionHandler)
-                     completionHandler(error);
+                 UnitySendMessage("AVGameServicesInterface", "SignInComplete", "failure");
              }
              else
              {
                  [self authenticationCompleted];
-                 if(completionHandler)
-                     completionHandler(nil);
+                 UnitySendMessage("AVGameServicesInterface", "SignInComplete", "success");
              }
          }];
     }
@@ -232,7 +218,11 @@ static AVGameCenterManager* sharedInstance = nil;
 -(void) showLeaderboard:(NSString*) leaderboardID
 {
     if (![self isAvailableForDevice]) return;
-    NSAssert([[AVDataManager sharedInstance] getViewController] != nil, @"viewController not set");
+    if([[AVDataManager sharedInstance] getViewController] == NULL)
+    {
+        NSLog(@"**** View Controller in AVDataManager is not set! ****");
+        return;
+    }
     
     if (![GKLocalPlayer localPlayer].isAuthenticated)
     {

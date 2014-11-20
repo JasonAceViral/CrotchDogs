@@ -15,7 +15,6 @@ public class ChaserController : MonoBehaviour {
 
 		public void Maul()
 		{
-
 				if (dogLocationIndex <= MAX_DOG_INDEX) {
 						dogLocationIndex++;
 				}

@@ -79,5 +79,8 @@ public class SceneObjectSpawner : MonoBehaviour
 	}
 
 
-
+	public void SetSpeed(float newSpeed)
+	{
+			speed = newSpeed;
+	}
 }

@@ -1,8 +1,23 @@
 #import "AVGameCenterManager.h"
 
+bool _avGameCenterIsAvailable()
+{
+    return [[AVGameCenterManager sharedManager] isAvailableForDevice];
+}
+
 void _avGameCenterAuthenticate()
 {
     [[AVGameCenterManager sharedManager] authenticate];
+}
+
+bool _avGameCenterIsSignedIn()
+{
+    return [[AVGameCenterManager sharedManager] isAuthenticated];
+}
+
+void _avGameCenterSignOut()
+{
+    // No Function Available!
 }
 
 void _avGameCenterShowAchievements()

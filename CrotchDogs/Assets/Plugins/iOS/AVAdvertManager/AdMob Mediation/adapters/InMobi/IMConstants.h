@@ -1,6 +1,9 @@
 //
 //  IMConstants.h
-
+//  InMobi Monetization SDK
+//
+//  Copyright (c) 2013 InMobi. All rights reserved.
+//
 
 
 

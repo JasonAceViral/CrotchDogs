@@ -24,7 +24,7 @@ public class PositionManager : MonoBehaviour {
 
 				Road.transform.position = new Vector3 (Road.transform.position.x, -screenHeight*0.5f + Road.GetComponent<tk2dSprite>().GetBounds().size.y*0.5f,Road.transform.position.z);
 	
-				MoveGameObject(Face,-0.4f,0.43f);
+				MoveGameObject(Face,-0.38f,0.42f);
 				MoveGameObject(PauseButton,0.4f,0.45f);
 				MoveGameObject(SFXMute,0.25f,0.45f);
 				MoveGameObject(Mute,0.1f,0.45f);

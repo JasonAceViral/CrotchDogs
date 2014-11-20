@@ -18,5 +18,6 @@
 -(void) tweet:(NSString*) message;
 -(void) tweet:(NSString*) message withURL:(NSURL*) url;
 -(void) tweet:(NSString*) message withImage:(UIImage*) image;
+-(void) followUser:(NSString*)userName;
 
 @end

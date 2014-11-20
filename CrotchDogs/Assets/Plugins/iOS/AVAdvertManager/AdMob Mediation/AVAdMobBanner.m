@@ -22,6 +22,7 @@
 @implementation AVAdMobBanner
 {
     GADBannerView* bannerView;
+    bool appIsPortrait;
 }
 
 -(id) init
@@ -31,6 +32,13 @@
     {
         _appKey = nil;
         _bannerAdConfiguration = eAdConfigTop | eAdConfigCenter;
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:)
+                name:UIDeviceOrientationDidChangeNotification object:nil];
+        
+        UIDeviceOrientation* orient = [[UIDevice currentDevice] orientation];
+        appIsPortrait = ((NSInteger)orient == (NSInteger)UIDeviceOrientationPortrait || (NSInteger)orient == (NSInteger)UIDeviceOrientationPortraitUpsideDown);
     }
     return self;
 }
@@ -41,7 +49,7 @@
 {
     if (bannerView) return; //The adview is already initialized
     
-    bannerView = [[GADBannerView alloc] initWithAdSize:([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) ? kGADAdSizeLeaderboard : kGADAdSizeBanner];
+    bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     bannerView.adUnitID = _appKey;
     
     bannerView.rootViewController = [[AVDataManager sharedInstance] getViewController];
@@ -57,12 +65,7 @@
 
 -(void) requestFreshAd
 {
-    GADRequest* req = [GADRequest request];
-//    [req addKeyword:@"Football"];
-//    [req addKeyword:@"Soccer"];
-//    [req addKeyword:@"Flappy"];
-    //req.testDevices = [NSArray arrayWithObjects:@"9bfd561e0231345ec5b24c0f30da48ab", nil];
-    [bannerView loadRequest:req];
+    [bannerView loadRequest:[GADRequest request]];
 }
 
 -(void) removeBanner
@@ -115,11 +118,8 @@
         [self printAdConfiguration];
 #endif
         
-        UIDeviceOrientation* orient = [[UIDevice currentDevice] orientation];
-        bool isPortrait = ((NSInteger)orient == (NSInteger)UIDeviceOrientationPortrait || (NSInteger)orient == (NSInteger)UIDeviceOrientationPortraitUpsideDown);
-        
-        int w = isPortrait ? MIN(SCREEN_WIDTH, SCREEN_HEIGHT) : MAX(SCREEN_WIDTH, SCREEN_HEIGHT);
-        int h = isPortrait ? MAX(SCREEN_WIDTH, SCREEN_HEIGHT) : MIN(SCREEN_WIDTH, SCREEN_HEIGHT);
+        int w = appIsPortrait ? MIN(SCREEN_WIDTH, SCREEN_HEIGHT) : MAX(SCREEN_WIDTH, SCREEN_HEIGHT);
+        int h = appIsPortrait ? MAX(SCREEN_WIDTH, SCREEN_HEIGHT) : MIN(SCREEN_WIDTH, SCREEN_HEIGHT);
         
         float x = 0;
         float y = 0;
@@ -135,6 +135,17 @@
     }
 }
 
+-(void) orientationChanged:(UIDeviceOrientation*)orientation
+{
+    NSInteger orient = ((NSInteger)[[UIDevice currentDevice] orientation]);
+    bool nowPortait = (orient == (NSInteger)UIDeviceOrientationPortrait || orient == (NSInteger)UIDeviceOrientationPortraitUpsideDown);
+    
+    if(nowPortait != appIsPortrait)
+    {
+        appIsPortrait = nowPortait;
+        [self fixupBanner];
+    }
+}
 
 #pragma mark - Debug
 

@@ -14,15 +14,15 @@ public class Dog : MonoBehaviour
 	public GameObject EndPoint;
 	public GameObject dogCam;
 
-		public bool boundingDog;
+	public bool boundingDog;
 	//dogCam movement test
-		public bool MovingUp=false;
+	public bool MovingUp=false;
 
-		public Vector3 dogCamStartPos;
+	public Vector3 dogCamStartPos;
 	public float moveDistance = 10.0f;
-		public float MOVE_SPEED = 10.0f;
+	public float MOVE_SPEED = 10.0f;
 
-		public float moveDiff;
+	public float moveDiff;
 	// Use this for initialization
 	void Start () 
 	{
@@ -42,40 +42,43 @@ public class Dog : MonoBehaviour
 				{
 						//move hte dogCam Up
 						if (MovingUp) {
-								if (dogCam.transform.position.y <= (dogCamStartPos.y + moveDistance)) {
-								 
+								if (dogCam.transform.position.y <= (dogCamStartPos.y + moveDistance)) 
+								{ 
 										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y + (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
 										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
-								} else {
+								}
+								else 
+								{
 										MovingUp = false;
 								}
 
 
 						} else {
-								if (dogCam.transform.position.y >= (dogCamStartPos.y - moveDistance)) {
+								if (dogCam.transform.position.y >= (dogCamStartPos.y - moveDistance)) 
+								{
 										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y - (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
-
 										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
-
-								} else {
+								}
+								else 
+								{
 										MovingUp = true;
 								}
 						}
 				}
 
 	}
-		public void Reset()
-		{
-				CrotchObjects = new List<Collider> ();
-		}
+
+	public void Reset()
+	{
+			CrotchObjects = new List<Collider> ();
+	}
 	//Trigger Bite It returns the difference in location for Biting of the Crotch
 	public float Bite()
 	{
 		float difference = CrotchDogConstants.NO_BITE;
 
-
 		tk2dSpriteAnimator jawsBite =	Jaws.GetComponent<tk2dSpriteAnimator> ();
-		if (!jawsBite.IsPlaying("Bite")) 
+		//if (!jawsBite.IsPlaying("Bite")) 
 		{
 			jawsBite.Play ();
 		}
@@ -111,6 +114,11 @@ public class Dog : MonoBehaviour
 	public void OnTriggerEnter ( Collider other)
 	{
 				CrotchObjects.Add(other);
+
+				if (GameController.Instance.ActivePower == GameController.PowerUp.MAUL_MANIAC) 
+				{
+						GameController.Instance.biteCrotch ();
+				}
 	}
 
 	public void OnTriggerExit ( Collider other)

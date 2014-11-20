@@ -1,66 +1,55 @@
 using System.Collections;
 using UnityEngine;
+using AceViral;
 
-public class AVAdMobManagerAndroid : AVAdMobManager
-{
-	//private int m_AdvertHeight = 80;
-	void Start ()
+namespace AVHiddenInterface {
+	public class AVAdMobManagerAndroid : AVAdMobManager
 	{
-		//StartCoroutine (PeriodicallyGetAdvertHeight ());
-	}
-
-	public override void OnStart ()
-	{
-        AVAndroidInterface.Banners.SetKey (AVAppConstants.AndroidAdMobKey);
-	}
-
-	public override void OnStartWithKey(string key)
-	{
-		AVAndroidInterface.Banners.SetKey (key);	
-	}
-
-    public override void SetBannerConfiguration (AVAdPositionConfiguration config)
-    {
-        m_BannerConfig = config;
-        AVAndroidInterface.Banners.SetBannerAdConfiguration((int)config);
-    }
-
-    public override void ShowBanner ()
-    {
-        if (!IsAdvertShowing ()) {
-            AVAndroidInterface.Banners.LoadNewAdvert ();
-            m_ShowingAdvert = true;
-        }
-    }
-
-    public override void HideBanner ()
-	{
-		if (IsAdvertShowing ()) {
-			AVAndroidInterface.Banners.HideAdvert ();
-			//m_AdvertHeight = 0;
-			m_ShowingAdvert = false;
+		//private int m_AdvertHeight = 80;
+		void Start ()
+		{
+			//StartCoroutine (PeriodicallyGetAdvertHeight ());
 		}
-	}
 
-	public override int GetAdvertHeight ()
-	{
-		return AVAndroidInterface.Banners.GetAdHeight ();
-	}
+		public override void OnStart ()
+		{
+            AndroidInterface.Banners.SetKey (AppConstants.Android.AdMobBannerKey);
+		}
 
-	// Interstitials
+	    public override void SetBannerConfiguration (AVAdPositionConfiguration config)
+	    {
+	        m_BannerConfig = config;
+	        AndroidInterface.Banners.SetBannerAdConfiguration((int)config);
+	    }
 
-	public override void CreateAdMobInterstitials ()
-	{
-        AVAndroidInterface.Interstitials.CreateAdMobInterstitialsWithKey (AVAppConstants.AndroidAdMobInterstitialKey);
-	}
+	    public override void ShowBanner ()
+	    {
+	        if (!IsAdvertShowing ()) {
+                AndroidInterface.Banners.ShowAdvert ();
+	            m_ShowingAdvert = true;
+	        }
 
-	public override bool IsAdMobInterstitialReady ()
-	{
-        return AVAndroidInterface.Interstitials.IsAdMobInterstitialReady ();
-	}
+            if (RefreshAdOnShow)
+                LoadNewBanner();
+	    }
 
-	public override void ShowAbMobIntersitial ()
-	{
-        AVAndroidInterface.Interstitials.ShowAbMobIntersitial ();
+        public override void LoadNewBanner()
+        {
+            AndroidInterface.Banners.LoadNewAdvert();
+        }
+
+	    public override void HideBanner ()
+		{
+			if (IsAdvertShowing ()) {
+				AndroidInterface.Banners.HideAdvert ();
+				//m_AdvertHeight = 0;
+				m_ShowingAdvert = false;
+			}
+		}
+
+		public override int GetAdvertHeight ()
+		{
+			return AndroidInterface.Banners.GetAdHeight ();
+		}
 	}
 }

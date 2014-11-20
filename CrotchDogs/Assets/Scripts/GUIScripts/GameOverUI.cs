@@ -6,10 +6,18 @@ public class GameOverUI : MonoBehaviour {
 	//=-=-=-=-=-=-=
 	// spawn the faces for the victims
 	//=-=-=-=-=-=-=
-	public GameObject ShowFacePos,SpawnFaceLocation,ResetFaceLocation;
+	public GameObject ShowBitePos,SpawnBiteLocation,ResetBiteLocation;
+	public GameObject ShowMissPos,SpawnMissLocation,ResetMissLocation;
+	public GameObject ShowMaulPos,SpawnMaulLocation,ResetMaulLocation;
+
+	
+
 	public GameObject ShowLegsPos,SpawnLegLocation,ResetLegLocation;
-	public tk2dSprite face01,Legs01,crotchNemesis;
-	bool movingFace01=false,movingLegs01=false,showingNemesis=false;
+	public tk2dSprite biteFace,missFace,maulFace,Legs01,crotchNemesis;
+
+	public int biteIndex=0,missIndex=0,maulIndex=0; 
+
+	public bool movingBite=false,movingMiss=false,movingMaul=false,movingLegs01=false,showingNemesis=false;
 
 	public int showVictimIndex=0,showEscapedIndex;
 	bool showVictims = false,skip=false,updatedTotalScore = false,showingSlander= false;
@@ -21,7 +29,7 @@ public class GameOverUI : MonoBehaviour {
 	// =-=-=-=-=-=-=-=
 	// Game Over Labels
 	// =-=-=-=-=-=-=-=
-	public tk2dTextMesh CrotchesBittenLabel, ComboScoreLabel, MissesLabel,CharactersEscapedLabel ,TotalScoreLabel, SlanderLabel;
+	public tk2dTextMesh CrotchesBittenLabel,CrotchesMissedLabel,CrotchesMauledLabel, ComboScoreLabel, MissesLabel,CharactersEscapedLabel ,TotalScoreLabel, SlanderLabel;
 
 
 	private string[] minusSlander = {"That the best you can do?",
@@ -46,10 +54,21 @@ public class GameOverUI : MonoBehaviour {
 				if (!skip) {
 						//if (showVictims) 
 						{
-								if (movingFace01) 
+								if (movingBite) 
 								{
-										UpdateFacesOfTheVictims ();
-								} else if (movingLegs01) {	
+
+										movingBite = UpdateFacesOfTheVictims(biteFace,ShowBitePos.transform.position,ResetBiteLocation.transform.position,SpawnBiteLocation.transform.position,1);
+								} 
+								else if (movingMiss) 
+								{
+										movingMiss = UpdateFacesOfTheVictims(missFace,ShowMissPos.transform.position,ResetMissLocation.transform.position,SpawnMissLocation.transform.position,0);
+								}
+								else if (movingMaul) 
+								{
+										Debug.Log ("update maul ");
+										movingMaul = UpdateFacesOfTheVictims(maulFace,ShowMaulPos.transform.position,ResetMaulLocation.transform.position,SpawnMaulLocation.transform.position,2);
+								}
+								else if (movingLegs01) {	
 										UpdateCrotchesMissed ();
 								} else if (!showingNemesis) {
 										UpdateNemesis ();
@@ -66,10 +85,22 @@ public class GameOverUI : MonoBehaviour {
 				{
 						//if (showVictims) 
 						{
-								if (movingFace01)
+								if (movingBite) 
 								{
-										UpdateFacesOfTheVictims ();
+
+										movingBite = UpdateFacesOfTheVictims(biteFace,ShowBitePos.transform.position,ResetBiteLocation.transform.position,SpawnBiteLocation.transform.position,1);
 								} 
+
+								if (movingMiss) 
+								{
+										movingMiss = UpdateFacesOfTheVictims(missFace,ShowMissPos.transform.position,ResetMissLocation.transform.position,SpawnMissLocation.transform.position,0);
+								}
+
+								if (movingMaul) 
+								{
+										Debug.Log ("update maul ");
+										movingMaul = UpdateFacesOfTheVictims(maulFace,ShowMaulPos.transform.position,ResetMaulLocation.transform.position,SpawnMaulLocation.transform.position,2);
+								}
 
 								if (movingLegs01)
 								{	
@@ -99,7 +130,7 @@ public class GameOverUI : MonoBehaviour {
 			GameController.Instance.charactersEscaped * CrotchDogConstants.SCORE_ESCAPED +
 			GameController.Instance.crotchesBitten * CrotchDogConstants.SCORE_BITE +
 			GameController.Instance.crotchesMauled * CrotchDogConstants.SCORE_MAUL +
-			GameController.Instance.bestCombo* CrotchDogConstants.SCORE_COMBO;
+			GameController.Instance.bestCombo * CrotchDogConstants.SCORE_COMBO;
 
 
 			setSlanderMessage ();
@@ -114,10 +145,11 @@ public class GameOverUI : MonoBehaviour {
 		
 		ComboScoreLabel.text = "Best Combo: " + GameController.Instance.bestCombo;
 		MissesLabel.text = "Misses: " + GameController.Instance.bitesMissed;
-		CrotchesBittenLabel.text = "Crotches Bitten: " + 0;
+		CrotchesBittenLabel.text = "" + 0;
+
 		CharactersEscapedLabel.text = "Escaped: " + 0;
 		TotalScoreLabel.text = "Total Score: " + 0;
-		face01.transform.position = SpawnFaceLocation.transform.position;
+		
 		Legs01.transform.position = SpawnLegLocation.transform.position;
 		showVictims = true;
 
@@ -134,15 +166,34 @@ public class GameOverUI : MonoBehaviour {
 				// if no legs escaped can't have a nemesis crotch
 				setNemesisCrotch ();
 		}
-
-		if (GameController.Instance.crotchesBittenFaceList.Count == 0) {
-				face01.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
-				movingFace01 = false;
+			
+		//set up for bitten victims
+		if (GameController.Instance.crotchesBitten == 0) {
+				biteFace.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
+				movingBite = false;
 		} else {
-						face01.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
-				movingFace01 = true;
+				biteFace.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+				movingBite = true;
 		}
-	
+
+		//set up for mauled victimes
+		if (GameController.Instance.crotchesMauled == 0) {
+				maulFace.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
+				movingMaul = false;
+		} else {
+				biteFace.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+				movingMaul = true;
+		}
+
+		//set up for mauled victims
+		if (GameController.Instance.bitesMissed == 0) {
+			missFace.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
+			movingMiss = false;
+		} else {
+			missFace.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+			movingMiss = true;
+		}
+
 
 		updatedTotalScore = false;
 		showingSlander = false;
@@ -150,38 +201,83 @@ public class GameOverUI : MonoBehaviour {
 		
 		SlanderLabel.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
 
+		biteIndex = 0;
+		maulIndex = 0;
+		missIndex = 0;
 	}
 
 	public void reset()
 	{
 			showVictims = false;
 			showVictimIndex = 0;
-			movingFace01 = false;
+			movingBite = false;
+			movingMaul = false;
+			movingMiss = false;
 			movingLegs01=false;
 			skip = false;
+			biteIndex = 0;
+			missIndex=0;
+			maulIndex=0; 
+
+			CrotchesBittenLabel.text = "0";
+			CrotchesMauledLabel.text = "0";
+			CrotchesMissedLabel.text = "0";
 	}
-		//updates the victims
-	public void UpdateFacesOfTheVictims()
+
+	//updates the victims
+	public bool UpdateFacesOfTheVictims(tk2dSprite face01,Vector3 ShowFacePos,Vector3 ResetFaceLocation,Vector3 SpawnFaceLocation,int Facetype)
 	{
 				float deltaTime = Time.deltaTime;
+				bool movingFace01 = true;
 				//moves sprite by speed
-				move_speed = -15.0f * (float)((float)GameController.Instance.crotchesBittenFaceList.Count/(float)(showVictimIndex+1))*deltaTime;
+
+				switch (Facetype) 
+				{
+					//miss
+				case 0:
+						if (missIndex > 0) {
+								move_speed = -15.0f * (GameController.Instance.bitesMissed / missIndex) * deltaTime;
+						} else {
+								move_speed = -15.0f *deltaTime;
+						}
+							break;
+					//bite
+				case 1:	
+						if (biteIndex > 0) {
+								move_speed = -15.0f * (GameController.Instance.crotchesBitten / biteIndex) * deltaTime;
+						} else {
+								move_speed = -15.0f *deltaTime;
+						}
+							break;
+
+					//maul
+				case 2:	if(maulIndex >0)
+						{
+								move_speed = -15.0f*(GameController.Instance.crotchesMauled/maulIndex) *deltaTime;
+				} else {
+						move_speed = -15.0f *deltaTime;
+				}
+							break;
+					default:	move_speed = -15.0f *deltaTime;
+							break;
+				}
+			
 			
 				if (movingFace01 ) 
 				{
-						if (face01.transform.position.y > ShowFacePos.transform.position.y) // move face to show popsition
+						if (face01.transform.position.y > ShowFacePos.y) // move face to show popsition
 						{
-								if ((face01.gameObject.transform.position.y + move_speed) < ResetFaceLocation.transform.position.y) {
-									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ResetFaceLocation.transform.position.y,	face01.gameObject.transform.position.z);
+								if ((face01.gameObject.transform.position.y + move_speed) < ResetFaceLocation.y) {
+									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ResetFaceLocation.y,	face01.gameObject.transform.position.z);
 								} else {
 									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	face01.gameObject.transform.position.y + move_speed,	face01.gameObject.transform.position.z);
 								}
 						}
-						else if (face01.transform.position.y > ResetFaceLocation.transform.position.y && showVictimIndex < GameController.Instance.crotchesBittenFaceList.Count-1) //move face to reset position
+						else if (face01.transform.position.y > ResetFaceLocation.y ) //move face to reset position
 						{
-								if((face01.gameObject.transform.position.y +  move_speed) < ResetFaceLocation.transform.position.y)
+								if((face01.gameObject.transform.position.y +  move_speed) < ResetFaceLocation.y)
 								{
-									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ResetFaceLocation.transform.position.y,	face01.gameObject.transform.position.z);
+									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ResetFaceLocation.y,	face01.gameObject.transform.position.z);
 								}
 								else
 								{
@@ -191,24 +287,73 @@ public class GameOverUI : MonoBehaviour {
 						else  // reset face
 						{
 								//movingFace01 = false;
-								showVictimIndex++;
-								SoundManager.PlayBite();
-								CrotchesBittenLabel.text = "Crotches Bitten: " + showVictimIndex;
-								//if ran out of victims to show
-								if (showVictimIndex >= GameController.Instance.crotchesBittenFaceList.Count) {
-										showVictimIndex = 0;
-										movingFace01 = false;
-										face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ShowFacePos.transform.position.y,	face01.gameObject.transform.position.z);
+							
 
-								}
-								else// move face back to reset position so it moves down with new face
+						
+
+								if (Facetype == 0) 
 								{
-										face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	SpawnFaceLocation.transform.position.y,	face01.gameObject.transform.position.z);
-										face01.SetSprite (Character.HEAD_SPRITE + GameController.Instance.crotchesBittenFaceList[showVictimIndex] );
+										SoundManager.PlaySwoosh();
+										missIndex++;
+										//if ran out of victims to show
+										if (missIndex >= GameController.Instance.bitesMissed ) 
+										{
+												movingFace01 = false;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ShowFacePos.y,	face01.gameObject.transform.position.z);
+
+										}
+										else// move face back to reset position so it moves down with new face
+										{
+												CrotchesMissedLabel.text = "" + missIndex;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	SpawnFaceLocation.y,	face01.gameObject.transform.position.z);
+
+												face01.SetSprite ("miss" + Random.Range(1,6));
+										}
 								}
+								else if (Facetype == 1) 
+								{
+										SoundManager.PlayBite();
+										biteIndex++;
+										//if ran out of victims to show
+										if (biteIndex >= GameController.Instance.crotchesBitten ) 
+										{
+												movingFace01 = false;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ShowFacePos.y,	face01.gameObject.transform.position.z);
+
+										}
+										else// move face back to reset position so it moves down with new face
+										{
+												CrotchesBittenLabel.text = "" + biteIndex;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	SpawnFaceLocation.y,	face01.gameObject.transform.position.z);
+
+												face01.SetSprite ("bite" + Random.Range(1,6));
+										}
+								}
+								else if (Facetype == 2) 
+								{
+										SoundManager.PlayBite();
+										Debug.Log ("maul " +  GameController.Instance.crotchesMauled);
+										maulIndex++;
+										//if ran out of victims to show
+										if (maulIndex >= GameController.Instance.crotchesMauled ) 
+										{
+												movingFace01 = false;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	ShowFacePos.y,	face01.gameObject.transform.position.z);
+
+										}
+										else// move face back to reset position so it moves down with new face
+										{
+												CrotchesMauledLabel.text = "" + maulIndex;
+												face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	SpawnFaceLocation.y,	face01.gameObject.transform.position.z);
+
+												face01.SetSprite ("maul" + Random.Range(1,6));
+										}
+								}
+
+
 						}
 				}
-
+		return movingFace01;
 
 	}
 
@@ -284,7 +429,6 @@ public class GameOverUI : MonoBehaviour {
 			
 				for (int i = 0; i < GameController.Instance.crotchesEscapedLegList.Count; i++) 
 				{
-
 						crotchTypeCount [GameController.Instance.crotchesEscapedLegList [i]-1]++;
 				}
 
