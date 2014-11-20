@@ -47,9 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\AVEditorHelper.cs" />
-     <Compile Include="Assets\Editor\IconGenerator.cs" />
-     <Compile Include="Assets\Editor\PerformBuild.cs" />
-     <Compile Include="Assets\Editor\TextureScale.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookPostprocess.cs" />
      <Compile Include="Assets\Facebook\Editor\FacebookSettingsEditor.cs" />
      <Compile Include="Assets\Facebook\Editor\android\FacebookAndroidUtil.cs" />
