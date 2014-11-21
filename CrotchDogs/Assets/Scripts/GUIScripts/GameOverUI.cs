@@ -9,15 +9,16 @@ public class GameOverUI : MonoBehaviour {
 	public GameObject ShowBitePos,SpawnBiteLocation,ResetBiteLocation;
 	public GameObject ShowMissPos,SpawnMissLocation,ResetMissLocation;
 	public GameObject ShowMaulPos,SpawnMaulLocation,ResetMaulLocation;
-
+	public MovingText Rank;
 	
 
 	public GameObject ShowLegsPos,SpawnLegLocation,ResetLegLocation;
+
 	public tk2dSprite biteFace,missFace,maulFace,Legs01,crotchNemesis;
 
 	public int biteIndex=0,missIndex=0,maulIndex=0; 
 
-	public bool movingBite=false,movingMiss=false,movingMaul=false,movingLegs01=false,showingNemesis=false;
+	public bool movingBite=false,movingMiss=false,movingMaul=false,movingLegs01=false,showingNemesis=false,showingRank=false;
 
 	public int showVictimIndex=0,showEscapedIndex;
 	bool showVictims = false,skip=false,updatedTotalScore = false,showingSlander= false;
@@ -54,27 +55,24 @@ public class GameOverUI : MonoBehaviour {
 				if (!skip) {
 						//if (showVictims) 
 						{
-								if (movingBite) 
-								{
+								if (movingBite) {
 
-										movingBite = UpdateFacesOfTheVictims(biteFace,ShowBitePos.transform.position,ResetBiteLocation.transform.position,SpawnBiteLocation.transform.position,1);
-								} 
-								else if (movingMiss) 
-								{
-										movingMiss = UpdateFacesOfTheVictims(missFace,ShowMissPos.transform.position,ResetMissLocation.transform.position,SpawnMissLocation.transform.position,0);
-								}
-								else if (movingMaul) 
-								{
+										movingBite = UpdateFacesOfTheVictims (biteFace, ShowBitePos.transform.position, ResetBiteLocation.transform.position, SpawnBiteLocation.transform.position, 1);
+								} else if (movingMiss) {
+										movingMiss = UpdateFacesOfTheVictims (missFace, ShowMissPos.transform.position, ResetMissLocation.transform.position, SpawnMissLocation.transform.position, 0);
+								} else if (movingMaul) {
 										Debug.Log ("update maul ");
-										movingMaul = UpdateFacesOfTheVictims(maulFace,ShowMaulPos.transform.position,ResetMaulLocation.transform.position,SpawnMaulLocation.transform.position,2);
-								}
-								else if (movingLegs01) {	
+										movingMaul = UpdateFacesOfTheVictims (maulFace, ShowMaulPos.transform.position, ResetMaulLocation.transform.position, SpawnMaulLocation.transform.position, 2);
+								} else if (movingLegs01) {	
 										UpdateCrotchesMissed ();
 								} else if (!showingNemesis) {
 										UpdateNemesis ();
 								} else if (!updatedTotalScore) {
 										UpdateTotalScore ();
-								}
+								} else if (!showingRank) 
+								{
+										showRankLabel ();
+								}		
 								else if (!showingSlander) {
 										UpdateSlanderMessage ();
 								}
@@ -106,6 +104,11 @@ public class GameOverUI : MonoBehaviour {
 								{	
 										UpdateCrotchesMissed ();
 								} 
+
+								if (!showingRank) 
+								{
+										showRankLabel ();
+								}
 
 								if (!showingNemesis) 
 								{
@@ -139,10 +142,10 @@ public class GameOverUI : MonoBehaviour {
 
 	}
 
-	//sets all labels
+	//sets all labels and reseets all variables to show again
 	public void setGameOverInfo()
 	{
-		
+
 		ComboScoreLabel.text = "Best Combo: " + GameController.Instance.bestCombo;
 		MissesLabel.text = "Misses: " + GameController.Instance.bitesMissed;
 		CrotchesBittenLabel.text = "" + 0;
@@ -204,6 +207,12 @@ public class GameOverUI : MonoBehaviour {
 		biteIndex = 0;
 		maulIndex = 0;
 		missIndex = 0;
+
+		showingRank = false;
+
+		CrotchesBittenLabel.text = "0";
+		CrotchesMauledLabel.text = "0";
+		CrotchesMissedLabel.text = "0";
 	}
 
 	public void reset()
@@ -511,4 +520,38 @@ public class GameOverUI : MonoBehaviour {
 				skip = true;
 		}
 
+
+		public void showRankLabel()
+		{
+				showingRank = true;
+
+				Rank.setToStartPosition ();
+
+
+				if (GameController.Instance.totalScore <= CrotchDogConstants.HIGHSCORE_PLAYFUL) 
+				{
+						Rank.showFlavourText (MovingText.InfoType.PLAYFUL);
+				}
+				else if (GameController.Instance.totalScore <= CrotchDogConstants.HIGHSCORE_NAUGHTY) 
+				{
+						Rank.showFlavourText (MovingText.InfoType.NAUGHTY);
+				}
+				else if (GameController.Instance.totalScore <= CrotchDogConstants.HIGHSCORE_AGGRESIVE) 
+				{
+						Rank.showFlavourText (MovingText.InfoType.AGGRESSIVE);
+				}
+				else if (GameController.Instance.totalScore <= CrotchDogConstants.HIGHSCORE_MONSTROUS) 
+				{
+						Rank.showFlavourText (MovingText.InfoType.MONSTROUS);
+				}
+				else 
+				{
+						Rank.showFlavourText (MovingText.InfoType.CROTCH_DOG);
+				}
+	
+
+	
+
+
+		}
 }

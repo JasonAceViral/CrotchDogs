@@ -239,10 +239,8 @@ int layout com_facebook_tooltip_bubble 0x7f03000d
 int layout com_facebook_usersettingsfragment 0x7f03000e
 int raw notif 0x7f040000
 int string accept 0x7f060002
-int string adcolonyappid 0x7f060043
-int string adcolonyzoneid 0x7f060044
 int string app_name 0x7f060041
-int string applicationId 0x7f060046
+int string applicationId 0x7f060044
 int string com_facebook_choose_friends 0x7f060032
 int string com_facebook_dialogloginactivity_ok_button 0x7f060023
 int string com_facebook_internet_permission_error_message 0x7f060036
@@ -305,7 +303,7 @@ int string gamehelper_app_misconfigured 0x7f06003e
 int string gamehelper_license_failed 0x7f06003f
 int string gamehelper_sign_in_failed 0x7f06003d
 int string gamehelper_unknown_error 0x7f060040
-int string google_play_app_id 0x7f060045
+int string google_play_app_id 0x7f060043
 int string store_picture_message 0x7f060001
 int string store_picture_title 0x7f060000
 int string wallet_buy_button_place_holder 0x7f060022

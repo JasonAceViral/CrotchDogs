@@ -501,10 +501,13 @@ public class GameController : MonoBehaviour {
 		{
 				bestCombo = 0;
 				crotchesBitten = 0;
+				crotchesMauled = 0;
+
 				combo = 0;
 				bitesMissed = 0;
 				totalScore = 0;
 				charactersEscaped = 0;
+				bitestaken = 0;
 
 				chaseController.reset ();
 				chaseRadar.reset ();

@@ -34,8 +34,20 @@
 
 		//Scores
 		public const int SCORE_MISSES = -5, SCORE_BITE = 15, SCORE_MAUL = 20,SCORE_ESCAPED = -10,SCORE_COMBO = 20;
+		public const int HIGHSCORE_PLAYFUL    =50,
+						 HIGHSCORE_NAUGHTY    =100,
+					 	 HIGHSCORE_AGGRESIVE  =150,
+						 HIGHSCORE_MONSTROUS  =200,
+						 HIGHSCORE_CROTCH_DOG =250; 
+
 
 		//Power Ups
 		public const float POWER_UP_LASTS = 5.0f;
+
+		//Time const step
+		public const float TIME_STEP = 0.016666667f;
+
+
+
 
 }

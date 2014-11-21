@@ -55,7 +55,7 @@ public class GameHelper implements GoogleApiClient.ConnectionCallbacks,
          * Called when sign-in fails. As a result, a "Sign-In" button can be
          * shown to the user; when that button is clicked, call
          *
-         * @link{GamesHelper#beginUserInitiatedSignIn . Note that not all calls
+         * @link{GamesHelper#beginUserInitiatedSignIn. Note that not all calls
          *                                            to this method mean an
          *                                            error; it may be a result
          *                                            of the fact that automatic
@@ -132,7 +132,7 @@ public class GameHelper implements GoogleApiClient.ConnectionCallbacks,
     // Whether to automatically try to sign in on onStart(). We only set this
     // to true when the sign-in process fails or the user explicitly signs out.
     // We set it back to false when the user initiates the sign in process.
-    boolean mConnectOnStart = true;
+    boolean mConnectOnStart = false;
 
     /*
      * Whether user has specifically requested that the sign-in process begin.

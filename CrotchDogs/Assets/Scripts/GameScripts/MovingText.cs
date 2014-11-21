@@ -7,7 +7,7 @@ public class MovingText : MonoBehaviour {
 
 	public enum InfoType
 	{
-		BITE,MAUL,MISS,DOMESTICATED,BAD_DOG,DANGEROUS_BREED,WILD_ANIMAL,MAN_EATER,CROTCH_DOG,READY
+		BITE,MAUL,MISS,PLAYFUL,NAUGHTY,AGGRESSIVE,MONSTROUS,CROTCH_DOG,READY
 	}
 
 	public Vector3 showLocation,hideLocation;
@@ -25,15 +25,20 @@ public class MovingText : MonoBehaviour {
 		gameObject.transform.position = startLocation.transform.position;
 	
 	}
-	
+	public void setToStartPosition()
+	{
+		gameObject.transform.position = startLocation.transform.position;
+		showTime = 0.0f;
+		showSprite = false;
+		isShowing = true;
+	}
 	// Update is called once per frame
 	void Update () 
 	{
 
-				if (GameController.Instance.getState () == GameController.GameState.PLAYING_GAME) {
+				if (GameController.Instance.getState () != GameController.GameState.PAUSED) {
 						if (showSprite) { // show the sprite on screen
 								if (showTime < MAX_SHOW_TIME) {
-
 
 										showTime += Time.deltaTime;
 
@@ -55,7 +60,7 @@ public class MovingText : MonoBehaviour {
 												}
 										}
 								}
-						} else if (isShowing) { // hide the sprite from screen
+						} else if (isShowing && hideSprite) { // hide the sprite from screen
 								if (showTime < MAX_SHOW_TIME) {
 										showTime += Time.deltaTime;
 
@@ -104,23 +109,20 @@ public class MovingText : MonoBehaviour {
 						case InfoType.MISS:
 								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordmiss");
 								break;
-						case InfoType.DOMESTICATED:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank1");
+						case InfoType.PLAYFUL:
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordplayful");
 								break;
-						case InfoType.BAD_DOG:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank2");
+						case InfoType.NAUGHTY:
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordnaughty");
 								break;
-						case InfoType.DANGEROUS_BREED:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank3");
+						case InfoType.AGGRESSIVE:
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordaggressive");
 								break;
-						case InfoType.WILD_ANIMAL:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank4");
-								break;
-						case InfoType.MAN_EATER:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank5");
+						case InfoType.MONSTROUS:
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordmonstrous");
 								break;
 						case InfoType.CROTCH_DOG:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("rank6");
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordcrotchdog");
 								break;
 						case InfoType.READY:
 								gameObject.GetComponent<tk2dSprite> ().SetSprite ("READY");
@@ -133,4 +135,6 @@ public class MovingText : MonoBehaviour {
 						timeBeforeHide = 0.0f;
 				}
 	}
+
+
 }

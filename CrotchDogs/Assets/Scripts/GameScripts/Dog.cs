@@ -44,7 +44,7 @@ public class Dog : MonoBehaviour
 						if (MovingUp) {
 								if (dogCam.transform.position.y <= (dogCamStartPos.y + moveDistance)) 
 								{ 
-										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y + (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
+										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y + (moveDistance + 1)), CrotchDogConstants.TIME_STEP * MOVE_SPEED);
 										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
 								}
 								else 
@@ -56,7 +56,7 @@ public class Dog : MonoBehaviour
 						} else {
 								if (dogCam.transform.position.y >= (dogCamStartPos.y - moveDistance)) 
 								{
-										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y - (moveDistance + 1)), Time.deltaTime * MOVE_SPEED);
+										moveDiff = Mathf.Lerp (dogCam.transform.position.y, (dogCamStartPos.y - (moveDistance + 1)), CrotchDogConstants.TIME_STEP * MOVE_SPEED);
 										dogCam.transform.position = new Vector3 (dogCam.transform.position.x, moveDiff, dogCam.transform.position.z);
 								}
 								else 

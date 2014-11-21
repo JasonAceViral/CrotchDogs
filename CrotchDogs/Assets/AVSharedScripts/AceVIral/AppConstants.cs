@@ -4,7 +4,7 @@ using System.Collections;
 namespace AceViral {
     public class AppConstants {
 
-        public const string AppReferralName = "APP NAME";
+        public const string AppReferralName = "crotch dogs";
         public const bool CompileForAmazonAppStore = false;
 
         /////////////
@@ -20,7 +20,7 @@ namespace AceViral {
             public const string AdMobInterstitialKey = "ca-app-pub-0000000000000000/0000000000";
             public const string AdMobVideoKey = "ca-app-pub-0000000000000000/0000000000";
             public const string HouseAdLink = "http://aceviral.com/a/ad/18";
-            public const string GoogleAnalyticsId = "UA-00000000-0"; 
+			public const string GoogleAnalyticsId = "UA-50478536-18"; 
         }
 
 
@@ -32,13 +32,13 @@ namespace AceViral {
 
         public class Android 
         {
-            public const string PackageName = "com.aceviral.APPNAME";
-            public const string PackageId = "com/aceviral/APPNAME/";
+            public const string PackageName = "com.aceviral.crotchdogs";
+            public const string PackageId = "com/aceviral/crotchdogs/";
             public const string AdMobBannerKey = "ca-app-pub-0000000000000000/0000000000"; 
             public const string AdMobInterstitialKey = "ca-app-pub-0000000000000000/0000000000";
             public const string AdMobVideoKey = "ca-app-pub-0000000000000000/0000000000";
             public const string HouseAdLink = "http://aceviral.com/a/ad/18";
-            public const string GoogleAnalyticsId = "UA-00000000-0";
+			public const string GoogleAnalyticsId = "UA-50477942-24";
             public const string GooglePlayId = "00000000000";
         }
 

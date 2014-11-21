@@ -681,10 +681,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int accept=0x7f060002;
-        public static final int adcolonyappid=0x7f060043;
-        public static final int adcolonyzoneid=0x7f060044;
         public static final int app_name=0x7f060041;
-        public static final int applicationId=0x7f060046;
+        public static final int applicationId=0x7f060044;
         public static final int com_facebook_choose_friends=0x7f060032;
         public static final int com_facebook_dialogloginactivity_ok_button=0x7f060023;
         public static final int com_facebook_internet_permission_error_message=0x7f060036;
@@ -818,7 +816,7 @@ containing a value of this type.
         public static final int gamehelper_license_failed=0x7f06003f;
         public static final int gamehelper_sign_in_failed=0x7f06003d;
         public static final int gamehelper_unknown_error=0x7f060040;
-        public static final int google_play_app_id=0x7f060045;
+        public static final int google_play_app_id=0x7f060043;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
         /**  Text on a placeholder buy button when Google Play services is not
