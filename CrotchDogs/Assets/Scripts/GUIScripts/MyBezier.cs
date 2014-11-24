@@ -15,10 +15,6 @@ public class MyBezier : MonoBehaviour
 
 		public List<GameObject> points;
 
-		private bool PointsChanged = true;
-
-		private float pointAtTime = 0.0f;
-
 		private bool createdAllPoints = false;
 
 		public float dogMarkerLocation,catcherMarkerLocation;
@@ -82,7 +78,7 @@ public class MyBezier : MonoBehaviour
 		void updatePointLocations()
 		{
 			float time = Time.deltaTime;
-			pointAtTime = time;
+			//pointAtTime = time;
 
 			gameObject.transform.transform.position = new Vector3 (gameObject.transform.position.x - CrotchDogConstants.POINTS_MOVE_SPEED*time ,gameObject.transform.position.y,gameObject.transform.position.z);
 
@@ -96,7 +92,7 @@ public class MyBezier : MonoBehaviour
 			//check if the 2nd last point is less than the startpoint then add a new point and remove hte old one
 			if(points[4].transform.position.x < pointStart.transform.position.x)
 			{
-					//Debug.Log ("add new point");
+
 
 					//Debug.Log ("remove point 0");
 

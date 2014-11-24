@@ -8,7 +8,7 @@ public class SceneObjectSpawner : MonoBehaviour
 	public float speed;
 	public GameObject SpawnPoint,ResetPoint;
 	public Vector3 changeScale = new Vector3(1.0f,1.0f,1.0f);
-	public float SPAWN_INTERVAL = 1.0f,timeSinceSpawn=0.0f;
+	public float SPAWN_INTERVAL = 2.5f,timeSinceSpawn=0.0f;
 
 	// Use this for initialization
 	void Awake () 

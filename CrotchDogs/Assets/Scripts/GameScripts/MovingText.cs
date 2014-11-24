@@ -14,10 +14,11 @@ public class MovingText : MonoBehaviour {
 	public float offsetLocation,showTime=0.0f,timeBeforeHide=0.0f;
 	public bool showSprite = false,isShowing= false,hideSprite = true;
 	public GameObject startLocation;
+	
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
-
+		Debug.Log ("Awake");
 		showLocation = gameObject.transform.position;
 		hideLocation = showLocation;
 		hideLocation.x += offsetLocation;
@@ -28,9 +29,10 @@ public class MovingText : MonoBehaviour {
 	public void setToStartPosition()
 	{
 		gameObject.transform.position = startLocation.transform.position;
-		showTime = 0.0f;
 		showSprite = false;
-		isShowing = true;
+		isShowing = false;
+		showTime = 0.0f;
+		timeBeforeHide = 0.0f;
 	}
 	// Update is called once per frame
 	void Update () 
@@ -125,7 +127,7 @@ public class MovingText : MonoBehaviour {
 								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordcrotchdog");
 								break;
 						case InfoType.READY:
-								gameObject.GetComponent<tk2dSprite> ().SetSprite ("READY");
+								gameObject.GetComponent<tk2dSprite> ().SetSprite ("wordready");
 								break;
 						}
 

@@ -63,11 +63,14 @@ public class GameOverUI : MonoBehaviour {
 								} else if (movingMaul) {
 										Debug.Log ("update maul ");
 										movingMaul = UpdateFacesOfTheVictims (maulFace, ShowMaulPos.transform.position, ResetMaulLocation.transform.position, SpawnMaulLocation.transform.position, 2);
-								} else if (movingLegs01) {	
-										UpdateCrotchesMissed ();
-								} else if (!showingNemesis) {
-										UpdateNemesis ();
-								} else if (!updatedTotalScore) {
+								}
+//										else if (movingLegs01) {	
+//										UpdateCrotchesMissed ();
+//								} 
+//								else if (!showingNemesis) {
+//										UpdateNemesis ();
+//								} 
+								else if (!updatedTotalScore) {
 										UpdateTotalScore ();
 								} else if (!showingRank) 
 								{
@@ -100,20 +103,20 @@ public class GameOverUI : MonoBehaviour {
 										movingMaul = UpdateFacesOfTheVictims(maulFace,ShowMaulPos.transform.position,ResetMaulLocation.transform.position,SpawnMaulLocation.transform.position,2);
 								}
 
-								if (movingLegs01)
-								{	
-										UpdateCrotchesMissed ();
-								} 
+//								if (movingLegs01)
+//								{	
+//										UpdateCrotchesMissed ();
+//								} 
 
 								if (!showingRank) 
 								{
 										showRankLabel ();
 								}
 
-								if (!showingNemesis) 
-								{
-										UpdateNemesis ();
-								}
+//								if (!showingNemesis) 
+//								{
+//										UpdateNemesis ();
+//								}
 								if (!updatedTotalScore) 
 								{
 										UpdateTotalScore ();
@@ -145,6 +148,8 @@ public class GameOverUI : MonoBehaviour {
 	//sets all labels and reseets all variables to show again
 	public void setGameOverInfo()
 	{
+		skip = false;
+		Rank.setToStartPosition ();
 
 		ComboScoreLabel.text = "Best Combo: " + GameController.Instance.bestCombo;
 		MissesLabel.text = "Misses: " + GameController.Instance.bitesMissed;
@@ -184,7 +189,7 @@ public class GameOverUI : MonoBehaviour {
 				maulFace.color = new Color (1.0f, 1.0f, 1.0f, 0.0f);
 				movingMaul = false;
 		} else {
-				biteFace.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
+				maulFace.color = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 				movingMaul = true;
 		}
 
@@ -210,6 +215,7 @@ public class GameOverUI : MonoBehaviour {
 
 		showingRank = false;
 
+
 		CrotchesBittenLabel.text = "0";
 		CrotchesMauledLabel.text = "0";
 		CrotchesMissedLabel.text = "0";
@@ -231,6 +237,7 @@ public class GameOverUI : MonoBehaviour {
 			CrotchesBittenLabel.text = "0";
 			CrotchesMauledLabel.text = "0";
 			CrotchesMissedLabel.text = "0";
+
 	}
 
 	//updates the victims
@@ -238,6 +245,7 @@ public class GameOverUI : MonoBehaviour {
 	{
 				float deltaTime = Time.deltaTime;
 				bool movingFace01 = true;
+				bool stopFace = false;
 				//moves sprite by speed
 
 				switch (Facetype) 
@@ -247,8 +255,13 @@ public class GameOverUI : MonoBehaviour {
 						if (missIndex > 0) {
 								move_speed = -15.0f * (GameController.Instance.bitesMissed / missIndex) * deltaTime;
 						} else {
-								move_speed = -15.0f *deltaTime;
+								move_speed = -15.0f * deltaTime;
 						}
+						if (missIndex >= GameController.Instance.bitesMissed-1) 
+						{
+								stopFace = true;
+						}
+
 							break;
 					//bite
 				case 1:	
@@ -257,15 +270,27 @@ public class GameOverUI : MonoBehaviour {
 						} else {
 								move_speed = -15.0f *deltaTime;
 						}
+
+						if (biteIndex >= GameController.Instance.crotchesBitten-1) 
+						{
+								stopFace = true;
+						}
+
 							break;
 
 					//maul
 				case 2:	if(maulIndex >0)
 						{
 								move_speed = -15.0f*(GameController.Instance.crotchesMauled/maulIndex) *deltaTime;
-				} else {
-						move_speed = -15.0f *deltaTime;
-				}
+						} else {
+								move_speed = -15.0f *deltaTime;
+						}
+
+						if (maulIndex >= GameController.Instance.crotchesMauled-1) 
+						{
+								stopFace = true;
+						}
+
 							break;
 					default:	move_speed = -15.0f *deltaTime;
 							break;
@@ -282,7 +307,7 @@ public class GameOverUI : MonoBehaviour {
 									face01.gameObject.transform.position = new Vector3 (face01.gameObject.transform.position.x,	face01.gameObject.transform.position.y + move_speed,	face01.gameObject.transform.position.z);
 								}
 						}
-						else if (face01.transform.position.y > ResetFaceLocation.y ) //move face to reset position
+						else if (face01.transform.position.y > ResetFaceLocation.y  && !stopFace) //move face to reset position
 						{
 								if((face01.gameObject.transform.position.y +  move_speed) < ResetFaceLocation.y)
 								{

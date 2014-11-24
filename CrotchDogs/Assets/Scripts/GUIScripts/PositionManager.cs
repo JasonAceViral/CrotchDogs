@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PositionManager : MonoBehaviour {
 
-	public GameObject Road,PauseButton,SFXMute,Mute,Face;
+	public GameObject Road,PauseButton,SFXMute,Mute,Face,ScoreBoard;
 
 	public tk2dCamera cam;
 	public float screenWidth,screenHeight;
@@ -28,7 +28,7 @@ public class PositionManager : MonoBehaviour {
 				MoveGameObject(PauseButton,0.4f,0.45f);
 				MoveGameObject(SFXMute,0.25f,0.45f);
 				MoveGameObject(Mute,0.1f,0.45f);
-
+				MoveGameObject (ScoreBoard, -0.1f, 0.45f);
 	}
 
 		void Update()

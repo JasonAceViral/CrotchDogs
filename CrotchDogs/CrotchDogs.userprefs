@@ -1,19 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Constants/CrotchDogConstants.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameScripts/GameController.cs">
     <Files>
-      <File FileName="Assets/Editor/AVEditorHelper.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/AceVIral/AppConstants.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/GameServices/GameServicesInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/Test Scenes/GameServicesTest.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/GameServices/GameCenterInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/GameServices/GameServicesEditorInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/GameServices/GooglePlayInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/AVSharedScripts/Plugin Interface/AndroidInterface.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameScripts/Lane.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Constants/CrotchDogConstants.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GUIScripts/MyBezier.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUIScripts/GameOverUI.cs" Line="4" Column="4" />
+      <File FileName="Assets/Scripts/GameScripts/GameController.cs" Line="24" Column="24" />
+      <File FileName="Assets/Scripts/GameScripts/MovingText.cs" Line="69" Column="69" />
+      <File FileName="Assets/Scripts/GameScripts/Dog.cs" Line="24" Column="24" />
+      <File FileName="Assets/Scripts/GameScripts/Face.cs" Line="7" Column="7" />
+      <File FileName="Assets/Scripts/GUIScripts/PositionManager.cs" Line="40" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

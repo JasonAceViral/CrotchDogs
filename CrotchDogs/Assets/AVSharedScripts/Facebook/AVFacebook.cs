@@ -231,10 +231,15 @@ namespace AceViral {
 		// Sharing
 		// =-=-=-=-=-=-=-=
 
-		public void OpenPostDialog(string name, string caption){
-			FB.Feed (linkName: name, linkCaption: caption, callback: OnPostDialogRequestFinished, link:"http://aceviral.com/mobile/links/games/batman");
+		public void OpenPostDialog(string name, string caption)
+		{
+			FB.Feed (linkName: name, linkCaption: caption, callback: OnPostDialogRequestFinished);
 		}
 
+		public void Post(string summary ,string descripton, string imageURL)
+		{
+			FB.Feed (linkCaption: summary, linkDescription: descripton);
+		}
 		private void OnPostDialogRequestFinished(FBResult result){
 			if (string.IsNullOrEmpty (result.Error)) {
 				if (result.Text.Contains ("cancelled") && result.Text.Contains ("true")) {

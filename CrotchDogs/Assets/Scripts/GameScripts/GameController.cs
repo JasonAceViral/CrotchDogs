@@ -56,6 +56,12 @@ public class GameController : MonoBehaviour {
 
 	public MyBezier chaseRadar;
 
+	// =-=-=-=-=-=-=-=-
+	// Score Label
+	// =-=-=-=-=-=-=-=-
+	public tk2dTextMesh ScoreLabel;
+	private int showingScoreValue=0, newScoreValue=0;
+
 	public void Initialize()
 	{
 		for(int i = 0; i < NumOfLanes;i++)
@@ -77,6 +83,8 @@ public class GameController : MonoBehaviour {
 					chaseController = new ChaserController ();
 			}
 		}
+		ScoreLabel.text = "" + showingScoreValue;
+
 		changeState (GameState.LOADING);
 	}
 
@@ -100,6 +108,7 @@ public class GameController : MonoBehaviour {
 				break;
 			case GameState.PLAYING_GAME:
 				GameUpdate (); 
+				UpdateScore ();
 				break;
 			case GameState.PAUSED: 
 				break;
@@ -110,7 +119,45 @@ public class GameController : MonoBehaviour {
 				LoadingUpdate ();
 				break;
 		}
+
+			
 	}
+		void UpdateScore()
+		{
+				int newTotalScore = bitesMissed * CrotchDogConstants.SCORE_MISSES +
+									  charactersEscaped * CrotchDogConstants.SCORE_ESCAPED +
+									  crotchesBitten * CrotchDogConstants.SCORE_BITE +
+									  crotchesMauled * CrotchDogConstants.SCORE_MAUL +
+									  bestCombo * CrotchDogConstants.SCORE_COMBO;
+
+
+				if (totalScore != newTotalScore) 
+				{
+						totalScore = newTotalScore;
+						newScoreValue = totalScore;
+
+				}
+
+				if (newScoreValue != showingScoreValue) 
+				{
+
+
+						if (newScoreValue > showingScoreValue) 
+						{
+								showingScoreValue++;
+						}
+						else 
+						{
+								showingScoreValue--;
+						}
+
+
+
+						ScoreLabel.text = ""+showingScoreValue;
+				}
+
+		}
+
 		//Loading Udate
 		void LoadingUpdate()
 		{
@@ -243,6 +290,11 @@ public class GameController : MonoBehaviour {
 																if (!lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().crotchBitten) {
 																		biteCrotch (bite);
 																		lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().setCrotchBitten (true);
+																		//Activate PowerUp
+																		if (lanes [laneIndex].Characters [charIndex].GetComponent<Character> ().hasPowerUp)
+																		{
+																				ActivatePowerUp (PowerUp.MAUL_MANIAC);
+																		}
 																}
 																removeCrotch.Add (crotch);
 
@@ -488,7 +540,9 @@ public class GameController : MonoBehaviour {
 			if (AVFacebook.Instance.IsLoggedIn ()) 
 			{
 
-						AVFacebook.Instance.OpenPostDialog ("", "I've bitten " + crotchesBitten + " crotches and Mauled " + crotchesMauled + " yummy!");
+						//AVFacebook.Instance.OpenPostDialog ("Crotch Dogs", "I've bitten " + crotchesBitten + " crotches and Mauled " + crotchesMauled + " yummy!");
+
+						AVFacebook.Instance.Post ("I just bit some Crotches", "I've bitten " + crotchesBitten + " crotches and Mauled " + crotchesMauled + " yummy!", "");
 			}
 			else 
 			{
@@ -521,6 +575,16 @@ public class GameController : MonoBehaviour {
 				{
 					lane.reset ();
 				}
+
+				InfoLabel01.showFlavourText(MovingText.InfoType.READY);
+
+
+				//reset score label
+				newScoreValue = 0;
+				showingScoreValue = 0;
+
+				ScoreLabel.text = "" + showingScoreValue;
+
 		}
 
 
@@ -650,5 +714,9 @@ public class GameController : MonoBehaviour {
 				SoundManager.Instance.Mute = !SoundManager.Instance.Mute;
 		}
 
+		public void saveHighScores()
+		{
+
+		}
 
 }
