@@ -123,9 +123,6 @@ public class MyBezier : MonoBehaviour
 
 			
 			}
-
-
-
 		}
 
 		void OnDrawGizmos()
@@ -304,10 +301,10 @@ public class MyBezier : MonoBehaviour
 		public void OnPostRender()
 		{
 
-				if (GameController.Instance.getState() == GameController.GameState.PLAYING_GAME) 
-				{
-						drawBezierQuadLines (0.025f);
-				}
+//				if (GameController.Instance.getState() == GameController.GameState.PLAYING_GAME) 
+//				{
+//						drawBezierQuadLines (0.025f);
+//				}
 		
 				//Successfully draws a cube
 //				GL.PushMatrix ();

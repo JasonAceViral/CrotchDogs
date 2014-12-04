@@ -17,7 +17,7 @@ namespace AVSharedScripts {
             "import android.view.Window;\n"+
             "import android.view.WindowManager;\n"+
             "\n" +
-            // "import com.aceviral.VideoRewardInterface;\n"+
+            "import com.aceviral.VideoRewardInterface;\n"+
             "import com.aceviral.activities.AVUnityActivity;\n"+
             "import com.unity3d.player.UnityPlayer;\n"+
             "\n"+
@@ -102,12 +102,12 @@ namespace AVSharedScripts {
             "\t}\n"+
             "\t\n"+
             "\t\n"+
-//            "\t@Override\n"+
-//            "\tpublic VideoRewardInterface getVideoRewardManager() \n"+
-//            "\t{\n"+
-//            "\t\t\n"+
-//            "\t\treturn null;\n"+
-//            "\t}\n"+
+            "\t@Override\n"+
+            "\tpublic VideoRewardInterface getVideoRewardManager() \n"+
+            "\t{\n"+
+            "\t\t\n"+
+            "\t\treturn null;\n"+
+            "\t}\n"+
             "}";
     }
 }

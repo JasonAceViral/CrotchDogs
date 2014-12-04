@@ -334,33 +334,33 @@ public class AVFacebook implements SocialInterface
 			params.putString("link", BITLY_LINK);
 			//params.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
 
-			WebDialog feedDialog = (
-					new WebDialog.FeedDialogBuilder(m_MainActivity,
-							Session.getActiveSession(),
-							params))
-							.setOnCompleteListener(new OnCompleteListener() {
-
-								@Override
-								public void onComplete(Bundle values,
-										FacebookException error) {
-									if (error == null) {
-										// When the story is posted, echo the success
-										// and the post Id.
-										final String postId = values.getString("post_id");
-										if (postId != null) {
-											// Posted
-											AVUtility.MakeDialogBox("Facebook", "Successfully posted message to your feed!");
-										} else {
-											// User clicked the Cancel button
-											//AVUtility.MakeDialogBox("Facebook", "You clicked cancel!");
-										}
-									} else {
-										//AVUtility.MakeDialogBox("Facebook", "Posting Error: " + error.getMessage());
-									}
-								}
-							})
-							.build();
-			feedDialog.show();
+//			WebDialog feedDialog = (
+//					new WebDialog.FeedDialogBuilder(m_MainActivity,
+//							Session.getActiveSession(),
+//							params))
+//							.setOnCompleteListener(new OnCompleteListener() {
+//
+//								@Override
+//								public void onComplete(Bundle values,
+//										FacebookException error) {
+//									if (error == null) {
+//										// When the story is posted, echo the success
+//										// and the post Id.
+//										final String postId = values.getString("post_id");
+//										if (postId != null) {
+//											// Posted
+//											AVUtility.MakeDialogBox("Facebook", "Successfully posted message to your feed!");
+//										} else {
+//											// User clicked the Cancel button
+//											//AVUtility.MakeDialogBox("Facebook", "You clicked cancel!");
+//										}
+//									} else {
+//										//AVUtility.MakeDialogBox("Facebook", "Posting Error: " + error.getMessage());
+//									}
+//								}
+//							})
+//							.build();
+//			feedDialog.show();
 
 			//			if(m_MessageQueue.size() > 0){
 			//

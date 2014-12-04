@@ -24,8 +24,6 @@ public class StretchBackground : MonoBehaviour
 
         screenWidth = cam.ScreenExtents.width;
         screenHeight = cam.ScreenExtents.height;
-		Debug.Log ("w,h" + screenWidth +"," + screenHeight );
-
 		if (screenWidth == 0) 
 		{
 				return;
@@ -37,6 +35,11 @@ public class StretchBackground : MonoBehaviour
        
         spriteWidth = meshRend.bounds.size.x / gameObject.transform.localScale.x;
         spriteHeight = meshRend.bounds.size.y / gameObject.transform.localScale.y;
+
+
+		Debug.Log ("w,h" + screenWidth +"," + screenHeight  +" scale " + gameObject.transform.localScale.x + "," + gameObject.transform.localScale.y  + " sprite size " + spriteWidth + "," +spriteHeight );
+
+
 
         // Multiply by a bit more to overlap the screen edges a bit
 		float requiredXScale = Width_Modifier * screenWidth / spriteWidth;

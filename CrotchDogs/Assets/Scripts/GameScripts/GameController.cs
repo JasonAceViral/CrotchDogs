@@ -135,13 +135,10 @@ public class GameController : MonoBehaviour {
 				{
 						totalScore = newTotalScore;
 						newScoreValue = totalScore;
-
 				}
 
 				if (newScoreValue != showingScoreValue) 
 				{
-
-
 						if (newScoreValue > showingScoreValue) 
 						{
 								showingScoreValue++;
@@ -150,8 +147,6 @@ public class GameController : MonoBehaviour {
 						{
 								showingScoreValue--;
 						}
-
-
 
 						ScoreLabel.text = ""+showingScoreValue;
 				}
@@ -254,7 +249,7 @@ public class GameController : MonoBehaviour {
 //				}
 		}
 
-
+		// called when user touches or presses mouse button
 		public void biteCrotch()
 		{
 				float bite = CrotchDogConstants.NO_BITE;
@@ -537,6 +532,7 @@ public class GameController : MonoBehaviour {
 
 		public void Share()
 		{
+				Debug.Log ("Logged in? " + AVFacebook.Instance.IsLoggedIn ());
 			if (AVFacebook.Instance.IsLoggedIn ()) 
 			{
 
@@ -576,7 +572,7 @@ public class GameController : MonoBehaviour {
 					lane.reset ();
 				}
 
-				InfoLabel01.showFlavourText(MovingText.InfoType.READY);
+				//InfoLabel01.showFlavourText(MovingText.InfoType.READY);
 
 
 				//reset score label

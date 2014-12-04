@@ -94,12 +94,12 @@ public class UnityPlayerNativeActivity extends AVUnityActivity
 	public String getAnalyticsID() {
 		return getString(R.string.ga_trackingId);
 	}
-
+	
+	
 	@Override
-	public VideoRewardInterface getVideoRewardManager() {
-		// TODO Auto-generated method stub
+	public VideoRewardInterface getVideoRewardManager() 
+	{
+		
 		return null;
 	}
-	
-	
 }

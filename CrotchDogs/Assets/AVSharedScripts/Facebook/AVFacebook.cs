@@ -150,6 +150,7 @@ namespace AceViral {
 
 		public void Login(){
 			if (!IsLoggedIn() && !m_IsLoggingIn) {
+				Debug.Log ("start logging in");
 				m_IsLoggingIn = true;
 
 				FB.Login ("publish_actions, user_games_activity, user_likes, user_friends", OnLoginRequestFinished);
